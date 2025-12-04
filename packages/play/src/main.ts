@@ -1,5 +1,6 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from 'vue';
+import YoyoUI from 'yoyo-ui';
+import App from './App.vue';
+import './style.css';
 
-createApp(App).mount('#app')
+createApp(App).use(YoyoUI).mount('#app');
