@@ -7,7 +7,7 @@
     "dev": "pnpm --filter @yoyo-ui/play run dev",
     "docs:dev": "pnpm --filter @yoyo-ui/docs run dev",
     "docs:build": "pnpm --filter @yoyo-ui/docs run build",
-    "test": "echo 'todo'",
+    "test": "pnpm --filter @yoyo-ui/components run test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
