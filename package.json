@@ -11,11 +11,21 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,less,scss}": [
+      "prettier --write"
+    ]
+  },
   "packageManager": "pnpm@10.24.0",
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -28,6 +38,8 @@
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.1",
     "eslint-plugin-vue": "^10.6.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "postcss-color-mix": "^1.1.0",
     "postcss-each": "^1.1.0",
     "postcss-each-variables": "^0.3.0",
