@@ -36,5 +36,8 @@
     "@yoyo-ui/hooks": "workspace:*",
     "@yoyo-ui/theme": "workspace:*",
     "@yoyo-ui/utils": "workspace:*"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
