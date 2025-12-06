@@ -36,14 +36,6 @@ export default [
       '**/.idea/**',
       '**/.DS_Store',
 
-      // 临时文件
-      '**/*.local',
-      '**/*.suo',
-      '**/*.ntvs*',
-      '**/*.njsproj',
-      '**/*.sln',
-      '**/*.sw?',
-
       // 其他
       '**/public/**',
       '**/.github/**',
