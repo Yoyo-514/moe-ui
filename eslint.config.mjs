@@ -1,9 +1,7 @@
 import js from '@eslint/js'
-import pluginVue from 'eslint-plugin-vue'
-import * as parserVue from 'vue-eslint-parser'
 import configPrettier from '@vue/eslint-config-prettier'
 import configTypeScript from '@vue/eslint-config-typescript'
-import type { Linter } from 'eslint'
+import pluginVue from 'eslint-plugin-vue'
 
 export default [
   {
@@ -13,13 +11,42 @@ export default [
   {
     name: 'app/files-to-ignore',
     ignores: [
+      // 构建产物
       '**/dist/**',
       '**/dist-ssr/**',
       '**/coverage/**',
+
+      // 依赖
       '**/node_modules/**',
+
+      // 文档构建
       '**/.vitepress/cache/**',
       '**/.vitepress/dist/**',
+
+      // 锁文件
       '**/pnpm-lock.yaml',
+      '**/package-lock.json',
+      '**/yarn.lock',
+
+      // 日志文件
+      '**/*.log',
+
+      // IDE 和系统文件
+      '**/.vscode/**',
+      '**/.idea/**',
+      '**/.DS_Store',
+
+      // 临时文件
+      '**/*.local',
+      '**/*.suo',
+      '**/*.ntvs*',
+      '**/*.njsproj',
+      '**/*.sln',
+      '**/*.sw?',
+
+      // 其他
+      '**/public/**',
+      '**/.github/**',
     ],
   },
   js.configs.recommended,
@@ -28,11 +55,9 @@ export default [
   configPrettier,
   {
     languageOptions: {
-      parser: parserVue,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        parser: configTypeScript.parser,
       },
     },
     rules: {
@@ -77,4 +102,4 @@ export default [
       'no-var': 'error',
     },
   },
-] satisfies Linter.Config[]
+]
