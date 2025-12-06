@@ -20,9 +20,9 @@ export default {
           // 在 each 循环前先执行 for 循环
           postcssFor,
           // 在 each 循环前处理 color-mix
-          postcssColorMix
-        ]
-      }
-    })
-  ]
+          postcssColorMix,
+        ],
+      },
+    }),
+  ],
 }

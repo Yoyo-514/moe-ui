@@ -5,7 +5,5 @@ defineOptions({
 </script>
 
 <template>
-  <button style="background-color: blue; color: white;">
-    button
-  </button>
+  <button style="background-color: blue; color: white">button</button>
 </template>
