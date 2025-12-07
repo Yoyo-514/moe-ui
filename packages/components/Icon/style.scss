@@ -1,0 +1,135 @@
+.moe-icon {
+  --moe-icon-color: inherit;
+  --moe-icon-duration: 1s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  fill: currentColor;
+  color: var(--moe-icon-color);
+  font-size: inherit;
+}
+
+// 类型颜色
+@each $val in primary, success, warning, danger, info {
+  .moe-icon--#{$val} {
+    --moe-icon-color: var(--moe-color-#{$val});
+  }
+}
+
+// 预设尺寸
+$size-map: (
+  'xs': 0.75em,
+  'sm': 0.875em,
+  'md': 1em,
+  'lg': 1.25em,
+  'xl': 1.5em,
+  '2xl': 2em,
+  '3xl': 2.5em,
+  '4xl': 3em,
+);
+
+@each $name, $size in $size-map {
+  .moe-icon--#{$name} {
+    font-size: $size;
+  }
+}
+
+// 动画
+.moe-icon.animation-spin {
+  animation: moe-icon-spin var(--moe-icon-duration) linear infinite;
+  -webkit-animation: moe-icon-spin var(--moe-icon-duration) linear infinite;
+}
+
+.moe-icon.animation-spin-pulse {
+  animation: moe-icon-spin var(--moe-icon-duration) steps(8) infinite;
+}
+
+.moe-icon.animation-beat {
+  animation: moe-icon-beat var(--moe-icon-duration) ease-in-out infinite;
+}
+
+.moe-icon.animation-fade {
+  animation: moe-icon-fade var(--moe-icon-duration) ease-in-out infinite;
+}
+
+.moe-icon.animation-bounce {
+  animation: moe-icon-bounce var(--moe-icon-duration) ease infinite;
+}
+
+.moe-icon.animation-shake {
+  animation: moe-icon-shake var(--moe-icon-duration) ease-in-out infinite;
+}
+
+.moe-icon.animation-ping {
+  animation: moe-icon-ping var(--moe-icon-duration) cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes moe-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes moe-icon-beat {
+  0%,
+  90% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.25);
+  }
+}
+
+@keyframes moe-icon-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-25%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-15%);
+  }
+}
+
+@keyframes moe-icon-shake {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes moe-icon-fade {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes moe-icon-ping {
+  75%,
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm --filter @moe-ui/play run dev",
+    "story": "pnpm --filter @moe-ui/play run storybook",
     "docs:dev": "pnpm --filter @moe-ui/docs run dev",
     "docs:build": "pnpm --filter @moe-ui/docs run build",
     "test": "pnpm --filter @moe-ui/components run test",
@@ -29,6 +30,7 @@
   "packageManager": "pnpm@10.24.0",
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@iconify/vue": "^5.0.0",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^24.10.1",
     "@vitejs/plugin-vue": "^6.0.2",
@@ -37,6 +39,7 @@
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.1",
+    "eslint-plugin-storybook": "^10.1.4",
     "eslint-plugin-vue": "^10.6.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",

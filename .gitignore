@@ -32,3 +32,6 @@ dist-ssr
 
 # documentation
 todo.md
+
+*storybook.log
+storybook-static

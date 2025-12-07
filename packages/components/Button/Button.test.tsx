@@ -37,7 +37,7 @@ describe('Button.vue', () => {
     const wrapper = mount(Button, {
       props: { [prop]: true },
       global: {
-        stubs: ['ErIcon'],
+        stubs: ['MoeIcon'],
       },
     })
     expect(wrapper.classes()).toContain(className)
@@ -65,5 +65,62 @@ describe('Button.vue', () => {
     const wrapper = mount(Button, {})
     await wrapper.trigger('click')
     expect(wrapper.emitted().click).toHaveLength(1)
+  })
+
+  // Props: icon
+  it('should render icon when icon prop is set', () => {
+    const wrapper = mount(Button, {
+      props: { icon: 'mdi:home' },
+      global: { stubs: ['MoeIcon'] },
+    })
+    expect(wrapper.find('moe-icon-stub').exists()).toBe(true)
+  })
+
+  // iconStyle: marginRight based on slot
+  it('should have marginRight 6px when icon with slot content', () => {
+    const wrapper = mount(Button, {
+      props: { icon: 'mdi:home' },
+      slots: { default: 'Click me' },
+      global: { stubs: ['MoeIcon'] },
+    })
+    expect(wrapper.find('moe-icon-stub').attributes('style')).toContain('margin-right: 6px')
+  })
+
+  it('should have marginRight 0px when icon without slot content', () => {
+    const wrapper = mount(Button, {
+      props: { icon: 'mdi:home' },
+      global: { stubs: ['MoeIcon'] },
+    })
+    expect(wrapper.find('moe-icon-stub').attributes('style')).toContain('margin-right: 0px')
+  })
+
+  // Props: loadingIcon
+  it('should render custom loading icon when loadingIcon prop is set', () => {
+    const wrapper = mount(Button, {
+      props: { loading: true, loadingIcon: 'mdi:spinner' },
+      global: { stubs: ['MoeIcon'] },
+    })
+    expect(wrapper.find('moe-icon-stub').attributes('icon')).toBe('mdi:spinner')
+  })
+
+  // Props: useThrottle
+  it('should throttle click events when useThrottle is true', async () => {
+    const wrapper = mount(Button, {
+      props: { useThrottle: true, throttleDuration: 500 },
+    })
+    await wrapper.trigger('click')
+    await wrapper.trigger('click')
+    await wrapper.trigger('click')
+    expect(wrapper.emitted().click).toHaveLength(1)
+  })
+
+  // Disabled: should not emit click
+  it('should not emit click when disabled', async () => {
+    const wrapper = mount(Button, {
+      props: { disabled: true },
+      global: { stubs: ['MoeIcon'] },
+    })
+    await wrapper.trigger('click')
+    expect(wrapper.emitted().click).toBeUndefined()
   })
 })
