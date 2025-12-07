@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "Yoyo-UI"
-  text: "A elegant Vue based component library"
+  name: 'Moe-UI'
+  text: 'A elegant Vue based component library'
   tagline: My great project tagline
   actions:
     - theme: brand
@@ -22,4 +22,3 @@ features:
   - title: Feature C
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-

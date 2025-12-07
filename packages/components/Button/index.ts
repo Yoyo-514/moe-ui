@@ -1,4 +1,4 @@
-import { withInstall } from '@yoyo-ui/utils'
+import { withInstall } from '@moe-ui/utils'
 import Button from './Button.vue'
 
-export const YoButton = withInstall(Button)
+export const MoeButton = withInstall(Button)

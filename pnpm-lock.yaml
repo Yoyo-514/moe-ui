@@ -8,24 +8,24 @@ importers:
 
   .:
     dependencies:
-      '@yoyo-ui/hooks':
+      '@moe-ui/hooks':
         specifier: workspace:*
         version: link:packages/hooks
-      '@yoyo-ui/theme':
+      '@moe-ui/theme':
         specifier: workspace:*
         version: link:packages/theme
-      '@yoyo-ui/utils':
+      '@moe-ui/utils':
         specifier: workspace:*
         version: link:packages/utils
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      moe-ui:
+        specifier: workspace:*
+        version: link:packages/core
       vue:
         specifier: ^3.5.25
         version: 3.5.25(typescript@5.9.3)
-      yoyo-ui:
-        specifier: workspace:*
-        version: link:packages/core
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
@@ -118,7 +118,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@yoyo-ui/components':
+      '@moe-ui/components':
         specifier: workspace:*
         version: link:../components
 

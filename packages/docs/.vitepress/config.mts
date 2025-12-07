@@ -2,9 +2,9 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'Yoyo-UI',
+  title: 'Moe-UI',
   description: 'A elegant Vue based component library',
-  base: '/yoyo-ui/',
+  base: '/moe-ui/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

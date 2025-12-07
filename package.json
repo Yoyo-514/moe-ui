@@ -1,13 +1,13 @@
 {
-  "name": "yoyo-ui-monorepo",
+  "name": "moe-ui-monorepo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm --filter @yoyo-ui/play run dev",
-    "docs:dev": "pnpm --filter @yoyo-ui/docs run dev",
-    "docs:build": "pnpm --filter @yoyo-ui/docs run build",
-    "test": "pnpm --filter @yoyo-ui/components run test",
+    "dev": "pnpm --filter @moe-ui/play run dev",
+    "docs:dev": "pnpm --filter @moe-ui/docs run dev",
+    "docs:build": "pnpm --filter @moe-ui/docs run build",
+    "test": "pnpm --filter @moe-ui/components run test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -53,12 +53,12 @@
     "vue-tsc": "^3.1.5"
   },
   "dependencies": {
-    "@yoyo-ui/hooks": "workspace:*",
-    "@yoyo-ui/theme": "workspace:*",
-    "@yoyo-ui/utils": "workspace:*",
+    "@moe-ui/hooks": "workspace:*",
+    "@moe-ui/theme": "workspace:*",
+    "@moe-ui/utils": "workspace:*",
     "lodash-es": "^4.17.21",
     "vue": "^3.5.25",
-    "yoyo-ui": "workspace:*"
+    "moe-ui": "workspace:*"
   },
   "engines": {
     "node": ">=22"

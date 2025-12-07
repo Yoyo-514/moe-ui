@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import type { ButtonProps } from './types'
 
 defineOptions({
-  name: 'YoButton',
+  name: 'MoeButton',
 })
 
 const props = withDefaults(defineProps<ButtonProps>(), {
@@ -24,12 +24,12 @@ defineExpose({
   <component
     :is="props.tag"
     ref="_ref"
-    class="yo-button"
+    class="moe-button"
     :type="tag === 'button' ? nativeType : void 0"
     :disabled="disabled || loading ? true : void 0"
     :class="{
-      [`yo-button--${type}`]: type,
-      [`yo-button--${size}`]: size,
+      [`moe-button--${type}`]: type,
+      [`moe-button--${size}`]: size,
       'is-plain': plain,
       'is-round': round,
       'is-circle': circle,

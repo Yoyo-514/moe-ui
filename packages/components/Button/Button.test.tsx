@@ -11,7 +11,7 @@ describe('Button.vue', () => {
       const wrapper = mount(Button, {
         props: { type: type as any },
       })
-      expect(wrapper.classes()).toContain(`yo-button--${type}`)
+      expect(wrapper.classes()).toContain(`moe-button--${type}`)
     })
   })
 
@@ -22,7 +22,7 @@ describe('Button.vue', () => {
       const wrapper = mount(Button, {
         props: { size: size as any },
       })
-      expect(wrapper.classes()).toContain(`yo-button--${size}`)
+      expect(wrapper.classes()).toContain(`moe-button--${size}`)
     })
   })
 
