@@ -1,4 +1,4 @@
-import '@moe-ui/theme/index.css'
+import '@moe-ui/theme/index.scss'
 import { makeInstaller } from '@moe-ui/utils'
 import components from './components'
 
