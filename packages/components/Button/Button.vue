@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import type { ButtonProps } from './types'
 
@@ -40,3 +40,7 @@ defineExpose({
     <slot></slot>
   </component>
 </template>
+
+<style lang="scss" scoped>
+@use './style.scss';
+</style>

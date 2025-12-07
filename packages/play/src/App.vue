@@ -4,4 +4,4 @@
   <moe-button type="primary" size="small">test</moe-button>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss"></style>
