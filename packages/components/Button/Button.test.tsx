@@ -1,9 +1,97 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, test, vi } from 'vitest'
 
+import Icon from '../Icon/Icon.vue'
 import Button from './Button.vue'
 
 describe('Button.vue', () => {
+  const onClick = vi.fn()
+  test('basic button', async () => {
+    const wrapper = mount(() => (
+      <Button type="primary" {...{ onClick }}>
+        button content
+      </Button>
+    ))
+
+    // class
+    expect(wrapper.classes()).toContain('moe-button--primary')
+
+    // slot
+    expect(wrapper.get('button').text()).toBe('button content')
+
+    // events
+    await wrapper.get('button').trigger('click')
+    expect(onClick).toHaveBeenCalledOnce()
+  })
+
+  test('disabled button', async () => {
+    const wrapper = mount(() => (
+      <Button disabled {...{ onClick }}>
+        disabled button
+      </Button>
+    ))
+
+    // class
+    expect(wrapper.classes()).toContain('is-disabled')
+
+    // attrs
+    expect(wrapper.attributes('disabled')).toBeDefined()
+    expect(wrapper.find('button').element.disabled).toBeTruthy()
+
+    // events
+    await wrapper.get('button').trigger('click')
+    expect(onClick).toHaveBeenCalledOnce()
+    expect(wrapper.emitted('click')).toBeUndefined()
+  })
+
+  test('loading button', () => {
+    const wrapper = mount(Button, {
+      props: {
+        loading: true,
+      },
+      slots: {
+        default: 'loading button',
+      },
+      global: {
+        stubs: ['MoeIcon'],
+      },
+    })
+
+    // class
+    expect(wrapper.classes()).toContain('is-loading')
+
+    // attrs
+    expect(wrapper.attributes('disabled')).toBeDefined()
+    expect(wrapper.find('button').element.disabled).toBeTruthy()
+
+    // events
+    wrapper.get('button').trigger('click')
+    expect(wrapper.emitted()).not.toHaveProperty('click')
+
+    // icon
+    const iconElement = wrapper.findComponent(Icon)
+    expect(iconElement.exists()).toBeTruthy()
+    expect(iconElement.attributes('icon')).toBe('mingcute:loading-line')
+  })
+
+  test('icon button', () => {
+    const wrapper = mount(Button, {
+      props: {
+        icon: 'mingcute:arrow-up-fill',
+      },
+      slots: {
+        default: 'icon button',
+      },
+      global: {
+        stubs: ['MoeIcon'],
+      },
+    })
+
+    const iconElement = wrapper.findComponent(Icon)
+    expect(iconElement.exists()).toBeTruthy()
+    expect(iconElement.attributes('icon')).toBe('mingcute:arrow-up-fill')
+  })
+
   // Props: type
   it('should has the correct type class when type prop is set', () => {
     const types = ['primary', 'success', 'warning', 'danger', 'info']
@@ -101,6 +189,21 @@ describe('Button.vue', () => {
       global: { stubs: ['MoeIcon'] },
     })
     expect(wrapper.find('moe-icon-stub').attributes('icon')).toBe('mdi:spinner')
+  })
+
+  // Exception Handling: loading state
+  it('should render loading icon and not emit click event when button is loading', async () => {
+    const wrapper = mount(Button, {
+      props: { loading: true },
+      global: { stubs: ['MoeIcon'] },
+    })
+    const iconElement = wrapper.findComponent(Icon)
+
+    expect(wrapper.find('moe-icon-stub').exists()).toBe(true)
+    expect(iconElement.exists()).toBeTruthy()
+    expect(wrapper.find('moe-icon-stub').attributes('icon')).toBe('mingcute:loading-line')
+    await wrapper.trigger('click')
+    expect(wrapper.emitted().click).toBeUndefined()
   })
 
   // Props: useThrottle
