@@ -11,10 +11,10 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "@storybook/test": "^8.6.14",
-    "@storybook/vue3-vite": "^10.1.4",
-    "@vitejs/plugin-vue": "^6.0.2",
-    "eslint-plugin-storybook": "^10.1.4",
-    "storybook": "^10.1.4"
+    "@storybook/test": "^8.6.15",
+    "@storybook/vue3-vite": "^10.1.11",
+    "@vitejs/plugin-vue": "^6.0.3",
+    "eslint-plugin-storybook": "^10.1.11",
+    "storybook": "^10.1.11"
   }
 }

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import Button from './Button.vue'
 
@@ -104,14 +104,19 @@ describe('Button.vue', () => {
   })
 
   // Props: useThrottle
-  it('should throttle click events when useThrottle is true', async () => {
-    const wrapper = mount(Button, {
-      props: { useThrottle: true, throttleDuration: 500 },
-    })
-    await wrapper.trigger('click')
-    await wrapper.trigger('click')
-    await wrapper.trigger('click')
-    expect(wrapper.emitted().click).toHaveLength(1)
+  it.each([
+    ['withoutThrottle', false],
+    ['withThrottle', true],
+  ])('emits click events %s', async (_, useThrottle) => {
+    const clickSpy = vi.fn()
+    const wrapper = mount(() => (
+      <Button onClick={clickSpy} {...{ useThrottle, throttleDuration: 400 }} />
+    ))
+
+    await wrapper.get('button').trigger('click')
+    await wrapper.get('button').trigger('click')
+    await wrapper.get('button').trigger('click')
+    expect(clickSpy).toBeCalledTimes(useThrottle ? 1 : 3)
   })
 
   // Disabled: should not emit click
