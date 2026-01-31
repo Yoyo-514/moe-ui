@@ -10,16 +10,20 @@ body {
 }
 
 a {
-  color: var(--moe-color-primary);
+  color: var(--moe-color-primary-dark-2);
   text-decoration: none;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--moe-transition-duration-fast) var(--moe-transition-timing-function);
 
   &:hover,
   &:focus {
-    color: var(--moe-color-primary-light-3);
+    color: var(--moe-color-primary-strong);
+    text-decoration-color: var(--moe-color-primary-strong);
   }
 
   &:active {
-    color: var(--moe-color-primary-dark-2);
+    color: var(--moe-color-primary-strong);
   }
 }
 
@@ -86,4 +90,7 @@ hr {
   margin-bottom: 20px;
   border: 0;
   border-top: 1px solid var(--moe-border-color-lighter);
+  background: var(--moe-gradient-primary);
+  height: 1px;
+  opacity: 0.5;
 }

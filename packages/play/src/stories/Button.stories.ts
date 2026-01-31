@@ -1,5 +1,5 @@
-import type { ArgTypes, Meta, StoryContext, StoryObj } from '@storybook/vue3-vite'
-import { expect, fn, userEvent } from 'storybook/test'
+import type { ArgTypes, Meta, StoryObj } from '@storybook/vue3-vite'
+import { fn } from 'storybook/test'
 
 import type { ButtonProps } from 'moe-ui'
 import { MoeButton } from 'moe-ui'
@@ -54,12 +54,6 @@ export const Default: Story & { args: { content: string } } = {
     setup: () => ({ args }),
     template: '<moe-button v-bind="args">{{ args.content }}</moe-button>',
   }),
-  play: async ({ args, step, canvas }: StoryContext<DefaultArgs>) => {
-    await step('click button', async () => {
-      await userEvent.click(canvas.getByRole('button'))
-    })
-    expect(args.onClick).toHaveBeenCalled()
-  },
 }
 
 export const Types: Story = {

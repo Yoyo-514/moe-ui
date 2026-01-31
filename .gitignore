@@ -32,7 +32,10 @@ dist-ssr
 
 # documentation
 todo.md
-vue-anime-ui-design-doc.md
+docs
+
+# scripts
+scripts
 
 *storybook.log
 storybook-static

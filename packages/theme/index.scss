@@ -2,38 +2,63 @@
 @use './reset.scss';
 
 $colors: (
-  primary: #409eff,
-  success: #67c23a,
-  warning: #e6a23c,
-  danger: #f56c6c,
-  info: #909399,
+  primary: #5ebef5,
+  success: #6fd6b0,
+  warning: #f5b26b,
+  danger: #f07c86,
+  info: #a6a7e8,
+);
+
+$accent-colors: (
+  primary-strong: #2f86c8,
+  accent-pink: #ffb3d9,
+  accent-lavender: #c7b8ff,
+);
+
+$dark-colors: (
+  primary: #66ccff,
+  success: #6fe0c0,
+  warning: #f6b977,
+  danger: #f28a94,
+  info: #a9b4f0,
+);
+
+$dark-accent-colors: (
+  primary-strong: #4db4ff,
+  accent-pink: #ff9fd1,
+  accent-lavender: #bfa8ff,
 );
 
 :root {
   /* colors */
   --moe-color-white: #ffffff;
   --moe-color-black: #000000;
-  --moe-bg-color: #ffffff;
-  --moe-bg-color-page: #f2f3f5;
+  --moe-bg-color: #f6fbff;
+  --moe-bg-color-page: #eef5ff;
   --moe-bg-color-overlay: #ffffff;
-  --moe-text-color-primary: #303133;
-  --moe-text-color-regular: #606266;
-  --moe-text-color-secondary: #909399;
-  --moe-text-color-placeholder: #a8abb2;
-  --moe-text-color-disabled: #c0c4cc;
-  --moe-border-color: #dcdfe6;
-  --moe-border-color-light: #e4e7ed;
-  --moe-border-color-lighter: #ebeef5;
-  --moe-border-color-extra-light: #f2f6fc;
-  --moe-border-color-dark: #d4d7de;
-  --moe-border-color-darker: #cdd0d6;
-  --moe-fill-color: #f0f2f5;
-  --moe-fill-color-light: #f5f7fa;
-  --moe-fill-color-lighter: #fafafa;
-  --moe-fill-color-extra-light: #fafcff;
-  --moe-fill-color-dark: #ebedf0;
-  --moe-fill-color-darker: #e6e8eb;
+  --moe-text-color-primary: #2e2f38;
+  --moe-surface-color: #ffffff;
+  --moe-surface-color-soft: #f3f8ff;
+  --moe-text-color-regular: #4c4f5d;
+  --moe-text-color-secondary: #7a7f92;
+  --moe-text-color-placeholder: #a7adbd;
+  --moe-text-color-disabled: #c0c7d6;
+  --moe-border-color: #dde6f2;
+  --moe-border-color-light: #e6edf7;
+  --moe-border-color-lighter: #eef3fa;
+  --moe-border-color-extra-light: #f4f7fd;
+  --moe-border-color-dark: #cdd6e6;
+  --moe-border-color-darker: #bec8da;
+  --moe-fill-color: #eff5ff;
+  --moe-fill-color-light: #f4f8ff;
+  --moe-fill-color-lighter: #f8fbff;
+  --moe-fill-color-extra-light: #fbfdff;
+  --moe-fill-color-dark: #e6edf7;
+  --moe-fill-color-darker: #dee6f2;
   --moe-fill-color-blank: #ffffff;
+  --moe-shadow-soft: 0 6px 16px rgba(94, 190, 245, 0.18);
+  --moe-shadow-hover: 0 8px 22px rgba(94, 190, 245, 0.26);
+  --moe-focus-ring-color: rgba(94, 190, 245, 0.35);
 
   @each $name, $color in $colors {
     --moe-color-#{$name}: #{$color};
@@ -43,14 +68,18 @@ $colors: (
     --moe-color-#{$name}-dark-2: #{color.mix(#000, $color, 20%)};
   }
 
+  @each $name, $color in $accent-colors {
+    --moe-color-#{$name}: #{$color};
+  }
+
   /* border */
   --moe-border-width: 1px;
   --moe-border-style: solid;
   --moe-border-color-hover: var(--moe-text-color-disabled);
   --moe-border: var(--moe-border-width) var(--moe-border-style) var(--moe-border-color);
-  --moe-border-radius-base: 4px;
-  --moe-border-radius-small: 2px;
-  --moe-border-radius-round: 20px;
+  --moe-border-radius-base: 8px;
+  --moe-border-radius-small: 6px;
+  --moe-border-radius-round: 24px;
   --moe-border-radius-circle: 100%;
 
   /*font*/
@@ -73,4 +102,48 @@ $colors: (
   /*animation*/
   --moe-transition-duration: 0.4s;
   --moe-transition-duration-fast: 0.2s;
+  --moe-transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+[data-theme='dark'] {
+  --moe-color-white: #ffffff;
+  --moe-color-black: #000000;
+  --moe-bg-color: #0f1320;
+  --moe-bg-color-page: #0b0f1a;
+  --moe-bg-color-overlay: #141a2a;
+  --moe-text-color-primary: #e6ecf5;
+  --moe-surface-color: #171e2f;
+  --moe-surface-color-soft: #1f2740;
+  --moe-text-color-regular: #c9d3e3;
+  --moe-text-color-secondary: #9aa8bf;
+  --moe-text-color-placeholder: #7c879c;
+  --moe-text-color-disabled: #5f6878;
+  --moe-border-color: #2a3447;
+  --moe-border-color-light: #323d52;
+  --moe-border-color-lighter: #3a465e;
+  --moe-border-color-extra-light: #424f69;
+  --moe-border-color-dark: #222b3b;
+  --moe-border-color-darker: #1b2433;
+  --moe-fill-color: #1a2133;
+  --moe-fill-color-light: #20283b;
+  --moe-fill-color-lighter: #252e43;
+  --moe-fill-color-extra-light: #2a344c;
+  --moe-fill-color-dark: #151b2b;
+  --moe-fill-color-darker: #111625;
+  --moe-fill-color-blank: #0f1320;
+  --moe-shadow-soft: 0 6px 16px rgba(18, 26, 42, 0.55);
+  --moe-shadow-hover: 0 8px 22px rgba(18, 26, 42, 0.7);
+  --moe-focus-ring-color: rgba(102, 204, 255, 0.35);
+
+  @each $name, $color in $dark-colors {
+    --moe-color-#{$name}: #{$color};
+    @for $i from 3 to 9 {
+      --moe-color-#{$name}-light-#{$i}: #{color.mix(#fff, $color, $i * 10%)};
+    }
+    --moe-color-#{$name}-dark-2: #{color.mix(#000, $color, 20%)};
+  }
+
+  @each $name, $color in $dark-accent-colors {
+    --moe-color-#{$name}: #{$color};
+  }
 }
