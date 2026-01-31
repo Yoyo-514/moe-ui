@@ -12,9 +12,9 @@
   },
   "devDependencies": {
     "@storybook/test": "^8.6.15",
-    "@storybook/vue3-vite": "^10.1.11",
+    "@storybook/vue3-vite": "^10.2.3",
     "@vitejs/plugin-vue": "^6.0.3",
-    "eslint-plugin-storybook": "^10.1.11",
-    "storybook": "^10.1.11"
+    "eslint-plugin-storybook": "^10.2.3",
+    "storybook": "^10.2.3"
   }
 }
