@@ -12,7 +12,7 @@
   "devDependencies": {
     "@vitest/coverage-v8": "^4.0.18",
     "@vue/test-utils": "^2.4.6",
-    "jsdom": "^27.4.0"
+    "jsdom": "^28.1.0"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
