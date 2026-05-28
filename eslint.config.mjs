@@ -1,6 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from 'eslint-plugin-storybook'
-
 import js from '@eslint/js'
 import configPrettier from '@vue/eslint-config-prettier'
 import configTypeScript from '@vue/eslint-config-typescript'
@@ -97,5 +94,4 @@ export default [
       'no-var': 'error',
     },
   },
-  ...storybook.configs['flat/recommended'],
 ]

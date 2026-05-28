@@ -1,7 +1,7 @@
 {
   "name": "@moe-ui/theme",
   "version": "1.0.0",
-  "description": "",
+  "description": "Theme tokens and styles for Moe UI.",
   "main": "index.scss",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

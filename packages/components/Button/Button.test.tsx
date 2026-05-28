@@ -1,12 +1,13 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, test, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import Icon from '../Icon/Icon.vue'
 import Button from './Button.vue'
+import type { ButtonInstance } from './types'
 
 describe('Button.vue', () => {
-  const onClick = vi.fn()
-  test('basic button', async () => {
+  it('basic button', async () => {
+    const onClick = vi.fn()
     const wrapper = mount(() => (
       <Button type="primary" {...{ onClick }}>
         button content
@@ -24,7 +25,8 @@ describe('Button.vue', () => {
     expect(onClick).toHaveBeenCalledOnce()
   })
 
-  test('disabled button', async () => {
+  it('disabled button', async () => {
+    const onClick = vi.fn()
     const wrapper = mount(() => (
       <Button disabled {...{ onClick }}>
         disabled button
@@ -40,11 +42,11 @@ describe('Button.vue', () => {
 
     // events
     await wrapper.get('button').trigger('click')
-    expect(onClick).toHaveBeenCalledOnce()
+    expect(onClick).not.toHaveBeenCalled()
     expect(wrapper.emitted('click')).toBeUndefined()
   })
 
-  test('loading button', () => {
+  it('loading button', () => {
     const wrapper = mount(Button, {
       props: {
         loading: true,
@@ -74,7 +76,7 @@ describe('Button.vue', () => {
     expect(iconElement.attributes('icon')).toBe('mingcute:loading-line')
   })
 
-  test('icon button', () => {
+  it('icon button', () => {
     const wrapper = mount(Button, {
       props: {
         icon: 'mingcute:arrow-up-fill',
@@ -94,7 +96,7 @@ describe('Button.vue', () => {
 
   // Props: type
   it('should has the correct type class when type prop is set', () => {
-    const types = ['primary', 'success', 'warning', 'danger', 'info']
+    const types = ['primary', 'success', 'warning', 'danger', 'info', 'text']
     types.forEach((type) => {
       const wrapper = mount(Button, {
         props: { type: type as any },
@@ -204,6 +206,22 @@ describe('Button.vue', () => {
     expect(wrapper.find('moe-icon-stub').attributes('icon')).toBe('mingcute:loading-line')
     await wrapper.trigger('click')
     expect(wrapper.emitted().click).toBeUndefined()
+  })
+
+  it('should expose focus and blur methods', () => {
+    const wrapper = mount(Button, {
+      attachTo: document.body,
+    })
+    const button = wrapper.get('button').element
+    const buttonVm = wrapper.vm as unknown as ButtonInstance
+
+    buttonVm.focus()
+    expect(document.activeElement).toBe(button)
+
+    buttonVm.blur()
+    expect(document.activeElement).not.toBe(button)
+
+    wrapper.unmount()
   })
 
   // Props: useThrottle

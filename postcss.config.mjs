@@ -1,4 +1,3 @@
-/* eslint-env node */
 import postcssColorMix from 'postcss-color-mix'
 import postcssEach from 'postcss-each'
 import postcssEachVariables from 'postcss-each-variables'

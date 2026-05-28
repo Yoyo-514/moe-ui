@@ -2,63 +2,71 @@
 @use './reset.scss';
 
 $colors: (
-  primary: #5ebef5,
-  success: #6fd6b0,
-  warning: #f5b26b,
-  danger: #f07c86,
-  info: #a6a7e8,
+  primary: #7c9cff,
+  success: #62d6b6,
+  warning: #ffc36d,
+  danger: #ff7f9f,
+  info: #b39cff,
 );
 
 $accent-colors: (
-  primary-strong: #2f86c8,
-  accent-pink: #ffb3d9,
-  accent-lavender: #c7b8ff,
+  primary-strong: #5b7df7,
+  accent-pink: #ff9dcc,
+  accent-lavender: #c8b6ff,
+  accent-cyan: #8ee7ff,
 );
 
 $dark-colors: (
-  primary: #66ccff,
-  success: #6fe0c0,
-  warning: #f6b977,
-  danger: #f28a94,
-  info: #a9b4f0,
+  primary: #91aaff,
+  success: #73e0c6,
+  warning: #ffd08a,
+  danger: #ff9ab3,
+  info: #c5b6ff,
 );
 
 $dark-accent-colors: (
-  primary-strong: #4db4ff,
-  accent-pink: #ff9fd1,
-  accent-lavender: #bfa8ff,
+  primary-strong: #7f98ff,
+  accent-pink: #ffacd6,
+  accent-lavender: #d4c5ff,
+  accent-cyan: #9beaff,
 );
 
 :root {
   /* colors */
   --moe-color-white: #ffffff;
   --moe-color-black: #000000;
-  --moe-bg-color: #f6fbff;
-  --moe-bg-color-page: #eef5ff;
+  --moe-bg-color: #fffafd;
+  --moe-bg-color-page: #f7f4ff;
   --moe-bg-color-overlay: #ffffff;
-  --moe-text-color-primary: #2e2f38;
+  --moe-text-color-primary: #2f3142;
   --moe-surface-color: #ffffff;
-  --moe-surface-color-soft: #f3f8ff;
-  --moe-text-color-regular: #4c4f5d;
-  --moe-text-color-secondary: #7a7f92;
-  --moe-text-color-placeholder: #a7adbd;
-  --moe-text-color-disabled: #c0c7d6;
-  --moe-border-color: #dde6f2;
-  --moe-border-color-light: #e6edf7;
-  --moe-border-color-lighter: #eef3fa;
-  --moe-border-color-extra-light: #f4f7fd;
-  --moe-border-color-dark: #cdd6e6;
-  --moe-border-color-darker: #bec8da;
-  --moe-fill-color: #eff5ff;
-  --moe-fill-color-light: #f4f8ff;
-  --moe-fill-color-lighter: #f8fbff;
-  --moe-fill-color-extra-light: #fbfdff;
-  --moe-fill-color-dark: #e6edf7;
-  --moe-fill-color-darker: #dee6f2;
+  --moe-surface-color-soft: #fbf7ff;
+  --moe-text-color-regular: #53566d;
+  --moe-text-color-secondary: #8387a0;
+  --moe-text-color-placeholder: #adb2c7;
+  --moe-text-color-disabled: #c7ccdc;
+  --moe-border-color: #e5dff4;
+  --moe-border-color-light: #eee8fa;
+  --moe-border-color-lighter: #f4effc;
+  --moe-border-color-extra-light: #faf7ff;
+  --moe-border-color-dark: #d5cde8;
+  --moe-border-color-darker: #c7bedf;
+  --moe-fill-color: #f5f0ff;
+  --moe-fill-color-light: #faf6ff;
+  --moe-fill-color-lighter: #fcf9ff;
+  --moe-fill-color-extra-light: #fffafd;
+  --moe-fill-color-dark: #ece5fb;
+  --moe-fill-color-darker: #e2daf4;
   --moe-fill-color-blank: #ffffff;
-  --moe-shadow-soft: 0 6px 16px rgba(94, 190, 245, 0.18);
-  --moe-shadow-hover: 0 8px 22px rgba(94, 190, 245, 0.26);
-  --moe-focus-ring-color: rgba(94, 190, 245, 0.35);
+  --moe-gradient-primary: linear-gradient(135deg, #7c9cff 0%, #ff9dcc 100%);
+  --moe-gradient-soft: linear-gradient(
+    135deg,
+    rgba(124, 156, 255, 0.12),
+    rgba(255, 157, 204, 0.14)
+  );
+  --moe-shadow-soft: 0 8px 18px rgba(124, 156, 255, 0.14);
+  --moe-shadow-hover: 0 10px 24px rgba(124, 156, 255, 0.2);
+  --moe-focus-ring-color: rgba(124, 156, 255, 0.35);
 
   @each $name, $color in $colors {
     --moe-color-#{$name}: #{$color};
@@ -77,9 +85,9 @@ $dark-accent-colors: (
   --moe-border-style: solid;
   --moe-border-color-hover: var(--moe-text-color-disabled);
   --moe-border: var(--moe-border-width) var(--moe-border-style) var(--moe-border-color);
-  --moe-border-radius-base: 8px;
-  --moe-border-radius-small: 6px;
-  --moe-border-radius-round: 24px;
+  --moe-border-radius-base: 10px;
+  --moe-border-radius-small: 7px;
+  --moe-border-radius-round: 999px;
   --moe-border-radius-circle: 100%;
 
   /*font*/
@@ -108,32 +116,38 @@ $dark-accent-colors: (
 [data-theme='dark'] {
   --moe-color-white: #ffffff;
   --moe-color-black: #000000;
-  --moe-bg-color: #0f1320;
-  --moe-bg-color-page: #0b0f1a;
-  --moe-bg-color-overlay: #141a2a;
-  --moe-text-color-primary: #e6ecf5;
-  --moe-surface-color: #171e2f;
-  --moe-surface-color-soft: #1f2740;
-  --moe-text-color-regular: #c9d3e3;
-  --moe-text-color-secondary: #9aa8bf;
-  --moe-text-color-placeholder: #7c879c;
-  --moe-text-color-disabled: #5f6878;
-  --moe-border-color: #2a3447;
-  --moe-border-color-light: #323d52;
-  --moe-border-color-lighter: #3a465e;
-  --moe-border-color-extra-light: #424f69;
-  --moe-border-color-dark: #222b3b;
-  --moe-border-color-darker: #1b2433;
-  --moe-fill-color: #1a2133;
-  --moe-fill-color-light: #20283b;
-  --moe-fill-color-lighter: #252e43;
-  --moe-fill-color-extra-light: #2a344c;
-  --moe-fill-color-dark: #151b2b;
-  --moe-fill-color-darker: #111625;
-  --moe-fill-color-blank: #0f1320;
-  --moe-shadow-soft: 0 6px 16px rgba(18, 26, 42, 0.55);
-  --moe-shadow-hover: 0 8px 22px rgba(18, 26, 42, 0.7);
-  --moe-focus-ring-color: rgba(102, 204, 255, 0.35);
+  --moe-bg-color: #151522;
+  --moe-bg-color-page: #10101a;
+  --moe-bg-color-overlay: #1c1c2b;
+  --moe-text-color-primary: #f0eef8;
+  --moe-surface-color: #1f1f30;
+  --moe-surface-color-soft: #27273a;
+  --moe-text-color-regular: #d8d5e8;
+  --moe-text-color-secondary: #aaa6c2;
+  --moe-text-color-placeholder: #817d98;
+  --moe-text-color-disabled: #67637b;
+  --moe-border-color: #36324a;
+  --moe-border-color-light: #403b56;
+  --moe-border-color-lighter: #4b4563;
+  --moe-border-color-extra-light: #554f6e;
+  --moe-border-color-dark: #2d2a3f;
+  --moe-border-color-darker: #242236;
+  --moe-fill-color: #29263a;
+  --moe-fill-color-light: #302c43;
+  --moe-fill-color-lighter: #37324d;
+  --moe-fill-color-extra-light: #403a57;
+  --moe-fill-color-dark: #222034;
+  --moe-fill-color-darker: #1a1929;
+  --moe-fill-color-blank: #151522;
+  --moe-gradient-primary: linear-gradient(135deg, #91aaff 0%, #ffacd6 100%);
+  --moe-gradient-soft: linear-gradient(
+    135deg,
+    rgba(145, 170, 255, 0.16),
+    rgba(255, 172, 214, 0.14)
+  );
+  --moe-shadow-soft: 0 8px 18px rgba(10, 10, 20, 0.42);
+  --moe-shadow-hover: 0 10px 24px rgba(10, 10, 20, 0.56);
+  --moe-focus-ring-color: rgba(145, 170, 255, 0.38);
 
   @each $name, $color in $dark-colors {
     --moe-color-#{$name}: #{$color};

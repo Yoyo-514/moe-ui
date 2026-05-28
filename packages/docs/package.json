@@ -1,7 +1,7 @@
 {
   "name": "@moe-ui/docs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Documentation site for Moe UI.",
   "main": "index.js",
   "scripts": {
     "dev": "vitepress dev",

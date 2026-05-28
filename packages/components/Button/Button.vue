@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { throttle } from 'lodash-es'
-import { computed, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import MoeIcon from '../Icon/Icon.vue'
+import { BUTTON_GROUP_CTX_KEY } from './constants'
 import type { ButtonEmits, ButtonInstance, ButtonProps } from './types'
 
 defineOptions({
@@ -16,10 +17,17 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 })
 
 const emits = defineEmits<ButtonEmits>()
-
 const slots = defineSlots()
 
-const _ref = ref<HTMLButtonElement>()
+const buttonGroupContext = inject(BUTTON_GROUP_CTX_KEY, undefined)
+const buttonType = computed(() => props.type ?? buttonGroupContext?.type.value)
+const buttonSize = computed(() => props.size ?? buttonGroupContext?.size.value)
+const buttonDisabled = computed(() => props.disabled || buttonGroupContext?.disabled.value)
+
+const _ref = ref<HTMLElement>()
+const focus = () => _ref.value?.focus()
+const blur = () => _ref.value?.blur()
+
 const iconStyle = computed(() => ({
   marginRight: slots.default ? '6px' : '0px',
 }))
@@ -28,6 +36,8 @@ const handleBtnClickThrottle = throttle(handleBtnClick, props.throttleDuration)
 
 defineExpose<ButtonInstance>({
   ref: _ref,
+  focus,
+  blur,
 })
 </script>
 
@@ -38,14 +48,14 @@ defineExpose<ButtonInstance>({
     class="moe-button"
     :autofocus="autofocus"
     :type="tag === 'button' ? nativeType : void 0"
-    :disabled="disabled || loading ? true : void 0"
+    :disabled="buttonDisabled || loading ? true : void 0"
     :class="{
-      [`moe-button--${type}`]: type,
-      [`moe-button--${size}`]: size,
+      [`moe-button--${buttonType}`]: buttonType,
+      [`moe-button--${buttonSize}`]: buttonSize,
       'is-plain': plain,
       'is-round': round,
       'is-circle': circle,
-      'is-disabled': disabled,
+      'is-disabled': buttonDisabled,
       'is-loading': loading,
     }"
     @click="(e: MouseEvent) => (useThrottle ? handleBtnClickThrottle(e) : handleBtnClick(e))"

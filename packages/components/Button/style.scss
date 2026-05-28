@@ -1,5 +1,5 @@
 .moe-button-group {
-  --moe-button-group-border-color: var(--moe-border-color-lighter);
+  --moe-button-group-border-color: rgba(255, 255, 255, 0.72);
 }
 .moe-button {
   --moe-button-font-weight: var(--moe-font-weight-primary);
@@ -7,17 +7,17 @@
   --moe-button-bg-color: var(--moe-fill-color-blank);
   --moe-button-text-color: var(--moe-text-color-regular);
   --moe-button-disabled-text-color: var(--moe-disabled-text-color);
-  --moe-button-disabled-bg-color: var(--moe-fill-color-blank);
+  --moe-button-disabled-bg-color: var(--moe-fill-color-light);
   --moe-button-disabled-border-color: var(--moe-border-color-light);
-  --moe-button-hover-text-color: var(--moe-color-primary-dark-2);
-  --moe-button-hover-bg-color: var(--moe-color-primary-light-9);
+  --moe-button-hover-text-color: var(--moe-color-primary-strong);
+  --moe-button-hover-bg-color: var(--moe-gradient-soft);
   --moe-button-hover-border-color: var(--moe-color-primary-light-7);
-  --moe-button-active-text-color: var(--moe-color-primary-dark-2);
-  --moe-button-active-border-color: var(--moe-color-primary-dark-2);
-  --moe-button-active-bg-color: var(--moe-button-hover-bg-color);
-  --moe-button-outline-color: var(--moe-color-primary-light-5);
+  --moe-button-active-text-color: var(--moe-color-primary-strong);
+  --moe-button-active-border-color: var(--moe-color-primary);
+  --moe-button-active-bg-color: var(--moe-color-primary-light-9);
+  --moe-button-outline-color: var(--moe-focus-ring-color);
   --moe-button-active-color: var(--moe-text-color-primary);
-  --moe-button-shadow: var(--moe-shadow-soft);
+  --moe-button-shadow: 0 2px 8px rgba(124, 156, 255, 0.1);
   --moe-button-shadow-hover: var(--moe-shadow-hover);
 }
 
@@ -26,7 +26,8 @@
   justify-content: center;
   align-items: center;
   line-height: 1;
-  height: 32px;
+  min-width: 72px;
+  height: 34px;
   white-space: nowrap;
   cursor: pointer;
   color: var(--moe-button-text-color);
@@ -42,10 +43,11 @@
   background-color: var(--moe-button-bg-color);
   border: var(--moe-border);
   border-color: var(--moe-button-border-color);
-  padding: 8px 16px;
+  padding: 8px 17px;
   font-size: var(--moe-font-size-base);
   border-radius: var(--moe-border-radius-base);
   box-shadow: var(--moe-button-shadow);
+  letter-spacing: 0.01em;
   & + & {
     margin-left: 12px;
   }
@@ -53,9 +55,14 @@
   &:focus {
     color: var(--moe-button-hover-text-color);
     border-color: var(--moe-button-hover-border-color);
-    background-color: var(--moe-button-hover-bg-color);
+    background: var(--moe-button-hover-bg-color);
     box-shadow: var(--moe-button-shadow-hover);
     outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--moe-button-outline-color);
+    outline-offset: 2px;
   }
   &:active {
     color: var(--moe-button-active-text-color);
@@ -78,8 +85,10 @@
   }
   /*circle*/
   &.is-circle {
+    min-width: var(--moe-button-size, 34px);
+    width: var(--moe-button-size, 34px);
+    padding: 0;
     border-radius: 50%;
-    padding: 8px;
   }
   /*disabled*/
   &.is-loading,
@@ -115,6 +124,7 @@
     --moe-button-disabled-text-color: var(--moe-color-white);
     --moe-button-disabled-bg-color: var(--moe-color-#{$val}-light-5);
     --moe-button-disabled-border-color: var(--moe-color-#{$val}-light-5);
+    --moe-button-shadow: 0 4px 12px rgba(124, 156, 255, 0.18);
 
     &.is-plain {
       --moe-button-text-color: var(--moe-color-#{$val}-dark-2);
@@ -131,28 +141,55 @@
     }
   }
 }
+.moe-button--text {
+  min-width: auto;
+  color: var(--moe-color-primary-strong);
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+
+  &:hover,
+  &:focus {
+    color: var(--moe-color-primary);
+    border-color: transparent;
+    background: var(--moe-gradient-soft);
+    box-shadow: none;
+  }
+
+  &.is-disabled,
+  &[disabled] {
+    color: var(--moe-disabled-text-color);
+    background: transparent;
+  }
+}
+
 .moe-button--large {
-  --moe-button-size: 40px;
+  --moe-button-size: 42px;
   height: var(--moe-button-size);
-  padding: 12px 19px;
+  padding: 12px 21px;
   font-size: var(--moe-font-size-base);
   border-radius: var(--moe-border-radius-base);
   /*circle*/
   &.is-circle {
+    min-width: var(--moe-button-size);
+    width: var(--moe-button-size);
+    padding: 0;
     border-radius: 50%;
-    padding: 12px;
   }
 }
 .moe-button--small {
-  --moe-button-size: 24px;
+  --moe-button-size: 26px;
+  min-width: 58px;
   height: var(--moe-button-size);
-  padding: 5px 11px;
+  padding: 5px 12px;
   font-size: 12px;
   border-radius: calc(var(--moe-border-radius-base) - 1px);
   /*circle*/
   &.is-circle {
+    min-width: var(--moe-button-size);
+    width: var(--moe-button-size);
+    padding: 0;
     border-radius: 50%;
-    padding: 5px;
   }
   [class*='moe-icon'] {
     width: 12px;

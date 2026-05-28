@@ -4,6 +4,19 @@ import { describe, expect, it } from 'vitest'
 
 import Icon from './Icon.vue'
 
+const IconifyStub = {
+  name: 'Icon',
+  props: ['icon', 'width', 'height', 'flip'],
+  emits: ['load', 'error'],
+  template: '<svg />',
+}
+
+const global = {
+  stubs: {
+    Icon: IconifyStub,
+  },
+}
+
 describe('Icon.vue', () => {
   // Props: type
   it('should has the correct type class when type prop is set', () => {
@@ -11,7 +24,7 @@ describe('Icon.vue', () => {
     types.forEach((type) => {
       const wrapper = mount(Icon, {
         props: { icon: 'mdi:home', type: type as any },
-        global: { stubs: { Icon: true } },
+        global,
       })
       expect(wrapper.classes()).toContain(`moe-icon--${type}`)
     })
@@ -23,7 +36,7 @@ describe('Icon.vue', () => {
     sizes.forEach((size) => {
       const wrapper = mount(Icon, {
         props: { icon: 'mdi:home', size: size as any },
-        global: { stubs: { Icon: true } },
+        global,
       })
       expect(wrapper.classes()).toContain(`moe-icon--${size}`)
     })
@@ -33,7 +46,7 @@ describe('Icon.vue', () => {
   it('should has animation-spin class when spin prop is true', () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', spin: true },
-      global: { stubs: { Icon: true } },
+      global,
     })
     expect(wrapper.classes()).toContain('animation-spin')
   })
@@ -50,7 +63,7 @@ describe('Icon.vue', () => {
   ])('should has the correct class when animation is %s', (animation, className) => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', animation: animation as any },
-      global: { stubs: { Icon: true } },
+      global,
     })
     expect(wrapper.classes()).toContain(className)
   })
@@ -59,7 +72,7 @@ describe('Icon.vue', () => {
   it('should apply custom color style when color prop is set', () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', color: '#ff0000' },
-      global: { stubs: { Icon: true } },
+      global,
     })
     expect(wrapper.attributes('style')).toContain('color: rgb(255, 0, 0)')
   })
@@ -68,7 +81,7 @@ describe('Icon.vue', () => {
   it('should emits a click event when the icon is clicked', async () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home' },
-      global: { stubs: { Icon: true } },
+      global,
     })
     await wrapper.trigger('click')
     expect(wrapper.emitted().click).toHaveLength(1)
@@ -78,7 +91,7 @@ describe('Icon.vue', () => {
   it('should apply hoverColor when hovered', async () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', color: '#000', hoverColor: '#ff0000' },
-      global: { stubs: { Icon: true } },
+      global,
     })
     await wrapper.trigger('mouseenter')
     expect(wrapper.attributes('style')).toContain('color: rgb(255, 0, 0)')
@@ -90,7 +103,7 @@ describe('Icon.vue', () => {
   it('should apply hoverAnimation when hovered', async () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', hoverAnimation: 'bounce' },
-      global: { stubs: { Icon: true } },
+      global,
     })
     expect(wrapper.classes()).not.toContain('animation-bounce')
     await wrapper.trigger('mouseenter')
@@ -101,7 +114,7 @@ describe('Icon.vue', () => {
   it('should set custom duration style', () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', duration: 500 },
-      global: { stubs: { Icon: true } },
+      global,
     })
     expect(wrapper.attributes('style')).toContain('--moe-icon-duration: 500ms')
   })
@@ -110,7 +123,7 @@ describe('Icon.vue', () => {
   it('should use width/height over size when both provided', () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', size: 'xl', width: '100px' },
-      global: { stubs: { Icon: true } },
+      global,
     })
     const iconify = wrapper.findComponent(IconifyIcon)
     expect(iconify.props('width')).toBe('100px')
@@ -124,7 +137,7 @@ describe('Icon.vue', () => {
   ])('should transform flip %s to %s', (input, expected) => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', flip: input as any },
-      global: { stubs: { Icon: true } },
+      global,
     })
     const iconify = wrapper.findComponent(IconifyIcon)
     expect(iconify.props('flip')).toBe(expected)
@@ -134,7 +147,7 @@ describe('Icon.vue', () => {
   it('should switch icon on hover when hoverIcon is set', async () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:home', hoverIcon: 'mdi:star' },
-      global: { stubs: { Icon: true } },
+      global,
     })
     const iconify = wrapper.findComponent(IconifyIcon)
     expect(iconify.props('icon')).toBe('mdi:home')
@@ -146,10 +159,10 @@ describe('Icon.vue', () => {
   it('should emit error event with icon name', () => {
     const wrapper = mount(Icon, {
       props: { icon: 'mdi:invalid' },
-      global: { stubs: { Icon: true } },
+      global,
     })
     const iconify = wrapper.findComponent(IconifyIcon)
-    iconify.vm.$emit('error')
+    ;(iconify.vm.$.vnode.props?.onError as () => void)()
     expect(wrapper.emitted().error).toHaveLength(1)
     expect(wrapper.emitted().error![0]).toEqual(['mdi:invalid'])
   })
@@ -158,10 +171,10 @@ describe('Icon.vue', () => {
   it('should emit error event with unknown when icon is not string', () => {
     const wrapper = mount(Icon, {
       props: { icon: { body: '<path/>' } as any },
-      global: { stubs: { Icon: true } },
+      global,
     })
     const iconify = wrapper.findComponent(IconifyIcon)
-    iconify.vm.$emit('error')
+    ;(iconify.vm.$.vnode.props?.onError as () => void)()
     expect(wrapper.emitted().error![0]).toEqual(['unknown'])
   })
 })

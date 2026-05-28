@@ -21,10 +21,18 @@ export interface ButtonProps {
   throttleDuration?: number
 }
 
+export interface ButtonGroupProps {
+  type?: ButtonType
+  size?: ButtonSize
+  disabled?: boolean
+}
+
 export interface ButtonEmits {
   (e: 'click', val: MouseEvent): void
 }
 
 export interface ButtonInstance {
-  ref: Ref<HTMLButtonElement | void>
+  ref: Ref<HTMLElement | void>
+  focus: () => void
+  blur: () => void
 }
