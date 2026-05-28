@@ -1,6 +1,6 @@
 {
   "name": "@moe-ui/theme",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Theme tokens and styles for Moe UI.",
   "main": "index.scss",
   "scripts": {
@@ -8,5 +8,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "private": true
 }

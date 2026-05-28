@@ -46,6 +46,18 @@ export default [
   ...configTypeScript(),
   configPrettier,
   {
+    files: ['**/*.{ts,mts,tsx}'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false,
+        },
+      ],
+    },
+  },
+  {
     languageOptions: {
       parserOptions: {
         ecmaVersion: 'latest',
@@ -78,14 +90,6 @@ export default [
           varsIgnorePattern: '^_',
         },
       ],
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        {
-          prefer: 'type-imports',
-          disallowTypeAnnotations: false,
-        },
-      ],
-
       // JavaScript 规则
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'warn',

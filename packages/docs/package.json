@@ -1,6 +1,6 @@
 {
   "name": "@moe-ui/docs",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Documentation site for Moe UI.",
   "main": "index.js",
   "scripts": {
@@ -13,5 +13,6 @@
   "license": "ISC",
   "devDependencies": {
     "vitepress": "^1.6.4"
-  }
+  },
+  "private": true
 }

@@ -1,6 +1,6 @@
 {
   "name": "@moe-ui/hooks",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Composable utilities for Moe UI components.",
   "main": "index.js",
   "scripts": {
@@ -8,5 +8,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "private": true
 }

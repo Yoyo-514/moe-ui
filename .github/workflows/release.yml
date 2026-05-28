@@ -1,0 +1,146 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Release mode'
+        required: true
+        default: 'version-and-publish'
+        type: choice
+        options:
+          - version-and-publish
+          - publish-current
+      confirm:
+        description: 'Type "release" to create a release and publish moe-cute-ui to npm'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Version, release and publish
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event.inputs.confirm == 'release'
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Ensure npm supports trusted publishing
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check changeset state
+        env:
+          RELEASE_MODE: ${{ github.event.inputs.mode }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs')
+          const mode = process.env.RELEASE_MODE
+          const changesetDir = '.changeset'
+          const files = fs.existsSync(changesetDir)
+            ? fs.readdirSync(changesetDir).filter((file) => file.endsWith('.md') && file !== 'README.md')
+            : []
+
+          if (mode === 'version-and-publish' && files.length === 0) {
+            throw new Error('No changeset files found. Run `pnpm changeset` locally and commit the generated .changeset/*.md file first.')
+          }
+
+          if (mode === 'publish-current' && files.length > 0) {
+            throw new Error(`Found pending changeset files (${files.join(', ')}). Use version-and-publish mode or remove them before publishing the current version.`)
+          }
+
+          console.log(`release mode: ${mode}`)
+          console.log(`changeset files: ${files.length ? files.join(', ') : 'none'}`)
+          NODE
+
+      - name: Generate version and changelog
+        if: github.event.inputs.mode == 'version-and-publish'
+        run: pnpm version-packages
+
+      - name: Read release version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./packages/core/package.json').version")
+          TAG="v${VERSION}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "Release version: ${VERSION}"
+          echo "Release tag: ${TAG}"
+
+      - name: Ensure version and tag are not already released
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          if npm view "moe-cute-ui@${VERSION}" version --registry https://registry.npmjs.org > /dev/null 2>&1; then
+            echo "moe-cute-ui@${VERSION} already exists on npm."
+            exit 1
+          fi
+
+          if git rev-parse "${TAG}" >/dev/null 2>&1; then
+            echo "Git tag ${TAG} already exists locally."
+            exit 1
+          fi
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            echo "Git tag ${TAG} already exists on origin."
+            exit 1
+          fi
+
+      - name: Run release checks
+        run: pnpm release:check
+
+      - name: Verify npm package contents
+        run: pnpm --filter moe-cute-ui exec npm publish --dry-run --provenance --registry https://registry.npmjs.org
+
+      - name: Commit version changes
+        if: github.event.inputs.mode == 'version-and-publish'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(release): v${VERSION}"
+          git push origin HEAD:main
+
+      - name: Publish to npm
+        run: pnpm --filter moe-cute-ui publish --no-git-checks --provenance --registry https://registry.npmjs.org
+
+      - name: Create and push git tag
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          git tag -a "${TAG}" -m "${TAG}"
+          git push origin "${TAG}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: gh release create "${TAG}" --title "${TAG}" --generate-notes

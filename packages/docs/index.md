@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: 'Moe UI'
+  name: 'Moe Cute UI'
   text: '轻二次元风格的 Vue 3 组件库'
   tagline: 柔和、清爽、类型友好，适合构建带一点清新气质的现代 Web 界面。
   actions:

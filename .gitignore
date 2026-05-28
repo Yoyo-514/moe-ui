@@ -16,8 +16,8 @@ dist-ssr
 /cyperss/videos/
 /cypress/srceenshots/
 
-.vitepress/dist
-.vitepress/cache
+**/.vitepress/dist/
+**/.vitepress/cache/
 
 # Editor directories and files
 .vscode/*
@@ -32,7 +32,7 @@ dist-ssr
 
 # documentation
 todo.md
-docs
+/docs/
 
 # scripts
 scripts

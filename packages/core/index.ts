@@ -4,5 +4,5 @@ import components from './components'
 
 const installer = makeInstaller(components)
 
-export * from '@moe-ui/components'
+export * from '../components'
 export default installer

@@ -1,9 +1,9 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'Moe UI',
+  title: 'Moe Cute UI',
   description: '轻二次元风格的 Vue 3 组件库',
-  base: '/moe-ui/',
+  base: '/moe-cute-ui/',
   vite: {
     css: {
       preprocessorOptions: {
