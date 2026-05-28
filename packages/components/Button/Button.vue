@@ -75,7 +75,3 @@ defineExpose<ButtonInstance>({
     <slot></slot>
   </component>
 </template>
-
-<style lang="scss" scoped>
-@use './style.scss';
-</style>

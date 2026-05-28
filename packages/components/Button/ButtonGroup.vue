@@ -21,7 +21,3 @@ provide(BUTTON_GROUP_CTX_KEY, {
     <slot></slot>
   </div>
 </template>
-
-<style lang="scss" scoped>
-@use './style.scss';
-</style>

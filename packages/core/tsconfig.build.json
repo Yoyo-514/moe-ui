@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "outDir": "dist/types",
+    "rootDir": ".."
+  },
+  "include": [
+    "index.ts",
+    "components.ts",
+    "style.d.ts",
+    "../components/**/*.ts",
+    "../components/**/*.vue",
+    "../utils/**/*.ts",
+    "../hooks/**/*.ts"
+  ],
+  "exclude": [
+    "../components/**/*.test.ts",
+    "../components/**/*.test.tsx",
+    "../components/vitest.config.ts"
+  ]
+}

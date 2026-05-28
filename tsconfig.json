@@ -15,6 +15,16 @@
     "noEmit": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
+    "paths": {
+      "@moe-ui/components": ["./packages/components/index.ts"],
+      "@moe-ui/components/*": ["./packages/components/*"],
+      "@moe-ui/hooks": ["./packages/hooks/index.ts"],
+      "@moe-ui/hooks/*": ["./packages/hooks/*"],
+      "@moe-ui/theme": ["./packages/theme/index.scss"],
+      "@moe-ui/theme/*": ["./packages/theme/*"],
+      "@moe-ui/utils": ["./packages/utils/index.ts"],
+      "@moe-ui/utils/*": ["./packages/utils/*"]
+    },
 
     /* Linting */
     "strict": true,
@@ -22,9 +32,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "packages/**/*.ts",
-    "packages/**/*.tsx",
-    "packages/**/*.vue",
-  ]
+  "include": ["packages/**/*.ts", "packages/**/*.tsx", "packages/**/*.vue", "packages/**/*.d.ts"]
 }

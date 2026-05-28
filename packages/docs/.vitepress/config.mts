@@ -4,6 +4,15 @@ export default defineConfig({
   title: 'Moe UI',
   description: '轻二次元风格的 Vue 3 组件库',
   base: '/moe-ui/',
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
+    },
+  },
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },

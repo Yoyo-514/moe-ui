@@ -204,7 +204,7 @@
   &::after {
     clear: both;
   }
-  & > :deep(.moe-button) {
+  & > .moe-button {
     float: left;
     position: relative;
     margin-left: 0;

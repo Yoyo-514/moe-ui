@@ -97,7 +97,3 @@ const handleError = () => emit('error', typeof props.icon === 'string' ? props.i
     <Icon v-bind="iconifyProps" @load="handleLoad" @error="handleError" />
   </i>
 </template>
-
-<style scoped lang="scss">
-@use './style.scss';
-</style>

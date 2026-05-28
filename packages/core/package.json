@@ -2,14 +2,57 @@
   "name": "moe-ui",
   "version": "1.0.0",
   "description": "A light anime-inspired Vue 3 component library.",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/umd/index.js",
+  "module": "dist/es/index.mjs",
+  "unpkg": "dist/umd/index.js",
+  "jsdelivr": "dist/umd/index.js",
+  "types": "dist/types/core/index.d.ts",
+  "style": "dist/index.css",
+  "exports": {
+    ".": {
+      "types": "./dist/types/core/index.d.ts",
+      "import": "./dist/es/index.mjs",
+      "default": "./dist/es/index.mjs"
+    },
+    "./umd": "./dist/umd/index.js",
+    "./es/*": "./dist/es/*",
+    "./dist/*": "./dist/*",
+    "./style.css": "./dist/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "dist/**/*.css"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build:es": "vite build -c build/vite.config.es.ts",
+    "build:umd": "vite build -c build/vite.config.umd.ts",
+    "build": "run-s clean build:es build:umd"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "component-library",
+    "moe-ui"
+  ],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "vue": "^3.5.0"
   },
   "dependencies": {
-    "@moe-ui/components": "workspace:*"
+    "@iconify/vue": "^5.0.1",
+    "lodash-es": "^4.18.1",
+    "@popperjs/core": "^2.11.8",
+    "async-validator": "^4.2.5"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "vite-plugin-dts": "^5.0.1",
+    "@moe-ui/components": "workspace:*"
+  }
 }

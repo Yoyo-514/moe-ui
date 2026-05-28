@@ -13,9 +13,5 @@
     "@vitest/coverage-v8": "^4.1.7",
     "@vue/test-utils": "^2.4.10",
     "jsdom": "^29.1.1"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.11.8",
-    "async-validator": "^4.2.5"
   }
 }
