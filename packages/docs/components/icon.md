@@ -1,41 +1,22 @@
-<script setup>
-import Basic from '../examples/icon/basic.vue'
-import basicSource from '../examples/icon/basic.vue?raw'
-import Type from '../examples/icon/type.vue'
-import typeSource from '../examples/icon/type.vue?raw'
-import Size from '../examples/icon/size.vue'
-import sizeSource from '../examples/icon/size.vue?raw'
-import Color from '../examples/icon/color.vue'
-import colorSource from '../examples/icon/color.vue?raw'
-</script>
-
 # Icon 图标
 
 基于 Iconify 的图标组件，提供 Moe UI 风格的类型颜色、尺寸和基础事件封装。
 
 ## 基础用法
 
-<DemoBlock title="基础用法" description="传入 Iconify 图标名称即可渲染图标。" :source="basicSource">
-  <Basic />
-</DemoBlock>
+<preview path="../examples/icon/basic.vue" title="基础用法" description="传入 Iconify 图标名称即可渲染图标。"></preview>
 
 ## 类型颜色
 
-<DemoBlock title="类型颜色" description="通过 type 使用组件库内置语义色。" :source="typeSource">
-  <Type />
-</DemoBlock>
+<preview path="../examples/icon/type.vue" title="类型颜色" description="通过 type 使用组件库内置语义色。"></preview>
 
 ## 尺寸
 
-<DemoBlock title="尺寸" description="内置 xs 到 4xl 的常用图标尺寸。" :source="sizeSource">
-  <Size />
-</DemoBlock>
+<preview path="../examples/icon/size.vue" title="尺寸" description="内置 xs 到 4xl 的常用图标尺寸。"></preview>
 
 ## 自定义颜色
 
-<DemoBlock title="自定义颜色" description="color 可覆盖图标颜色，适合局部强调。" :source="colorSource">
-  <Color />
-</DemoBlock>
+<preview path="../examples/icon/color.vue" title="自定义颜色" description="color 可覆盖图标颜色，适合局部强调。"></preview>
 
 ## API
 

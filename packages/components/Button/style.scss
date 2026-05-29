@@ -48,9 +48,7 @@
   border-radius: var(--moe-border-radius-base);
   box-shadow: var(--moe-button-shadow);
   letter-spacing: 0.01em;
-  & + & {
-    margin-left: 12px;
-  }
+
   &:hover,
   &:focus {
     color: var(--moe-button-hover-text-color);
@@ -64,6 +62,7 @@
     outline: 2px solid var(--moe-button-outline-color);
     outline-offset: 2px;
   }
+
   &:active {
     color: var(--moe-button-active-text-color);
     border-color: var(--moe-button-active-border-color);
@@ -109,6 +108,31 @@
     height: 1em;
   }
 }
+
+.moe-button,
+a.moe-button {
+  color: var(--moe-button-text-color);
+  text-decoration: none;
+}
+
+.moe-button:visited,
+a.moe-button:visited {
+  color: var(--moe-button-text-color);
+}
+
+.moe-button:hover,
+.moe-button:focus,
+a.moe-button:hover,
+a.moe-button:focus {
+  color: var(--moe-button-hover-text-color);
+  text-decoration: none;
+}
+
+.moe-button:active,
+a.moe-button:active {
+  color: var(--moe-button-active-text-color);
+}
+
 @each $val in primary, success, warning, info, danger {
   .moe-button--#{$val} {
     --moe-button-text-color: var(--moe-color-white);
@@ -141,6 +165,7 @@
     }
   }
 }
+
 .moe-button--text {
   min-width: auto;
   color: var(--moe-color-primary-strong);
@@ -177,6 +202,7 @@
     border-radius: 50%;
   }
 }
+
 .moe-button--small {
   --moe-button-size: 26px;
   min-width: 58px;

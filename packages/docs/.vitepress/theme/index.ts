@@ -1,16 +1,16 @@
-import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
-import { MoeButton, MoeButtonGroup, MoeIcon } from '../../../components'
-import DemoBlock from '../components/DemoBlock.vue'
-import '../../../theme/index.scss'
-import './style.scss'
+import { ElementPlusContainer } from '@vitepress-demo-preview/component'
+import Teek from 'vitepress-theme-teek'
+import MoeCuteUI from 'moe-cute-ui'
+import '@vitepress-demo-preview/component/dist/style.css'
+import 'vitepress-theme-teek/index.css'
+import 'moe-cute-ui/style.css'
+import './style.css'
 
 export default {
-  extends: DefaultTheme,
+  extends: Teek,
   enhanceApp({ app }) {
-    app.use(MoeButton)
-    app.use(MoeButtonGroup)
-    app.use(MoeIcon)
-    app.component('DemoBlock', DemoBlock)
+    app.use(MoeCuteUI)
+    app.component('DemoPreview', ElementPlusContainer)
   },
 } satisfies Theme

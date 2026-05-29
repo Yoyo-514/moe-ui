@@ -1,0 +1,33 @@
+.vitepress-demo-preview-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255, 126, 182, 0.08), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(105, 183, 255, 0.08), transparent 30%), var(--vp-c-bg);
+}
+
+.vitepress-demo-preview-container,
+.vitepress-demo-preview__container {
+  border-color: rgba(255, 126, 182, 0.18) !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+}
+
+.vitepress-demo-preview-description {
+  color: var(--vp-c-text-2);
+}
+
+.vitepress-demo-preview-source > div[class*='language-'] {
+  margin: auto;
+}
+
+.vitepress-demo-preview-source .code-arrow {
+  display: none;
+}
+
+.vitepress-demo-preview-bottom-close-button {
+  margin-bottom: 1px;
+}

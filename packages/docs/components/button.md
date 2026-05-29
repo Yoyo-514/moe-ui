@@ -1,81 +1,42 @@
-<script setup>
-import Basic from '../examples/button/basic.vue'
-import basicSource from '../examples/button/basic.vue?raw'
-import Plain from '../examples/button/plain.vue'
-import plainSource from '../examples/button/plain.vue?raw'
-import Size from '../examples/button/size.vue'
-import sizeSource from '../examples/button/size.vue?raw'
-import Shape from '../examples/button/shape.vue'
-import shapeSource from '../examples/button/shape.vue?raw'
-import State from '../examples/button/state.vue'
-import stateSource from '../examples/button/state.vue?raw'
-import LoadingSlot from '../examples/button/loading-slot.vue'
-import loadingSlotSource from '../examples/button/loading-slot.vue?raw'
-import Text from '../examples/button/text.vue'
-import textSource from '../examples/button/text.vue?raw'
-import Tag from '../examples/button/tag.vue'
-import tagSource from '../examples/button/tag.vue?raw'
-import Group from '../examples/button/group.vue'
-import groupSource from '../examples/button/group.vue?raw'
-</script>
-
 # Button 按钮
 
 常用操作按钮，支持类型、尺寸、加载态、禁用态、图标按钮、自定义渲染标签和按钮组。
 
 ## 基础用法
 
-<DemoBlock title="基础用法" description="通过 type 控制按钮语义和视觉层级。" :source="basicSource">
-  <Basic />
-</DemoBlock>
+<preview path="../examples/button/basic.vue" title="基础用法" description="通过 type 控制按钮语义和视觉层级。"></preview>
 
 ## Plain 按钮
 
-<DemoBlock title="Plain 按钮" description="适合弱强调操作，保留主题色但降低视觉重量。" :source="plainSource">
-  <Plain />
-</DemoBlock>
+<preview path="../examples/button/plain.vue" title="Plain 按钮" description="适合弱强调操作，保留主题色但降低视觉重量。"></preview>
 
 ## 文字按钮
 
-<DemoBlock title="文字按钮" description="type 为 text 时适合链接型或弱操作入口。" :source="textSource">
-  <Text />
-</DemoBlock>
+<preview path="../examples/button/text.vue" title="文字按钮" description="type 为 text 时适合链接型或弱操作入口。"></preview>
 
 ## 尺寸
 
-<DemoBlock title="尺寸" description="提供 large、default、small 三种常用尺寸。" :source="sizeSource">
-  <Size />
-</DemoBlock>
+<preview path="../examples/button/size.vue" title="尺寸" description="提供 large、default、small 三种常用尺寸。"></preview>
 
 ## 圆角与圆形
 
-<DemoBlock title="圆角与圆形" description="round 适合胶囊按钮，circle 适合纯图标操作。" :source="shapeSource">
-  <Shape />
-</DemoBlock>
+<preview path="../examples/button/shape.vue" title="圆角与圆形" description="round 适合胶囊按钮，circle 适合纯图标操作。"></preview>
 
 ## 加载与禁用
 
-<DemoBlock title="加载与禁用" description="loading 和 disabled 状态都会阻止点击事件。" :source="stateSource">
-  <State />
-</DemoBlock>
+<preview path="../examples/button/state.vue" title="加载与禁用" description="loading 和 disabled 状态都会阻止点击事件。"></preview>
 
 ## 自定义加载图标
 
-<DemoBlock title="自定义加载图标" description="通过 loading 插槽可以完全自定义加载状态的图标内容。" :source="loadingSlotSource">
-  <LoadingSlot />
-</DemoBlock>
+<preview path="../examples/button/loading-slot.vue" title="自定义加载图标" description="通过 loading 插槽可以完全自定义加载状态的图标内容。"></preview>
 
 ## 自定义标签
 
-<DemoBlock title="自定义标签" description="通过 tag 可以将按钮渲染为 a、div 或自定义组件。" :source="tagSource">
-  <Tag />
-</DemoBlock>
+<preview path="../examples/button/tag.vue" title="自定义标签" description="通过 tag 可以将按钮渲染为 a、div 或自定义组件。"></preview>
 
 ## 按钮组
 
-<DemoBlock title="按钮组" description="ButtonGroup 可以统一控制内部按钮的 type、size 和 disabled。" :source="groupSource">
-  <Group />
-</DemoBlock>
+<preview path="../examples/button/group.vue" title="按钮组" description="ButtonGroup 可以统一控制内部按钮的 type、size 和 disabled。"></preview>
 
 ## Button API
 
