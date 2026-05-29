@@ -1,10 +1,10 @@
 import type { Theme } from 'vitepress'
 import { ElementPlusContainer } from '@vitepress-demo-preview/component'
 import Teek from 'vitepress-theme-teek'
-import MoeCuteUI from 'moe-cute-ui'
+import MoeCuteUI from '../../../core'
 import '@vitepress-demo-preview/component/dist/style.css'
 import 'vitepress-theme-teek/index.css'
-import 'moe-cute-ui/style.css'
+import '../../../theme/index.scss'
 import './style.css'
 
 export default {
