@@ -17,6 +17,7 @@
     },
     "./umd": "./dist/umd/index.js",
     "./es/*": "./dist/es/*",
+    "./theme/*": "./dist/theme/*",
     "./dist/*": "./dist/*",
     "./style.css": "./dist/index.css"
   },
@@ -32,10 +33,10 @@
     "dist/**/*.css"
   ],
   "scripts": {
-    "clean": "rimraf dist",
     "build:es": "vite build -c build/vite.config.es.ts",
     "build:umd": "vite build -c build/vite.config.umd.ts",
-    "build": "run-s clean build:es build:umd"
+    "build:watch": "vite build -c build/vite.config.es.ts --watch",
+    "build": "run-s build:es build:umd"
   },
   "keywords": [
     "vue",
@@ -50,12 +51,14 @@
   },
   "dependencies": {
     "@iconify/vue": "^5.0.1",
-    "lodash-es": "^4.18.1",
     "@popperjs/core": "^2.11.8",
-    "async-validator": "^4.2.5"
+    "async-validator": "^4.2.5",
+    "lodash-es": "^4.18.1"
   },
   "devDependencies": {
-    "vite-plugin-dts": "^5.0.1",
-    "@moe-ui/components": "workspace:*"
+    "@moe-ui-private/vite-plugins": "workspace:*",
+    "@moe-ui/components": "workspace:*",
+    "vite-plugin-compression2": "^2.5.3",
+    "vite-plugin-dts": "^5.0.2"
   }
 }

@@ -11,6 +11,7 @@
     "index.ts",
     "components.ts",
     "style.d.ts",
+    "../../env.d.ts",
     "../components/**/*.ts",
     "../components/**/*.vue",
     "../utils/**/*.ts",

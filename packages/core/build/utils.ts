@@ -17,3 +17,24 @@ export function getPackageDirChunkName(id: string, packageDir: string) {
 
   return find(directories, (item) => normalizedId.includes(`${normalizedPackageDir}/${item}`))
 }
+
+export function getBuildEnv() {
+  const mode = process.env.NODE_ENV ?? 'production'
+
+  return {
+    mode,
+    isProd: mode === 'production',
+    isDev: mode === 'development',
+    isTest: mode === 'test',
+  }
+}
+
+export function getBuildDefine() {
+  const { isProd, isDev, isTest } = getBuildEnv()
+
+  return {
+    PROD: JSON.stringify(isProd),
+    DEV: JSON.stringify(isDev),
+    TEST: JSON.stringify(isTest),
+  }
+}

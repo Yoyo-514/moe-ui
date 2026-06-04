@@ -1,7 +1,13 @@
 import vue from '@vitejs/plugin-vue'
+import { hooksPlugin as hooks } from '@moe-ui-private/vite-plugins'
 import { resolve } from 'node:path'
 import { defineConfig, type UserConfig } from 'vite'
-import { pkgRoot } from './utils'
+import { compression } from 'vite-plugin-compression2'
+import { getBuildDefine, pkgRoot } from './utils'
+import terser from '@rollup/plugin-terser'
+
+const styleEntry = resolve(pkgRoot, 'dist/index.css')
+const umdStyleEntry = resolve(pkgRoot, 'dist/umd/index.css')
 
 const cssOptions = {
   preprocessorOptions: {
@@ -12,7 +18,30 @@ const cssOptions = {
 } as unknown as UserConfig['css']
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    compression({
+      include: /\.(?:js|css)$/,
+      threshold: 1024,
+      algorithms: ['gzip', 'brotliCompress'],
+      deleteOriginalAssets: false,
+      skipIfLargerOrEqual: true,
+    }),
+    hooks({
+      rmFiles: ['./dist/umd', styleEntry],
+      cpFiles: [{ from: umdStyleEntry, to: styleEntry }],
+    }),
+    terser({
+      compress: {
+        drop_console: ['log'],
+        drop_debugger: true,
+        passes: 2,
+      },
+      format: {
+        comments: false,
+      },
+    }),
+  ],
   resolve: {
     alias: {
       '@moe-ui/components': resolve(pkgRoot, '../components/index.ts'),
@@ -20,16 +49,18 @@ export default defineConfig({
       '@moe-ui/theme': resolve(pkgRoot, '../theme'),
     },
   },
+  define: getBuildDefine(),
   css: cssOptions,
   build: {
     outDir: resolve(pkgRoot, 'dist/umd'),
     emptyOutDir: true,
-    cssCodeSplit: true,
+    cssCodeSplit: false,
     lib: {
       entry: resolve(pkgRoot, 'index.ts'),
       name: 'MoeUI',
       formats: ['umd'],
       fileName: () => 'index.js',
+      cssFileName: 'index',
     },
     rollupOptions: {
       external: ['vue', '@iconify/vue', 'lodash-es', '@popperjs/core', 'async-validator'],

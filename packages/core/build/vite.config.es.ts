@@ -1,14 +1,15 @@
 import vue from '@vitejs/plugin-vue'
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
-import { sortBy } from 'lodash-es'
-import { defineConfig, type Plugin, type UserConfig } from 'vite'
+import { hooksPlugin as hooks } from '@moe-ui-private/vite-plugins'
+import { resolve } from 'node:path'
+import { defineConfig, type UserConfig } from 'vite'
 import dts from 'vite-plugin-dts'
-import { getPackageDirChunkName, pkgRoot } from './utils'
+import { getBuildDefine, getPackageDirChunkName, pkgRoot } from './utils'
 
 const componentsDir = resolve(pkgRoot, '../components')
 const esDir = resolve(pkgRoot, 'dist/es')
-const styleEntry = resolve(pkgRoot, 'dist/index.css')
+const esThemeDir = resolve(esDir, 'theme')
+const themeDir = resolve(pkgRoot, 'dist/theme')
+
 const cssOptions = {
   preprocessorOptions: {
     scss: {
@@ -16,34 +17,6 @@ const cssOptions = {
     },
   },
 } as unknown as UserConfig['css']
-
-function generateStyleEntry(): Plugin {
-  return {
-    name: 'moe-ui:generate-style-entry',
-    apply: 'build',
-    closeBundle() {
-      if (!existsSync(esDir)) {
-        throw new Error(`Cannot find generated style directory: ${esDir}`)
-      }
-
-      const cssFiles = sortBy(
-        readdirSync(esDir).filter((file) => file.endsWith('.css')),
-        (file) => (file === 'index.css' ? '' : file)
-      )
-
-      if (cssFiles.length === 0) {
-        throw new Error(`Cannot find generated style files in: ${esDir}`)
-      }
-
-      const content = cssFiles
-        .map((file) => `/* ${file} */\n${readFileSync(resolve(esDir, file), 'utf-8')}`)
-        .join('\n\n')
-
-      mkdirSync(dirname(styleEntry), { recursive: true })
-      writeFileSync(styleEntry, content)
-    },
-  }
-}
 
 export default defineConfig({
   plugins: [
@@ -56,6 +29,7 @@ export default defineConfig({
         resolve(pkgRoot, 'index.ts'),
         resolve(pkgRoot, 'components.ts'),
         resolve(pkgRoot, 'style.d.ts'),
+        resolve(pkgRoot, '../../env.d.ts'),
         resolve(pkgRoot, '../components/**/*.ts'),
         resolve(pkgRoot, '../components/**/*.vue'),
         resolve(pkgRoot, '../utils/**/*.ts'),
@@ -66,7 +40,10 @@ export default defineConfig({
         resolve(pkgRoot, '../components/vitest.config.ts'),
       ],
     }),
-    generateStyleEntry(),
+    hooks({
+      rmFiles: [esDir, themeDir, './dist/types'],
+      mvFiles: [{ from: esThemeDir, to: themeDir }],
+    }),
   ],
   resolve: {
     alias: {
@@ -75,10 +52,12 @@ export default defineConfig({
       '@moe-ui/theme': resolve(pkgRoot, '../theme'),
     },
   },
+  define: getBuildDefine(),
   css: cssOptions,
   build: {
     outDir: esDir,
     emptyOutDir: true,
+    minify: false,
     cssCodeSplit: true,
     lib: {
       entry: resolve(pkgRoot, 'index.ts'),
@@ -90,7 +69,15 @@ export default defineConfig({
       output: {
         entryFileNames: 'index.mjs',
         chunkFileNames: 'chunks/[name].mjs',
-        assetFileNames: '[name][extname]',
+        assetFileNames(assetInfo) {
+          const fileName = assetInfo.names[0] ?? '[name][extname]'
+
+          if (fileName.endsWith('.css')) {
+            return 'theme/[name][extname]'
+          }
+
+          return '[name][extname]'
+        },
         manualChunks(id) {
           if (id.includes('/packages/hooks')) return 'hooks'
           if (id.includes('/packages/utils') || id.includes('plugin-vue:export-helper')) {

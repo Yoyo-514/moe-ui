@@ -1,0 +1,34 @@
+{
+  "name": "@moe-ui-private/vite-plugins",
+  "version": "0.0.0",
+  "description": "Private Vite plugins for Moe Cute UI build scripts.",
+  "type": "module",
+  "private": true,
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "run-s clean build:lib",
+    "build:lib": "vite build"
+  },
+  "dependencies": {
+    "lodash-es": "^4.18.1",
+    "shelljs": "^0.10.0"
+  },
+  "devDependencies": {
+    "@types/shelljs": "^0.10.0",
+    "vite": "^8.0.16",
+    "vite-plugin-dts": "^5.0.2"
+  }
+}
