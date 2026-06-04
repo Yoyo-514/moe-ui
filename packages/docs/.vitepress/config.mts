@@ -3,8 +3,11 @@ import { componentPreview, containerPreview } from '@vitepress-demo-preview/plug
 import { defineConfig } from 'vitepress'
 import { defineTeekConfig } from 'vitepress-theme-teek/config'
 
-const examplesAlias = {
+const workspaceAlias = {
   '@examples': fileURLToPath(new URL('../examples', import.meta.url)),
+  '@moe-ui/components': fileURLToPath(new URL('../../components/index.ts', import.meta.url)),
+  '@moe-ui/theme': fileURLToPath(new URL('../../theme', import.meta.url)),
+  '@moe-ui/utils': fileURLToPath(new URL('../../utils/index.ts', import.meta.url)),
 }
 
 const teekConfig = defineTeekConfig({
@@ -86,13 +89,13 @@ export default defineConfig({
   ],
   markdown: {
     config(md) {
-      md.use(componentPreview, { alias: examplesAlias, clientOnly: true })
-      md.use(containerPreview, { alias: examplesAlias, clientOnly: true })
+      md.use(componentPreview, { alias: workspaceAlias, clientOnly: true })
+      md.use(containerPreview, { alias: workspaceAlias, clientOnly: true })
     },
   },
   vite: {
     resolve: {
-      alias: examplesAlias,
+      alias: workspaceAlias,
     },
     css: {
       preprocessorOptions: {
@@ -115,6 +118,7 @@ export default defineConfig({
           text: '基础组件',
           items: [
             { text: 'Button 按钮', link: '/components/button' },
+            { text: 'Collapse 折叠面板', link: '/components/collapse' },
             { text: 'Icon 图标', link: '/components/icon' },
           ],
         },
@@ -149,6 +153,6 @@ export default defineConfig({
       ],
     },
 
-    socialLinks: [{ icon: 'github', link: 'https://github.com/Velpro514/moe-ui' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/Yoyo-514/moe-ui' }],
   },
 })

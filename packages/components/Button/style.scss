@@ -10,15 +10,15 @@
   --moe-button-disabled-bg-color: var(--moe-fill-color-light);
   --moe-button-disabled-border-color: var(--moe-border-color-light);
   --moe-button-hover-text-color: var(--moe-color-primary-strong);
-  --moe-button-hover-bg-color: var(--moe-gradient-soft);
+  --moe-button-hover-bg-color: var(--moe-color-primary-light-9);
   --moe-button-hover-border-color: var(--moe-color-primary-light-7);
   --moe-button-active-text-color: var(--moe-color-primary-strong);
   --moe-button-active-border-color: var(--moe-color-primary);
-  --moe-button-active-bg-color: var(--moe-color-primary-light-9);
+  --moe-button-active-bg-color: var(--moe-color-primary-light-8);
   --moe-button-outline-color: var(--moe-focus-ring-color);
   --moe-button-active-color: var(--moe-text-color-primary);
-  --moe-button-shadow: 0 2px 8px rgba(124, 156, 255, 0.1);
-  --moe-button-shadow-hover: var(--moe-shadow-hover);
+  --moe-button-shadow: 0 1px 3px rgba(124, 156, 255, 0.08);
+  --moe-button-shadow-hover: 0 2px 6px rgba(124, 156, 255, 0.12);
 }
 
 .moe-button {
@@ -53,7 +53,7 @@
   &:focus {
     color: var(--moe-button-hover-text-color);
     border-color: var(--moe-button-hover-border-color);
-    background: var(--moe-button-hover-bg-color);
+    background-color: var(--moe-button-hover-bg-color);
     box-shadow: var(--moe-button-shadow-hover);
     outline: none;
   }
@@ -148,7 +148,7 @@ a.moe-button:active {
     --moe-button-disabled-text-color: var(--moe-color-white);
     --moe-button-disabled-bg-color: var(--moe-color-#{$val}-light-5);
     --moe-button-disabled-border-color: var(--moe-color-#{$val}-light-5);
-    --moe-button-shadow: 0 4px 12px rgba(124, 156, 255, 0.18);
+    --moe-button-shadow: 0 2px 6px rgba(124, 156, 255, 0.12);
 
     &.is-plain {
       --moe-button-text-color: var(--moe-color-#{$val}-dark-2);
@@ -177,7 +177,7 @@ a.moe-button:active {
   &:focus {
     color: var(--moe-color-primary);
     border-color: transparent;
-    background: var(--moe-gradient-soft);
+    background-color: var(--moe-color-primary-light-9);
     box-shadow: none;
   }
 

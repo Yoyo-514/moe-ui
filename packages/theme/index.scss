@@ -70,7 +70,7 @@ $dark-accent-colors: (
 
   @each $name, $color in $colors {
     --moe-color-#{$name}: #{$color};
-    @for $i from 3 to 9 {
+    @for $i from 3 through 9 {
       --moe-color-#{$name}-light-#{$i}: #{color.mix(#fff, $color, $i * 10%)};
     }
     --moe-color-#{$name}-dark-2: #{color.mix(#000, $color, 20%)};
@@ -151,7 +151,7 @@ $dark-accent-colors: (
 
   @each $name, $color in $dark-colors {
     --moe-color-#{$name}: #{$color};
-    @for $i from 3 to 9 {
+    @for $i from 3 through 9 {
       --moe-color-#{$name}-light-#{$i}: #{color.mix(#fff, $color, $i * 10%)};
     }
     --moe-color-#{$name}-dark-2: #{color.mix(#000, $color, 20%)};
