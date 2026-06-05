@@ -4,7 +4,7 @@
   "description": "Documentation site for Moe UI.",
   "main": "index.js",
   "scripts": {
-    "dev": "vitepress dev",
+    "dev": "node -e \"require('node:fs').rmSync('.vitepress/cache', { recursive: true, force: true })\" && vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },

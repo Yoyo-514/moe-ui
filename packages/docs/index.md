@@ -7,11 +7,11 @@ hero:
   tagline: 柔和、清爽、类型友好，适合构建带一点可爱气质的现代 Web 界面。
   actions:
     - theme: brand
-      text: 开始查看组件
-      link: /components/button
+      text: 快速开始
+      link: /guide/quick-start
     - theme: alt
-      text: Icon 图标
-      link: /components/icon
+      text: 查看组件
+      link: /components/button
 
 features:
   - title: 轻二次元视觉

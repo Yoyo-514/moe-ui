@@ -109,10 +109,17 @@ export default defineConfig({
     logo: '/favicon.ico',
     nav: [
       { text: '首页', link: '/' },
+      { text: '指南', link: '/guide/quick-start' },
       { text: '组件', link: '/components/button' },
     ],
 
     sidebar: {
+      '/guide/': [
+        {
+          text: '指南',
+          items: [{ text: '快速开始', link: '/guide/quick-start' }],
+        },
+      ],
       '/components/': [
         {
           text: '基础组件',
