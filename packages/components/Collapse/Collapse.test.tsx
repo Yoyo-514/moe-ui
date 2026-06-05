@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 import Collapse from './Collapse.vue'
@@ -108,6 +108,24 @@ describe('Collapse.vue', () => {
     expect(wrapper.emitted('change')?.[1]).toEqual([''])
   })
 
+  it('should render collapse item safely without parent collapse context', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const wrapper = mount(() => (
+      <CollapseItem name="orphan" title="Orphan">
+        Orphan content
+      </CollapseItem>
+    ))
+
+    expect(wrapper.find('.moe-collapse-item').classes()).not.toContain('is-active')
+    expect(wrapper.get('.moe-collapse-item__header').attributes('aria-expanded')).toBe('false')
+
+    await wrapper.get('.moe-collapse-item__header').trigger('click')
+    expect(wrapper.find('.moe-collapse-item').classes()).not.toContain('is-active')
+    expect(warnSpy).toHaveBeenCalled()
+
+    warnSpy.mockRestore()
+  })
+
   it('should not toggle disabled item', async () => {
     const wrapper = mount(Collapse, {
       props: {
@@ -128,6 +146,71 @@ describe('Collapse.vue', () => {
 
     await header.trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  })
+
+  it('should support numeric item names', async () => {
+    const wrapper = mount(Collapse, {
+      props: {
+        modelValue: [1],
+      },
+      slots: {
+        default: () => [
+          <CollapseItem name={1} title="One">
+            One content
+          </CollapseItem>,
+          <CollapseItem name={2} title="Two">
+            Two content
+          </CollapseItem>,
+        ],
+      },
+    })
+
+    expect(wrapper.find('.moe-collapse-item').classes()).toContain('is-active')
+
+    await wrapper.findAll('.moe-collapse-item__header')[1].trigger('click')
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([[1, 2]])
+  })
+
+  it('should ignore invalid modelValue names and warn once', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const wrapper = mount(Collapse, {
+      props: {
+        modelValue: ['valid', { invalid: true } as any],
+      },
+      slots: {
+        default: () => (
+          <CollapseItem name="valid" title="Valid">
+            Valid content
+          </CollapseItem>
+        ),
+      },
+    })
+
+    expect(wrapper.get('.moe-collapse-item').classes()).toContain('is-active')
+    expect(warnSpy).toHaveBeenCalledOnce()
+    expect(String(warnSpy.mock.calls[0][0])).toContain('modelValue should be a string')
+
+    warnSpy.mockRestore()
+  })
+
+  it('should support space key interaction', async () => {
+    const wrapper = mount(Collapse, {
+      props: {
+        modelValue: [],
+      },
+      slots: {
+        default: () => (
+          <CollapseItem name="space" title="Space">
+            Space content
+          </CollapseItem>
+        ),
+      },
+    })
+
+    await wrapper.get('.moe-collapse-item__header').trigger('keydown', { key: ' ' })
+
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([['space']])
   })
 
   it('should support title slot and keyboard interaction', async () => {

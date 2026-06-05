@@ -50,6 +50,17 @@ describe('Alert.vue', () => {
     expect(wrapper.get('.moe-alert__description').text()).toBe('详细说明')
   })
 
+  it('should render description without title', () => {
+    const wrapper = mount(Alert, {
+      props: {
+        description: '只有描述内容',
+      },
+    })
+
+    expect(wrapper.find('.moe-alert__title').exists()).toBe(false)
+    expect(wrapper.get('.moe-alert__description').text()).toBe('只有描述内容')
+  })
+
   it('should render title and default slots', () => {
     const wrapper = mount(Alert, {
       slots: {

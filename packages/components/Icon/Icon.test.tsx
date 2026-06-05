@@ -155,6 +155,17 @@ describe('Icon.vue', () => {
     expect(iconify.props('icon')).toBe('mdi:star')
   })
 
+  // Events: load
+  it('should emit load event', () => {
+    const wrapper = mount(Icon, {
+      props: { icon: 'mdi:home' },
+      global,
+    })
+    const iconify = wrapper.findComponent(IconifyIcon)
+    ;(iconify.vm.$.vnode.props?.onLoad as () => void)()
+    expect(wrapper.emitted().load).toHaveLength(1)
+  })
+
   // Events: error
   it('should emit error event with icon name', () => {
     const wrapper = mount(Icon, {
