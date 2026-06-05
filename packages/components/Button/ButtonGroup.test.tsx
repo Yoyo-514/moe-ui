@@ -1,9 +1,10 @@
 import { mount } from '@vue/test-utils'
+import { defineComponent, ref } from 'vue'
 import { describe, expect, it } from 'vitest'
 
 import Button from './Button.vue'
 import ButtonGroup from './ButtonGroup.vue'
-import type { ButtonSize, ButtonType } from './types'
+import type { ButtonInstance, ButtonSize, ButtonType } from './types'
 
 describe('ButtonGroup.vue', () => {
   it('should render as a button group', () => {
@@ -65,6 +66,26 @@ describe('ButtonGroup.vue', () => {
     expect(button.classes()).toContain('moe-button--large')
     expect(button.classes()).not.toContain('moe-button--primary')
     expect(button.classes()).not.toContain('moe-button--small')
+  })
+
+  it('should expose effective state from button group context', () => {
+    const buttonRef = ref<ButtonInstance>()
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <ButtonGroup type="primary" size="large" disabled>
+              <Button ref={buttonRef}>Grouped</Button>
+            </ButtonGroup>
+          )
+        },
+      })
+    )
+
+    expect(wrapper.get('.moe-button').classes()).toContain('moe-button--primary')
+    expect(buttonRef.value?.type).toBe('primary')
+    expect(buttonRef.value?.size).toBe('large')
+    expect(buttonRef.value?.disabled).toBe(true)
   })
 
   it('should pass disabled state to child buttons', async () => {

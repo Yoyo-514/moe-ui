@@ -20,13 +20,11 @@ const emits = defineEmits<ButtonEmits>()
 const slots = defineSlots()
 
 const buttonGroupContext = inject(BUTTON_GROUP_CTX_KEY, undefined)
-const buttonType = computed(() => props.type ?? buttonGroupContext?.type.value)
-const buttonSize = computed(() => props.size ?? buttonGroupContext?.size.value)
-const buttonDisabled = computed(() => props.disabled || buttonGroupContext?.disabled.value)
+const buttonType = computed(() => props.type ?? buttonGroupContext?.type.value ?? '')
+const buttonSize = computed(() => props.size ?? buttonGroupContext?.size.value ?? '')
+const buttonDisabled = computed(() => Boolean(props.disabled || buttonGroupContext?.disabled.value))
 
 const _ref = ref<HTMLElement>()
-const focus = () => _ref.value?.focus()
-const blur = () => _ref.value?.blur()
 
 const iconStyle = computed(() => ({
   marginRight: slots.default ? '6px' : '0px',
@@ -36,8 +34,9 @@ const handleBtnClickThrottle = throttle(handleBtnClick, props.throttleDuration)
 
 defineExpose<ButtonInstance>({
   ref: _ref,
-  focus,
-  blur,
+  type: buttonType,
+  size: buttonSize,
+  disabled: buttonDisabled,
 })
 </script>
 

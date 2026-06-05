@@ -208,20 +208,19 @@ describe('Button.vue', () => {
     expect(wrapper.emitted().click).toBeUndefined()
   })
 
-  it('should expose focus and blur methods', () => {
+  it('should expose effective type, size and disabled state', () => {
     const wrapper = mount(Button, {
-      attachTo: document.body,
+      props: {
+        type: 'primary',
+        size: 'small',
+        disabled: true,
+      },
     })
-    const button = wrapper.get('button').element
     const buttonVm = wrapper.vm as unknown as ButtonInstance
 
-    buttonVm.focus()
-    expect(document.activeElement).toBe(button)
-
-    buttonVm.blur()
-    expect(document.activeElement).not.toBe(button)
-
-    wrapper.unmount()
+    expect(buttonVm.type).toBe('primary')
+    expect(buttonVm.size).toBe('small')
+    expect(buttonVm.disabled).toBe(true)
   })
 
   // Props: useThrottle
