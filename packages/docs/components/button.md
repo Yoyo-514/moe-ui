@@ -74,11 +74,12 @@
 
 ### Exposes
 
-| 名称  | 类型                       | 说明           |
-| ----- | -------------------------- | -------------- |
-| ref   | `Ref<HTMLElement \| void>` | 按钮根元素引用 |
-| focus | `() => void`               | 聚焦按钮       |
-| blur  | `() => void`               | 取消按钮聚焦   |
+| 名称     | 类型                            | 说明               |
+| -------- | ------------------------------- | ------------------ |
+| ref      | `Ref<HTMLElement \| void>`      | 按钮根元素引用     |
+| type     | `ComputedRef<ButtonType \| ''>` | 当前生效的按钮类型 |
+| size     | `ComputedRef<ButtonSize \| ''>` | 当前生效的按钮尺寸 |
+| disabled | `ComputedRef<boolean>`          | 当前生效的禁用状态 |
 
 ## ButtonGroup API
 

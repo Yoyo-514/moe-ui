@@ -1,4 +1,5 @@
 import {
+  MoeAlert,
   MoeButton,
   MoeButtonGroup,
   MoeCollapse,
@@ -7,4 +8,11 @@ import {
 } from '@moe-ui/components'
 import type { Plugin } from 'vue'
 
-export default [MoeButton, MoeButtonGroup, MoeCollapse, MoeCollapseItem, MoeIcon] as Plugin[]
+export default [
+  MoeAlert,
+  MoeButton,
+  MoeButtonGroup,
+  MoeCollapse,
+  MoeCollapseItem,
+  MoeIcon,
+] as Plugin[]
