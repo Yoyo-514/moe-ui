@@ -36,6 +36,9 @@ export default [
       '**/.idea/**',
       '**/.DS_Store',
 
+      // 临时设计与参考文件
+      '**/temp/**',
+
       // 其他
       '**/public/**',
       '**/.github/**',
