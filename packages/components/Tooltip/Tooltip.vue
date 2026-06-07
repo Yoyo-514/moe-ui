@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch, watchEffect, type Ref } from 'vue'
-import { bind, debounce, type DebouncedFunc } from 'lodash-es'
+import { computed, onUnmounted, ref, watch, type Ref } from 'vue'
+import { useTimeout } from '@moe-ui/hooks'
 import { createPopper, type Instance } from '@popperjs/core'
 
 import type { TooltipEmits, TooltipInstance, TooltipProps, TooltipTrigger } from './types'
@@ -75,17 +75,17 @@ triggerStrategyMap.set('hover', () => {
 triggerStrategyMap.set('click', () => {
   events.value['click'] = togglePopper
 })
-let openDebounce: DebouncedFunc<() => void> | void
-let closeDebounce: DebouncedFunc<() => void> | void
+const openTimer = useTimeout()
+const closeTimer = useTimeout()
 
 function openFinal() {
-  closeDebounce?.cancel()
-  openDebounce?.()
+  closeTimer.clear()
+  openTimer.start(() => setVisible(true), openDelay.value)
 }
 
 function closeFinal() {
-  openDebounce?.cancel()
-  closeDebounce?.()
+  openTimer.clear()
+  closeTimer.start(() => setVisible(false), closeDelay.value)
 }
 
 function togglePopper() {
@@ -119,9 +119,23 @@ function attachEvents() {
 }
 
 let popperInstance: null | Instance = null
-function destroyPopperInstance() {
+let popperInstanceEl: HTMLElement | undefined
+
+function destroyPopperInstance(el?: Element) {
+  if (el && popperInstanceEl && el !== popperInstanceEl) return
+
   popperInstance?.destroy()
   popperInstance = null
+  popperInstanceEl = undefined
+}
+
+function createPopperInstance() {
+  if (!triggerNode.value || !popperNode.value) return
+
+  destroyPopperInstance()
+
+  popperInstanceEl = popperNode.value
+  popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value)
 }
 
 function resetEvents() {
@@ -137,7 +151,8 @@ attachEvents()
 const show: TooltipInstance['show'] = openFinal
 
 const hide: TooltipInstance['hide'] = function () {
-  openDebounce?.cancel()
+  openTimer.clear()
+  closeTimer.clear()
   setVisible(false)
 }
 
@@ -146,7 +161,7 @@ watch(
   (val) => {
     if (!val) return
 
-    popperInstance = createPopper(triggerNode.value!, popperNode.value!, popperOptions.value)
+    createPopperInstance()
   },
   { flush: 'post' }
 )
@@ -168,23 +183,14 @@ watch(
 watch(
   () => props.disabled,
   () => {
-    openDebounce?.cancel()
-    closeDebounce?.cancel()
+    openTimer.clear()
+    closeTimer.clear()
     setVisible(false)
     resetEvents()
   }
 )
 
-watchEffect(() => {
-  openDebounce?.cancel()
-  closeDebounce?.cancel()
-  openDebounce = debounce(bind(setVisible, null, true), openDelay.value)
-  closeDebounce = debounce(bind(setVisible, null, false), closeDelay.value)
-})
-
 onUnmounted(() => {
-  openDebounce?.cancel()
-  closeDebounce?.cancel()
   destroyPopperInstance()
 })
 

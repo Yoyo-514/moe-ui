@@ -33,11 +33,17 @@ export default defineConfig({
         resolve(pkgRoot, '../components/**/*.ts'),
         resolve(pkgRoot, '../components/**/*.vue'),
         resolve(pkgRoot, '../utils/**/*.ts'),
+        resolve(pkgRoot, '../hooks/**/*.ts'),
       ],
       exclude: [
         resolve(pkgRoot, '../components/**/*.test.ts'),
         resolve(pkgRoot, '../components/**/*.test.tsx'),
         resolve(pkgRoot, '../components/vitest.config.ts'),
+        resolve(pkgRoot, '../utils/**/__test__/**'),
+        resolve(pkgRoot, '../utils/**/*.test.ts'),
+        resolve(pkgRoot, '../hooks/**/__test__/**'),
+        resolve(pkgRoot, '../hooks/**/*.test.ts'),
+        resolve(pkgRoot, '../hooks/vite.config.ts'),
       ],
     }),
     hooks({
@@ -49,6 +55,7 @@ export default defineConfig({
     alias: {
       '@moe-ui/components': resolve(pkgRoot, '../components/index.ts'),
       '@moe-ui/utils': resolve(pkgRoot, '../utils/index.ts'),
+      '@moe-ui/hooks': resolve(pkgRoot, '../hooks/index.ts'),
       '@moe-ui/theme': resolve(pkgRoot, '../theme'),
     },
   },

@@ -8,7 +8,9 @@ import {
   throwError,
 } from '../errors'
 
-const originalProcess = globalThis.process
+const getProcess = () => (globalThis as { process?: { env?: { NODE_ENV?: string } } }).process
+
+const originalProcess = getProcess()
 
 function setNodeEnv(nodeEnv: string) {
   Object.defineProperty(globalThis, 'process', {

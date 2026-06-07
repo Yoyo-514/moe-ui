@@ -56,9 +56,8 @@
     "lodash-es": "^4.18.1"
   },
   "devDependencies": {
-    "@moe-ui-private/vite-plugins": "workspace:*",
-    "@moe-ui/components": "workspace:*",
-    "vite-plugin-compression2": "^2.5.3",
-    "vite-plugin-dts": "^5.0.2"
+    "@rollup/plugin-terser": "^1.0.0",
+    "terser": "^5.48.0",
+    "vite-plugin-compression2": "^2.5.3"
   }
 }

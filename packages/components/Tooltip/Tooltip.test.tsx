@@ -5,23 +5,35 @@ import { defineComponent, nextTick, ref } from 'vue'
 import Tooltip from './Tooltip.vue'
 import { MoeTooltip } from './index'
 
-const { createPopperMock, popperDestroy, popperSetOptions, popperUpdate } = vi.hoisted(() => {
-  const popperDestroy = vi.fn()
-  const popperSetOptions = vi.fn()
-  const popperUpdate = vi.fn()
-  const createPopperMock = vi.fn(() => ({
-    destroy: popperDestroy,
-    setOptions: popperSetOptions,
-    update: popperUpdate,
-  }))
+const { createPopperMock, popperDestroy, popperInstances, popperSetOptions, popperUpdate } =
+  vi.hoisted(() => {
+    const popperDestroy = vi.fn()
+    const popperSetOptions = vi.fn()
+    const popperUpdate = vi.fn()
+    const popperInstances: Array<{
+      destroy: ReturnType<typeof vi.fn>
+      setOptions: ReturnType<typeof vi.fn>
+      update: ReturnType<typeof vi.fn>
+    }> = []
+    const createPopperMock = vi.fn(() => {
+      const instance = {
+        destroy: vi.fn(() => popperDestroy()),
+        setOptions: popperSetOptions,
+        update: popperUpdate,
+      }
 
-  return {
-    createPopperMock,
-    popperDestroy,
-    popperSetOptions,
-    popperUpdate,
-  }
-})
+      popperInstances.push(instance)
+      return instance
+    })
+
+    return {
+      createPopperMock,
+      popperDestroy,
+      popperInstances,
+      popperSetOptions,
+      popperUpdate,
+    }
+  })
 
 vi.mock('@popperjs/core', () => ({
   createPopper: createPopperMock,
@@ -51,6 +63,7 @@ describe('Tooltip.vue', () => {
     vi.useFakeTimers()
     createPopperMock.mockClear()
     popperDestroy.mockClear()
+    popperInstances.length = 0
     popperSetOptions.mockClear()
     popperUpdate.mockClear()
   })
@@ -428,6 +441,29 @@ describe('Tooltip.vue', () => {
       wrapper.unmount()
 
       expect(popperDestroy).toHaveBeenCalled()
+    })
+
+    it('replaces stale popper instance when user shows tooltip again quickly', async () => {
+      const wrapper = mountTooltip({
+        props: {
+          content: 'Rapid visibility tooltip',
+          hideAfter: 0,
+        },
+      })
+
+      await wrapper.get('.moe-tooltip__trigger').trigger('mouseenter')
+      await flushTimers()
+      expect(createPopperMock).toHaveBeenCalledTimes(1)
+      expect(wrapper.find('[role="tooltip"]').exists()).toBe(true)
+
+      await wrapper.get('.moe-tooltip').trigger('mouseleave')
+      await flushTimers()
+      await wrapper.get('.moe-tooltip__trigger').trigger('mouseenter')
+      await flushTimers()
+
+      expect(createPopperMock).toHaveBeenCalledTimes(2)
+      expect(popperInstances[0].destroy).toHaveBeenCalled()
+      expect(wrapper.get('[role="tooltip"]').text()).toContain('Rapid visibility tooltip')
     })
   })
 })
