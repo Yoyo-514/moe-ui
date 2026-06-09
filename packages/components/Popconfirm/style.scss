@@ -1,0 +1,45 @@
+.moe-popconfirm {
+  box-sizing: border-box;
+  color: var(--moe-text-color-primary);
+  font-size: var(--moe-font-size-small);
+  line-height: 1.5;
+}
+
+.moe-popconfirm__main {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.moe-popconfirm__icon {
+  flex: none;
+  margin-top: 1px;
+}
+
+.moe-popconfirm__title {
+  flex: 1;
+  color: var(--moe-text-color-primary);
+  overflow-wrap: break-word;
+}
+
+.moe-popconfirm__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.moe-popconfirm-fade-enter-active,
+.moe-popconfirm-fade-leave-active {
+  transition: opacity var(--moe-transition-duration-fast) var(--moe-transition-timing-function);
+}
+
+.moe-popconfirm-fade-enter-from,
+.moe-popconfirm-fade-leave-to {
+  opacity: 0;
+}
+
+.moe-popconfirm-fade-enter-to,
+.moe-popconfirm-fade-leave-from {
+  opacity: 1;
+}

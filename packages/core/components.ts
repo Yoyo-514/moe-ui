@@ -5,6 +5,7 @@ import {
   MoeCollapse,
   MoeCollapseItem,
   MoeIcon,
+  MoePopconfirm,
   MoeTooltip,
 } from '@moe-ui/components'
 import type { Plugin } from 'vue'
@@ -16,5 +17,6 @@ export default [
   MoeCollapse,
   MoeCollapseItem,
   MoeIcon,
+  MoePopconfirm,
   MoeTooltip,
 ] as Plugin[]
