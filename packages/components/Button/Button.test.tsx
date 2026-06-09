@@ -248,4 +248,41 @@ describe('Button.vue', () => {
     await wrapper.trigger('click')
     expect(wrapper.emitted().click).toBeUndefined()
   })
+
+  it('prevents click side effects for custom tag when disabled or loading', async () => {
+    const disabledWrapper = mount(Button, {
+      props: {
+        tag: 'a',
+        disabled: true,
+        useThrottle: false,
+      },
+    })
+    const disabledEvent = new MouseEvent('click', { bubbles: true, cancelable: true })
+    const disabledStopPropagation = vi.spyOn(disabledEvent, 'stopPropagation')
+
+    disabledWrapper.element.dispatchEvent(disabledEvent)
+    await disabledWrapper.vm.$nextTick()
+
+    expect(disabledEvent.defaultPrevented).toBe(true)
+    expect(disabledStopPropagation).toHaveBeenCalledOnce()
+    expect(disabledWrapper.emitted('click')).toBeUndefined()
+
+    const loadingWrapper = mount(Button, {
+      props: {
+        tag: 'a',
+        loading: true,
+        useThrottle: false,
+      },
+      global: { stubs: ['MoeIcon'] },
+    })
+    const loadingEvent = new MouseEvent('click', { bubbles: true, cancelable: true })
+    const loadingStopPropagation = vi.spyOn(loadingEvent, 'stopPropagation')
+
+    loadingWrapper.element.dispatchEvent(loadingEvent)
+    await loadingWrapper.vm.$nextTick()
+
+    expect(loadingEvent.defaultPrevented).toBe(true)
+    expect(loadingStopPropagation).toHaveBeenCalledOnce()
+    expect(loadingWrapper.emitted('click')).toBeUndefined()
+  })
 })

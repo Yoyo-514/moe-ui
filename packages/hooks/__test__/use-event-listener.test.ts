@@ -81,4 +81,23 @@ describe('useEventListener', () => {
 
     expect(handler).toHaveBeenCalledTimes(1)
   })
+
+  it('does nothing while target is empty and binds after target appears', async () => {
+    const handler = vi.fn()
+    const target = document.createElement('button')
+    const currentTarget = ref<EventTarget | null>(null)
+
+    mountComposable(() => {
+      useEventListener(currentTarget, 'click', handler)
+    })
+
+    target.click()
+    expect(handler).not.toHaveBeenCalled()
+
+    currentTarget.value = target
+    await nextTick()
+    target.click()
+
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
 })

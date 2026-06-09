@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { throttle } from 'lodash-es'
 import { computed, inject, ref } from 'vue'
+import { useDisabledStyle } from '@moe-ui/hooks'
 import MoeIcon from '../Icon/Icon.vue'
 import { BUTTON_GROUP_CTX_KEY } from './constants'
 import type { ButtonEmits, ButtonInstance, ButtonProps } from './types'
@@ -22,14 +23,24 @@ const slots = defineSlots()
 const buttonGroupContext = inject(BUTTON_GROUP_CTX_KEY, undefined)
 const buttonType = computed(() => props.type ?? buttonGroupContext?.type.value ?? '')
 const buttonSize = computed(() => props.size ?? buttonGroupContext?.size.value ?? '')
-const buttonDisabled = computed(() => Boolean(props.disabled || buttonGroupContext?.disabled.value))
+const { disabledClass, isDisabled: buttonDisabled } = useDisabledStyle(
+  () => props.disabled || buttonGroupContext?.disabled.value
+)
 
 const _ref = ref<HTMLElement>()
 
 const iconStyle = computed(() => ({
   marginRight: slots.default ? '6px' : '0px',
 }))
-const handleBtnClick = (e: MouseEvent) => emits('click', e)
+const handleBtnClick = (e: MouseEvent) => {
+  if (buttonDisabled.value || props.loading) {
+    e.preventDefault()
+    e.stopPropagation()
+    return
+  }
+
+  emits('click', e)
+}
 const handleBtnClickThrottle = throttle(handleBtnClick, props.throttleDuration)
 
 defineExpose<ButtonInstance>({
@@ -48,15 +59,17 @@ defineExpose<ButtonInstance>({
     :autofocus="autofocus"
     :type="tag === 'button' ? nativeType : void 0"
     :disabled="buttonDisabled || loading ? true : void 0"
-    :class="{
-      [`moe-button--${buttonType}`]: buttonType,
-      [`moe-button--${buttonSize}`]: buttonSize,
-      'is-plain': plain,
-      'is-round': round,
-      'is-circle': circle,
-      'is-disabled': buttonDisabled,
-      'is-loading': loading,
-    }"
+    :class="[
+      {
+        [`moe-button--${buttonType}`]: buttonType,
+        [`moe-button--${buttonSize}`]: buttonSize,
+        'is-plain': plain,
+        'is-round': round,
+        'is-circle': circle,
+        'is-loading': loading,
+      },
+      disabledClass,
+    ]"
     @click="(e: MouseEvent) => (useThrottle ? handleBtnClickThrottle(e) : handleBtnClick(e))"
   >
     <template v-if="loading">

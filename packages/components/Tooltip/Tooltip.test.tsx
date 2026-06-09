@@ -157,6 +157,9 @@ describe('Tooltip.vue', () => {
       expect(tooltip.text()).toContain('Light tooltip')
       expect(tooltip.classes()).toContain('moe-tooltip__popper')
       expect(tooltip.classes()).toContain('is-light')
+      expect(Number(tooltip.attributes('style')?.match(/z-index:\s*(\d+)/)?.[1])).toBeGreaterThan(
+        2000
+      )
     })
 
     it('renders content slot before content prop', async () => {
@@ -203,6 +206,29 @@ describe('Tooltip.vue', () => {
       expect(wrapper.emitted('hide')).toHaveLength(1)
     })
 
+    it('keeps hover tooltip visible when pointer enters popper before hide delay', async () => {
+      const wrapper = mountTooltip({
+        props: {
+          content: 'Interactive hover tooltip',
+          showAfter: 0,
+          hideAfter: 100,
+        },
+      })
+
+      await wrapper.get('.moe-tooltip__trigger').trigger('mouseenter')
+      await flushTimers()
+      expect(wrapper.find('[role="tooltip"]').exists()).toBe(true)
+
+      await wrapper.get('.moe-tooltip').trigger('mouseleave')
+      await vi.advanceTimersByTimeAsync(50)
+      await wrapper.get('[role="tooltip"]').trigger('mouseenter')
+      await vi.advanceTimersByTimeAsync(50)
+      await nextTick()
+
+      expect(wrapper.find('[role="tooltip"]').exists()).toBe(true)
+      expect(wrapper.emitted('hide')).toBeUndefined()
+    })
+
     it('does not emit duplicate visibility change when already visible', async () => {
       const wrapper = mountTooltip({
         props: {
@@ -235,6 +261,31 @@ describe('Tooltip.vue', () => {
       await wrapper.get('.moe-tooltip__trigger').trigger('click')
       await flushTimers()
       expect(wrapper.find('[role="tooltip"]').exists()).toBe(false)
+    })
+
+    it('hides click tooltip when clicking outside but keeps it when clicking inside', async () => {
+      const wrapper = mountTooltip({
+        props: {
+          content: 'Outside close tooltip',
+          trigger: 'click',
+        },
+      })
+
+      await wrapper.get('.moe-tooltip__trigger').trigger('click')
+      await flushTimers()
+      expect(wrapper.find('[role="tooltip"]').exists()).toBe(true)
+
+      wrapper
+        .get('[role="tooltip"]')
+        .element.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }))
+      await flushTimers()
+      expect(wrapper.find('[role="tooltip"]').exists()).toBe(true)
+
+      document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }))
+      await flushTimers()
+
+      expect(wrapper.find('[role="tooltip"]').exists()).toBe(false)
+      expect(wrapper.emitted('update:visible')?.slice(-1)[0]).toEqual([false])
     })
 
     it('supports combined hover and click triggers', async () => {
@@ -301,6 +352,25 @@ describe('Tooltip.vue', () => {
       await wrapper.get('.moe-tooltip__trigger').trigger('click')
       await flushTimers()
       expect(wrapper.get('[role="tooltip"]').text()).toContain('Changed trigger tooltip')
+    })
+
+    it('rebinds trigger events when disabled changes back to false', async () => {
+      const wrapper = mountTooltip({
+        props: {
+          content: 'Enabled again tooltip',
+          disabled: true,
+        },
+      })
+
+      await wrapper.get('.moe-tooltip__trigger').trigger('mouseenter')
+      await flushTimers()
+      expect(wrapper.find('[role="tooltip"]').exists()).toBe(false)
+
+      await wrapper.setProps({ disabled: false })
+      await wrapper.get('.moe-tooltip__trigger').trigger('mouseenter')
+      await flushTimers()
+
+      expect(wrapper.get('[role="tooltip"]').text()).toContain('Enabled again tooltip')
     })
 
     it('hides visible tooltip when disabled becomes true', async () => {
@@ -398,6 +468,35 @@ describe('Tooltip.vue', () => {
       expect(wrapper.find('[role="tooltip"]').exists()).toBe(false)
       expect(popperSetOptions).not.toHaveBeenCalled()
       expect(popperUpdate).not.toHaveBeenCalled()
+    })
+
+    it('does not destroy active popper instance from stale transition leave element', async () => {
+      const wrapper = mountTooltip({
+        props: {
+          content: 'Stale transition tooltip',
+          hideAfter: 0,
+        },
+      })
+
+      await wrapper.get('.moe-tooltip__trigger').trigger('mouseenter')
+      await flushTimers()
+      const firstPopper = wrapper.get('[role="tooltip"]').element
+
+      await wrapper.get('.moe-tooltip').trigger('mouseleave')
+      await flushTimers()
+      await wrapper.get('.moe-tooltip__trigger').trigger('mouseenter')
+      await flushTimers()
+      expect(createPopperMock).toHaveBeenCalledTimes(2)
+
+      const transition = wrapper.getComponent({ name: 'transition' })
+      transition.vm.$emit('after-leave', firstPopper)
+      await nextTick()
+
+      await wrapper.setProps({ placement: 'right' })
+      await nextTick()
+
+      expect(popperInstances[1].setOptions).toHaveBeenCalled()
+      expect(wrapper.find('[role="tooltip"]').exists()).toBe(true)
     })
 
     it('updates placement and offset while tooltip remains visible', async () => {

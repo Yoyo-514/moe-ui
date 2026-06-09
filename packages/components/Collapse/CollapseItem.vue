@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, useId } from 'vue'
+import { useDisabledStyle } from '@moe-ui/hooks'
 import { COLLAPSE_CTX_KEY } from './constants'
 import { collapseTransitionEvents } from './transition-event'
 import type { CollapseItemProps } from './types'
@@ -16,9 +17,12 @@ const headerId = useId()
 const contentId = useId()
 
 const isActive = computed(() => collapseContext?.activeNames.value.includes(props.name) ?? false)
+const { ariaDisabled, disabledClass, disabledTabIndex, isDisabled } = useDisabledStyle(
+  () => props.disabled
+)
 
 function handleHeaderClick() {
-  if (props.disabled) return
+  if (isDisabled.value) return
   collapseContext?.handleItemClick(props.name)
 }
 
@@ -32,18 +36,20 @@ function handleHeaderKeydown(event: KeyboardEvent) {
 <template>
   <div
     class="moe-collapse-item"
-    :class="{
-      'is-active': isActive,
-      'is-disabled': disabled,
-    }"
+    :class="[
+      {
+        'is-active': isActive,
+      },
+      disabledClass,
+    ]"
   >
     <div
       :id="headerId"
       class="moe-collapse-item__header"
       role="button"
-      :tabindex="disabled ? -1 : 0"
+      :tabindex="disabledTabIndex"
       :aria-expanded="isActive"
-      :aria-disabled="disabled"
+      :aria-disabled="ariaDisabled"
       :aria-controls="contentId"
       @click="handleHeaderClick"
       @keydown="handleHeaderKeydown"

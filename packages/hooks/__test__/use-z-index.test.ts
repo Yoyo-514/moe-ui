@@ -22,4 +22,9 @@ describe('useZIndex', () => {
     expect(useZIndex(1000).currentZIndex()).toBe(3000)
     expect(useZIndex().nextZIndex()).toBe(3001)
   })
+
+  it('keeps current seed when initial value cannot raise the sequence', () => {
+    expect(useZIndex(0).currentZIndex()).toBe(2000)
+    expect(useZIndex(Number.NaN).currentZIndex()).toBe(2000)
+  })
 })

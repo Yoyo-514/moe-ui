@@ -32,19 +32,23 @@ export function useClickOutside(
 ) {
   const { eventName = 'pointerdown', ignore = [] } = options
 
-  return useEventListener(document, eventName, (event) => {
-    if (!isEnabled(options.enabled)) return
+  return useEventListener(
+    () => (typeof document === 'undefined' ? undefined : document),
+    eventName,
+    (event) => {
+      if (!isEnabled(options.enabled)) return
 
-    const targetElement = resolveValue(target)
-    if (containsEventTarget(targetElement, event)) return
+      const targetElement = resolveValue(target)
+      if (containsEventTarget(targetElement, event)) return
 
-    const ignoredElements = isArray(ignore) ? ignore : []
-    const clickedIgnoredElement = ignoredElements.some((item) =>
-      containsEventTarget(resolveValue(item), event)
-    )
+      const ignoredElements = isArray(ignore) ? ignore : []
+      const clickedIgnoredElement = ignoredElements.some((item) =>
+        containsEventTarget(resolveValue(item), event)
+      )
 
-    if (clickedIgnoredElement) return
+      if (clickedIgnoredElement) return
 
-    handler(event as MouseEvent | PointerEvent)
-  })
+      handler(event as MouseEvent | PointerEvent)
+    }
+  )
 }

@@ -91,4 +91,24 @@ describe('useTimeout', () => {
 
     app.unmount()
   })
+
+  it('ignores non-function callback and normalizes invalid delay to zero', () => {
+    const callback = vi.fn()
+    const { app, vm } = mountComposable(() => {
+      const timeout = useTimeout()
+      return { timeout }
+    })
+    const timeout = vm.timeout as ReturnType<typeof useTimeout>
+
+    timeout.start(undefined as unknown as () => void, 10)
+    vi.advanceTimersByTime(10)
+    expect(callback).not.toHaveBeenCalled()
+
+    timeout.start(callback, -10)
+    vi.advanceTimersByTime(0)
+
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    app.unmount()
+  })
 })

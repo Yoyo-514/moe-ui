@@ -1,6 +1,7 @@
 export * from './Alert'
 export * from './Button'
 export * from './Collapse'
+export * from './Dropdown'
 export * from './Icon'
 export * from './Popconfirm'
 export * from './Tooltip'

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch, type Ref } from 'vue'
-import { useTimeout } from '@moe-ui/hooks'
+import { computed, onMounted, onUnmounted, ref, watch, type Ref } from 'vue'
+import { useClickOutside, useTimeout, useZIndex } from '@moe-ui/hooks'
 import { createPopper, type Instance } from '@popperjs/core'
 
 import type { TooltipEmits, TooltipInstance, TooltipProps, TooltipTrigger } from './types'
@@ -29,6 +29,9 @@ const slots = defineSlots<{
 }>()
 
 const innerVisible = ref(false)
+const tooltipNode = ref<HTMLElement>()
+const popperZIndex = ref<number>()
+const { nextZIndex } = useZIndex()
 
 const events: Ref<Record<string, EventListener>> = ref({})
 const outerEvents: Ref<Record<string, EventListener>> = ref({})
@@ -65,6 +68,8 @@ const hasTrigger = (trigger: TooltipTrigger) => triggers.value.includes(trigger)
 const openDelay = computed(() => (hasTrigger('hover') ? props.showAfter : 0))
 
 const closeDelay = computed(() => (hasTrigger('hover') ? props.hideAfter : 0))
+
+const shouldCloseOnClickOutside = computed(() => shouldShowPopper.value && hasTrigger('click'))
 
 const triggerStrategyMap: Map<TooltipTrigger, () => void> = new Map()
 triggerStrategyMap.set('hover', () => {
@@ -156,11 +161,23 @@ const hide: TooltipInstance['hide'] = function () {
   setVisible(false)
 }
 
+useClickOutside(tooltipNode, hide, {
+  enabled: () => shouldCloseOnClickOutside.value,
+})
+
+onMounted(() => {
+  if (!shouldShowPopper.value) return
+
+  popperZIndex.value = nextZIndex()
+  createPopperInstance()
+})
+
 watch(
   shouldShowPopper,
   (val) => {
     if (!val) return
 
+    popperZIndex.value = nextZIndex()
     createPopperInstance()
   },
   { flush: 'post' }
@@ -201,7 +218,7 @@ defineExpose<TooltipInstance>({
 </script>
 
 <template>
-  <div class="moe-tooltip" v-on="outerEvents">
+  <div ref="tooltipNode" class="moe-tooltip" v-on="outerEvents">
     <div ref="triggerNode" class="moe-tooltip__trigger" v-on="events">
       <slot></slot>
     </div>
@@ -213,6 +230,7 @@ defineExpose<TooltipInstance>({
         class="moe-tooltip__popper"
         :class="`is-${effect}`"
         role="tooltip"
+        :style="{ zIndex: popperZIndex }"
         v-on="dropdownEvents"
       >
         <slot name="content">

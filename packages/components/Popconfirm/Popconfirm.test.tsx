@@ -238,5 +238,18 @@ describe('Popconfirm.vue', () => {
       await flushRender()
       expect(wrapper.find('[role="dialog"]').exists()).toBe(false)
     })
+
+    it('closes when clicking outside because it inherits Tooltip click-outside behavior', async () => {
+      const wrapper = mountPopconfirm()
+
+      await wrapper.get('.reference').trigger('click')
+      await flushTimers()
+      expect(wrapper.find('[role="dialog"]').exists()).toBe(true)
+
+      document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }))
+      await flushTimers()
+
+      expect(wrapper.find('[role="dialog"]').exists()).toBe(false)
+    })
   })
 })

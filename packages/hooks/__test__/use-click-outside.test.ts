@@ -111,4 +111,36 @@ describe('useClickOutside', () => {
 
     expect(handler).not.toHaveBeenCalled()
   })
+
+  it('treats truthy enabled value and non-array ignore defensively', () => {
+    const handler = vi.fn()
+    const target = document.createElement('div')
+    const outside = document.createElement('button')
+    document.body.append(target, outside)
+
+    mountComposable(() => {
+      useClickOutside(ref(target), handler, {
+        enabled: 'yes' as unknown as boolean,
+        ignore: ref(outside) as unknown as [],
+      })
+    })
+
+    dispatchPointerDown(outside)
+
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
+
+  it('handles empty target as outside click', () => {
+    const handler = vi.fn()
+    const outside = document.createElement('button')
+    document.body.append(outside)
+
+    mountComposable(() => {
+      useClickOutside(ref(null), handler)
+    })
+
+    dispatchPointerDown(outside)
+
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
 })
