@@ -231,6 +231,30 @@ describe('Dropdown.vue', () => {
       expect(wrapper.get('[role="menuitem"]').text()).toContain('设置')
     })
 
+    it('emits object command from items prop without rendering object as label', async () => {
+      const command = { action: 'archive', id: 1 }
+      const wrapper = mountDropdown({
+        props: {
+          items: [{ command }],
+        },
+        slots: {
+          dropdown: undefined,
+        },
+      })
+
+      await wrapper.get('.moe-tooltip__trigger').trigger('click')
+      await flushTimers()
+
+      const item = wrapper.get('[role="menuitem"]')
+      expect(item.text()).toBe('')
+      expect(item.text()).not.toContain('[object Object]')
+
+      await item.trigger('click')
+      await flushTimers()
+
+      expect(wrapper.emitted('command')?.[0]).toEqual([command])
+    })
+
     it('emits object command as payload and uses default slot as label', async () => {
       const command = { action: 'archive', id: 1 }
       const wrapper = mountDropdown({
@@ -273,6 +297,50 @@ describe('Dropdown.vue', () => {
 
       expect(wrapper.emitted('click')).toHaveLength(1)
       expect(wrapper.find('[role="menu"]').exists()).toBe(false)
+    })
+
+    it('passes offset to tooltip popper modifier', async () => {
+      const wrapper = mountDropdown({
+        props: {
+          offset: 24,
+        },
+      })
+
+      await wrapper.get('.moe-tooltip__trigger').trigger('click')
+      await flushTimers()
+
+      expect(createPopperMock.mock.calls[0][2].modifiers).toContainEqual({
+        name: 'offset',
+        options: {
+          offset: [0, 24],
+        },
+      })
+    })
+
+    it('renders items prop in split button dropdown menu', async () => {
+      const wrapper = mountDropdown({
+        props: {
+          splitButton: true,
+          items: [
+            { command: 'copy', icon: 'mingcute:copy-line' },
+            { command: 'delete', disabled: true, divided: true },
+          ],
+        },
+        slots: {
+          default: () => '操作',
+          dropdown: undefined,
+        },
+      })
+
+      await wrapper.get('.moe-dropdown__split-button .moe-tooltip__trigger').trigger('click')
+      await flushTimers()
+
+      const items = wrapper.findAll('[role="menuitem"]')
+      expect(items).toHaveLength(2)
+      expect(items[0].text()).toContain('copy')
+      expect(items[0].find('.moe-dropdown-item__icon').exists()).toBe(true)
+      expect(items[1].classes()).toContain('is-disabled')
+      expect(items[1].classes()).toContain('is-divided')
     })
 
     it('uses caret button as popper reference in split button mode', async () => {

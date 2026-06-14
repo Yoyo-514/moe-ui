@@ -61,6 +61,10 @@ const props = defineProps({
     type: String,
     default: 'moe-dropdown-fade',
   },
+  offset: {
+    type: Number,
+    default: 12,
+  },
   items: {
     type: Array as PropType<DropdownItemProps[]>,
     default: () => [],
@@ -93,7 +97,6 @@ const tooltipProps = computed(() => ({
     'hideOnClick',
     'splitButton',
     'content',
-    'offset',
     'popperOptions',
   ]),
   visible: currentVisible.value,

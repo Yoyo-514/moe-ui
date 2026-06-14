@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch, type Ref } from 'vue'
-import { useClickOutside, useTimeout, useZIndex } from '@moe-ui/hooks'
+import { useClickOutside, useOffset, useTimeout, useZIndex } from '@moe-ui/hooks'
 import { createPopper, type Instance } from '@popperjs/core'
 
 import type { TooltipEmits, TooltipInstance, TooltipProps, TooltipTrigger } from './types'
@@ -32,6 +32,10 @@ const innerVisible = ref(false)
 const tooltipNode = ref<HTMLElement>()
 const popperZIndex = ref<number>()
 const { nextZIndex } = useZIndex()
+const { popperOffsetModifier } = useOffset({
+  offset: () => props.offset,
+  defaultOffset: 12,
+})
 
 const events: Ref<Record<string, EventListener>> = ref({})
 const outerEvents: Ref<Record<string, EventListener>> = ref({})
@@ -48,15 +52,7 @@ const shouldShowPopper = computed(() => visible.value && !props.disabled && hasC
 const popperOptions = computed(() => ({
   ...props.popperOptions,
   placement: props.placement,
-  modifiers: [
-    ...(props.popperOptions?.modifiers ?? []),
-    {
-      name: 'offset',
-      options: {
-        offset: [0, props.offset],
-      },
-    },
-  ],
+  modifiers: [...(props.popperOptions?.modifiers ?? []), popperOffsetModifier.value],
 }))
 
 const triggers = computed<TooltipTrigger[]>(() =>

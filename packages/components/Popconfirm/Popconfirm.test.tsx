@@ -159,6 +159,24 @@ describe('Popconfirm.vue', () => {
       )
     })
 
+    it('supports empty title, empty icon and string width without broken content', async () => {
+      const wrapper = mountPopconfirm({
+        props: {
+          title: '',
+          icon: '',
+          width: '18rem',
+        },
+      })
+
+      await wrapper.get('.reference').trigger('click')
+      await flushTimers()
+
+      const dialog = wrapper.get('[role="dialog"]')
+      expect(dialog.attributes('style')).toContain('width: 18rem')
+      expect(wrapper.find('.moe-popconfirm__title').exists()).toBe(false)
+      expect(wrapper.find('.moe-popconfirm__icon').exists()).toBe(false)
+    })
+
     it('does not render icon when hideIcon is true', async () => {
       const wrapper = mountPopconfirm({
         props: {

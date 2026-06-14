@@ -1,0 +1,95 @@
+.moe-message {
+  --moe-message-bg-color: var(--moe-bg-color-overlay);
+  --moe-message-border-color: var(--moe-border-color-light);
+  --moe-message-text-color: var(--moe-text-color-primary);
+  --moe-message-shadow: var(--moe-shadow-soft);
+
+  position: fixed;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(560px, calc(100vw - 32px));
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: var(--moe-border-width) var(--moe-border-style) var(--moe-message-border-color);
+  border-radius: var(--moe-border-radius-base);
+  box-shadow: var(--moe-message-shadow);
+  color: var(--moe-message-text-color);
+  background-color: var(--moe-message-bg-color);
+  font-size: var(--moe-font-size-base);
+  line-height: 1.5;
+  transform: translateX(-50%);
+  transition:
+    opacity var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    transform var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    top var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    bottom var(--moe-transition-duration-fast) var(--moe-transition-timing-function);
+}
+
+.moe-message__icon {
+  flex: none;
+  color: currentColor;
+}
+
+.moe-message__content {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+.moe-message__close {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: var(--moe-border-radius-small);
+  color: currentColor;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.68;
+  transition:
+    opacity var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    background-color var(--moe-transition-duration-fast) var(--moe-transition-timing-function);
+}
+
+.moe-message__close:hover,
+.moe-message__close:focus-visible {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.36);
+  outline: none;
+}
+
+@each $type in primary, success, warning, info, danger {
+  .moe-message--#{$type} {
+    --moe-message-bg-color: var(--moe-color-#{$type}-light-9);
+    --moe-message-border-color: var(--moe-color-#{$type}-light-7);
+    --moe-message-text-color: var(--moe-color-#{$type}-dark-2);
+  }
+}
+
+.moe-message-fade-enter-from,
+.moe-message-fade-leave-to {
+  opacity: 0;
+}
+
+.moe-message-fade-enter-from.is-top,
+.moe-message-fade-leave-to.is-top {
+  transform: translate(-50%, -12px);
+}
+
+.moe-message-fade-enter-from.is-bottom,
+.moe-message-fade-leave-to.is-bottom {
+  transform: translate(-50%, 12px);
+}
+
+.moe-message-fade-enter-to,
+.moe-message-fade-leave-from {
+  opacity: 1;
+  transform: translateX(-50%);
+}
