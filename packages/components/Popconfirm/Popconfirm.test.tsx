@@ -159,6 +159,19 @@ describe('Popconfirm.vue', () => {
       )
     })
 
+    it('does not render broken width style when width is empty', async () => {
+      const wrapper = mountPopconfirm({
+        props: {
+          width: '',
+        },
+      })
+
+      await wrapper.get('.reference').trigger('click')
+      await flushTimers()
+
+      expect(wrapper.get('[role="dialog"]').attributes('style')).toBeUndefined()
+    })
+
     it('supports empty title, empty icon and string width without broken content', async () => {
       const wrapper = mountPopconfirm({
         props: {

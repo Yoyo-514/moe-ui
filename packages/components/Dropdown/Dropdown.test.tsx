@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent, nextTick, ref } from 'vue'
+import { defineComponent, markRaw, nextTick, ref } from 'vue'
 
 import Dropdown from './Dropdown.vue'
 import DropdownItem from './DropdownItem.vue'
@@ -362,6 +362,47 @@ describe('Dropdown.vue', () => {
       expect(reference.closest('.moe-dropdown__split-button')).not.toBeNull()
       expect(reference.querySelector('.moe-dropdown__caret-button')).not.toBeNull()
       expect(reference.textContent).not.toContain('操作')
+    })
+  })
+
+  describe('disabled and standalone boundaries', () => {
+    it('does not open or emit main click when dropdown is disabled', async () => {
+      const wrapper = mountDropdown({
+        props: {
+          disabled: true,
+          splitButton: true,
+        },
+        slots: {
+          default: () => '操作',
+        },
+      })
+
+      wrapper.vm.open()
+      await flushTimers()
+      expect(wrapper.emitted('update:visible')).toBeUndefined()
+      expect(wrapper.find('[role="menu"]').exists()).toBe(false)
+
+      await wrapper.get('.moe-dropdown__split-button > .moe-button').trigger('click')
+      expect(wrapper.emitted('click')).toBeUndefined()
+    })
+
+    it('renders standalone dropdown item safely with numeric command and component icon', async () => {
+      const CustomIcon = markRaw({
+        render: () => <span class="component-icon">组</span>,
+      })
+      const wrapper = mount(DropdownItem, {
+        props: {
+          command: 12,
+          icon: CustomIcon,
+        },
+      })
+
+      expect(wrapper.get('[role="menuitem"]').text()).toContain('12')
+      expect(wrapper.get('.component-icon').text()).toBe('组')
+      expect(wrapper.get('[role="menuitem"]').classes()).not.toContain('moe-dropdown-item--small')
+
+      await wrapper.get('[role="menuitem"]').trigger('click')
+      expect(wrapper.emitted('command')).toBeUndefined()
     })
   })
 

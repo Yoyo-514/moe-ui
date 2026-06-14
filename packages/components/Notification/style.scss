@@ -1,0 +1,118 @@
+.moe-notification {
+  --moe-notification-bg-color: var(--moe-bg-color-overlay);
+  --moe-notification-border-color: var(--moe-border-color-light);
+  --moe-notification-title-color: var(--moe-text-color-primary);
+  --moe-notification-message-color: var(--moe-text-color-regular);
+  --moe-notification-icon-color: var(--moe-color-info);
+  --moe-notification-shadow: var(--moe-shadow-soft);
+
+  position: fixed;
+  display: flex;
+  align-items: flex-start;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  gap: 12px;
+  padding: 16px;
+  border: var(--moe-border-width) var(--moe-border-style) var(--moe-notification-border-color);
+  border-radius: var(--moe-border-radius-large);
+  box-shadow: var(--moe-notification-shadow);
+  color: var(--moe-notification-message-color);
+  background-color: var(--moe-notification-bg-color);
+  font-size: var(--moe-font-size-base);
+  line-height: 1.5;
+  cursor: default;
+  transition:
+    opacity var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    transform var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    top var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    bottom var(--moe-transition-duration-fast) var(--moe-transition-timing-function);
+}
+
+.moe-notification.is-clickable {
+  cursor: pointer;
+}
+
+.moe-notification__icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--moe-notification-icon-color);
+}
+
+.moe-notification__body {
+  min-width: 0;
+  flex: 1;
+}
+
+.moe-notification__title {
+  color: var(--moe-notification-title-color);
+  font-size: var(--moe-font-size-medium);
+  font-weight: var(--moe-font-weight-primary);
+  line-height: 1.4;
+}
+
+.moe-notification__message {
+  margin-top: 4px;
+  color: var(--moe-notification-message-color);
+  overflow-wrap: anywhere;
+}
+
+.moe-notification__title + .moe-notification__message {
+  margin-top: 6px;
+}
+
+.moe-notification__close {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: var(--moe-border-radius-small);
+  color: var(--moe-text-color-secondary);
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.72;
+  transition:
+    opacity var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    color var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    background-color var(--moe-transition-duration-fast) var(--moe-transition-timing-function);
+}
+
+.moe-notification__close:hover,
+.moe-notification__close:focus-visible {
+  color: var(--moe-notification-title-color);
+  opacity: 1;
+  background-color: var(--moe-fill-color-light);
+  outline: none;
+}
+
+@each $type in primary, success, warning, info, danger {
+  .moe-notification--#{$type} {
+    --moe-notification-border-color: var(--moe-color-#{$type}-light-7);
+    --moe-notification-icon-color: var(--moe-color-#{$type});
+  }
+}
+
+.moe-notification-fade-enter-from,
+.moe-notification-fade-leave-to {
+  opacity: 0;
+}
+
+.moe-notification-fade-enter-from.is-right,
+.moe-notification-fade-leave-to.is-right {
+  transform: translateX(24px);
+}
+
+.moe-notification-fade-enter-from.is-left,
+.moe-notification-fade-leave-to.is-left {
+  transform: translateX(-24px);
+}
+
+.moe-notification-fade-enter-to,
+.moe-notification-fade-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}

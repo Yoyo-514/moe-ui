@@ -9,6 +9,7 @@ import {
   MoeDropdownMenu,
   MoeIcon,
   MoeMessage,
+  MoeNotification,
   MoePopconfirm,
   MoeTooltip,
 } from '@moe-ui/components'
@@ -25,6 +26,7 @@ export default [
   MoeDropdownMenu,
   MoeIcon,
   MoeMessage,
+  MoeNotification,
   MoePopconfirm,
   MoeTooltip,
 ] as Plugin[]

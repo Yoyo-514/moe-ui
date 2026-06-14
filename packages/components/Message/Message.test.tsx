@@ -47,6 +47,26 @@ describe('Message.vue', () => {
     expect(wrapper.find('.moe-message__close').exists()).toBe(true)
   })
 
+  it('renders function message and keeps duration 0 visible', async () => {
+    const wrapper = mount(Message, {
+      props: {
+        id: 'message-function',
+        message: () => h('span', { class: 'message-function' }, '函数内容'),
+        type: 'info',
+        placement: 'top',
+        offset: 20,
+        zIndex: 2101,
+        duration: 0,
+      },
+    })
+
+    await vi.advanceTimersByTimeAsync(1000)
+    await flushRender()
+
+    expect(wrapper.get('.message-function').text()).toBe('函数内容')
+    expect(wrapper.emitted('close')).toBeUndefined()
+  })
+
   it('normalizes error type to danger and renders vnode message', async () => {
     const wrapper = mount(Message, {
       props: {
@@ -55,7 +75,7 @@ describe('Message.vue', () => {
         type: 'error',
         placement: 'top',
         offset: 20,
-        zIndex: 2101,
+        zIndex: 2102,
         duration: 0,
       },
     })
@@ -74,7 +94,7 @@ describe('Message.vue', () => {
         type: 'info',
         placement: 'top',
         offset: 20,
-        zIndex: 2102,
+        zIndex: 2103,
         duration: 0,
         showClose: true,
       },
@@ -91,7 +111,7 @@ describe('Message.vue', () => {
         type: 'info',
         placement: 'top',
         offset: 20,
-        zIndex: 2103,
+        zIndex: 2104,
         duration: 100,
       },
     })
@@ -109,7 +129,7 @@ describe('Message.vue', () => {
         type: 'info',
         placement: 'top',
         offset: 20,
-        zIndex: 2104,
+        zIndex: 2105,
         duration: 0,
         showClose: true,
       },
@@ -131,7 +151,7 @@ describe('Message.vue', () => {
         type: 'info',
         placement: 'top',
         offset: 20,
-        zIndex: 2105,
+        zIndex: 2106,
         duration: 100,
       },
     })
@@ -178,6 +198,19 @@ describe('MoeMessage method', () => {
         Object.defineProperty(globalThis, 'document', descriptor)
       }
     }
+  })
+
+  it('creates default message without params', async () => {
+    const handler = MoeMessage()
+    await flushRender()
+
+    expect(document.body.querySelector('.moe-message')).not.toBeNull()
+    expect(document.body.querySelector('.moe-message')?.className).toContain('moe-message--info')
+
+    handler.close()
+    await vi.advanceTimersByTimeAsync(200)
+    await flushRender()
+    expect(messageInstances).toHaveLength(0)
   })
 
   it('creates message from string and supports manual close', async () => {
