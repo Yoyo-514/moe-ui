@@ -11,7 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.8",
-    "@vue/test-utils": "^2.4.10",
+    "@vue/test-utils": "^2.4.11",
     "jsdom": "^29.1.1"
   },
   "private": true
