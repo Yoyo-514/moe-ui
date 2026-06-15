@@ -1,0 +1,213 @@
+.moe-input {
+  --moe-input-height: 32px;
+  --moe-input-border-color: var(--moe-border-color);
+  --moe-input-bg-color: var(--moe-fill-color-blank);
+  --moe-input-text-color: var(--moe-text-color-primary);
+  --moe-input-placeholder-color: var(--moe-text-color-placeholder);
+  --moe-input-hover-border-color: var(--moe-color-primary-light-5);
+  --moe-input-focus-border-color: var(--moe-color-primary);
+  --moe-input-focus-shadow: 0 0 0 2px var(--moe-color-primary-light-9);
+  --moe-input-disabled-bg-color: var(--moe-fill-color-light);
+  --moe-input-disabled-text-color: var(--moe-disabled-text-color);
+
+  display: inline-flex;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--moe-input-text-color);
+  font-size: var(--moe-font-size-base);
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+.moe-input--small {
+  --moe-input-height: 28px;
+  font-size: 12px;
+}
+
+.moe-input--large {
+  --moe-input-height: 40px;
+}
+
+.moe-input__wrapper,
+.moe-input__textarea-wrapper {
+  display: inline-flex;
+  width: 100%;
+  box-sizing: border-box;
+  border: var(--moe-border-width) var(--moe-border-style) var(--moe-input-border-color);
+  border-radius: var(--moe-border-radius-base);
+  background-color: var(--moe-input-bg-color);
+  transition:
+    border-color var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    box-shadow var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    background-color var(--moe-transition-duration-fast) var(--moe-transition-timing-function);
+}
+
+.moe-input__wrapper {
+  align-items: center;
+  min-height: var(--moe-input-height);
+  padding: 0 10px;
+  gap: 6px;
+}
+
+.moe-input__textarea-wrapper {
+  position: relative;
+}
+
+.moe-input:not(.is-disabled):not(.is-readonly) .moe-input__wrapper:hover,
+.moe-input:not(.is-disabled):not(.is-readonly) .moe-input__textarea-wrapper:hover {
+  border-color: var(--moe-input-hover-border-color);
+}
+
+.moe-input.is-focus .moe-input__wrapper,
+.moe-input.is-focus .moe-input__textarea-wrapper {
+  border-color: var(--moe-input-focus-border-color);
+  box-shadow: var(--moe-input-focus-shadow);
+}
+
+.moe-input__inner,
+.moe-input__textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  color: var(--moe-input-text-color);
+  background: transparent;
+  font: inherit;
+  appearance: none;
+}
+
+.moe-input__inner {
+  height: calc(var(--moe-input-height) - 2px);
+  padding: 0;
+}
+
+.moe-input__textarea {
+  display: block;
+  min-height: 0;
+  padding: 8px 10px;
+  line-height: 1.5;
+}
+
+.moe-input__inner::placeholder,
+.moe-input__textarea::placeholder {
+  color: var(--moe-input-placeholder-color);
+}
+
+.moe-input__prefix,
+.moe-input__suffix {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  color: var(--moe-text-color-secondary);
+}
+
+.moe-input__clear,
+.moe-input__password,
+.moe-input__textarea-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: var(--moe-border-radius-small);
+  color: var(--moe-text-color-secondary);
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.72;
+  transition:
+    opacity var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    color var(--moe-transition-duration-fast) var(--moe-transition-timing-function),
+    background-color var(--moe-transition-duration-fast) var(--moe-transition-timing-function);
+}
+
+.moe-input__textarea-clear {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+}
+
+.moe-input__clear:hover,
+.moe-input__clear:focus-visible,
+.moe-input__password:hover,
+.moe-input__password:focus-visible,
+.moe-input__textarea-clear:hover,
+.moe-input__textarea-clear:focus-visible {
+  color: var(--moe-text-color-primary);
+  opacity: 1;
+  background-color: var(--moe-fill-color-light);
+  outline: none;
+}
+
+.moe-input__word-limit,
+.moe-input__textarea-word-limit {
+  color: var(--moe-text-color-secondary);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.moe-input__textarea-word-limit {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  padding-left: 8px;
+  background: linear-gradient(90deg, transparent, var(--moe-input-bg-color) 24%);
+}
+
+.moe-input__prepend,
+.moe-input__append {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--moe-input-height);
+  box-sizing: border-box;
+  padding: 0 12px;
+  border: var(--moe-border-width) var(--moe-border-style) var(--moe-input-border-color);
+  background-color: var(--moe-fill-color-light);
+  color: var(--moe-text-color-regular);
+  white-space: nowrap;
+}
+
+.moe-input__prepend {
+  border-right: none;
+  border-radius: var(--moe-border-radius-base) 0 0 var(--moe-border-radius-base);
+}
+
+.moe-input__append {
+  border-left: none;
+  border-radius: 0 var(--moe-border-radius-base) var(--moe-border-radius-base) 0;
+}
+
+.moe-input.has-prepend .moe-input__wrapper {
+  border-radius: 0 var(--moe-border-radius-base) var(--moe-border-radius-base) 0;
+}
+
+.moe-input.has-append .moe-input__wrapper {
+  border-radius: var(--moe-border-radius-base) 0 0 var(--moe-border-radius-base);
+}
+
+.moe-input.has-prepend.has-append .moe-input__wrapper {
+  border-radius: 0;
+}
+
+.moe-input.is-textarea {
+  display: block;
+}
+
+.moe-input.is-disabled {
+  --moe-input-bg-color: var(--moe-input-disabled-bg-color);
+  --moe-input-text-color: var(--moe-input-disabled-text-color);
+  cursor: not-allowed;
+}
+
+.moe-input.is-disabled .moe-input__inner,
+.moe-input.is-disabled .moe-input__textarea {
+  cursor: not-allowed;
+}
+
+.moe-input.is-readonly .moe-input__inner,
+.moe-input.is-readonly .moe-input__textarea {
+  cursor: default;
+}
