@@ -14,6 +14,7 @@ import {
   MoeMessageBox,
   MoeNotification,
   MoePopconfirm,
+  MoeSwitch,
   MoeTooltip,
 } from '@moe-ui/components'
 import type { Plugin } from 'vue'
@@ -34,5 +35,6 @@ export default [
   MoeMessageBox,
   MoeNotification,
   MoePopconfirm,
+  MoeSwitch,
   MoeTooltip,
 ] as Plugin[]
