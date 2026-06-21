@@ -5,6 +5,7 @@ import type { OverlayEmits, OverlayProps, OverlayStyle } from './types'
 const props = withDefaults(defineProps<OverlayProps>(), {
   visible: false,
   mask: true,
+  position: 'fixed',
   overlayClass: '',
 })
 
@@ -12,13 +13,15 @@ const emits = defineEmits<OverlayEmits>()
 
 const overlayClasses = computed(() => [
   props.overlayClass,
+  `moe-overlay--${props.position}`,
   {
     'is-mask': props.mask,
     'is-no-mask': !props.mask,
   },
 ])
 
-const getOverlayStyle = (zIndex?: number): OverlayStyle => ({
+const getOverlayStyle = (zIndex?: number, overlayStyle?: OverlayStyle): OverlayStyle => ({
+  ...overlayStyle,
   zIndex,
 })
 </script>
@@ -29,7 +32,7 @@ const getOverlayStyle = (zIndex?: number): OverlayStyle => ({
       v-show="visible"
       class="moe-overlay"
       :class="overlayClasses"
-      :style="getOverlayStyle(zIndex)"
+      :style="getOverlayStyle(zIndex, overlayStyle)"
       @click="emits('click', $event)"
     >
       <slot></slot>

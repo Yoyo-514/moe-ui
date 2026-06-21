@@ -10,6 +10,7 @@ describe('Overlay.vue', () => {
       props: {
         visible: true,
         mask: true,
+        position: 'absolute',
         zIndex: 3000,
         overlayClass: 'custom-overlay',
       },
@@ -21,6 +22,7 @@ describe('Overlay.vue', () => {
     const overlay = wrapper.get('.moe-overlay')
     expect(overlay.isVisible()).toBe(true)
     expect(overlay.classes()).toContain('is-mask')
+    expect(overlay.classes()).toContain('moe-overlay--absolute')
     expect(overlay.classes()).toContain('custom-overlay')
     expect(overlay.attributes('style')).toContain('z-index: 3000')
     expect(wrapper.get('.overlay-content').text()).toBe('内容')
@@ -35,6 +37,7 @@ describe('Overlay.vue', () => {
     })
 
     expect(wrapper.get('.moe-overlay').classes()).toContain('is-no-mask')
+    expect(wrapper.get('.moe-overlay').classes()).toContain('moe-overlay--fixed')
 
     await wrapper.get('.moe-overlay').trigger('click')
     wrapper.findComponent(Transition).vm.$emit('after-leave')

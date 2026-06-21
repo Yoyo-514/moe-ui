@@ -1,4 +1,6 @@
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, HTMLAttributes } from 'vue'
+
+export type OverlayPosition = 'fixed' | 'absolute'
 
 export interface OverlayProps {
   visible?: boolean
@@ -6,8 +8,10 @@ export interface OverlayProps {
    * Whether to render the visual mask.
    */
   mask?: boolean
+  position?: OverlayPosition
   zIndex?: number
-  overlayClass?: string | string[]
+  overlayClass?: HTMLAttributes['class']
+  overlayStyle?: OverlayStyle
 }
 
 export interface OverlayEmits {

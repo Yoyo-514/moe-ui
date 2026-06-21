@@ -1,0 +1,31 @@
+.moe-loading__overlay {
+  background-color: rgba(255, 255, 255, 0.72);
+}
+
+.moe-loading__overlay.is-fullscreen {
+  position: fixed;
+}
+
+.moe-loading {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--moe-color-primary);
+  font-size: var(--moe-font-size-base);
+  line-height: 1.4;
+}
+
+.moe-loading__spinner {
+  color: currentcolor;
+}
+
+.moe-loading__text {
+  color: currentcolor;
+  font-size: 14px;
+}
+
+.is-loading {
+  overflow: hidden;
+}
