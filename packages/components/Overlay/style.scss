@@ -1,0 +1,27 @@
+.moe-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.moe-overlay.is-mask {
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.moe-overlay.is-no-mask {
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.moe-overlay-fade-enter-active,
+.moe-overlay-fade-leave-active {
+  transition: opacity var(--moe-transition-duration) var(--moe-transition-timing-function);
+}
+
+.moe-overlay-fade-enter-from,
+.moe-overlay-fade-leave-to {
+  opacity: 0;
+}

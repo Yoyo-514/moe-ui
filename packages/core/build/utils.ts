@@ -15,7 +15,7 @@ export function getPackageDirChunkName(id: string, packageDir: string) {
   const normalizedPackageDir = normalizePath(packageDir)
   const directories = getDirectoriesSync(normalizedPackageDir)
 
-  return find(directories, (item) => normalizedId.includes(`${normalizedPackageDir}/${item}`))
+  return find(directories, (item) => normalizedId.includes(`${normalizedPackageDir}/${item}/`))
 }
 
 export function getBuildEnv() {

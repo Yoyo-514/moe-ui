@@ -145,6 +145,7 @@ export default defineConfig({
           items: [
             { text: 'Alert 提示', link: '/components/alert' },
             { text: 'Message 消息', link: '/components/message' },
+            { text: 'MessageBox 消息弹框', link: '/components/message-box' },
             { text: 'Loading 加载', link: '/components/loading' },
           ],
         },
