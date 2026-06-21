@@ -1,0 +1,162 @@
+.moe-select {
+  display: inline-flex;
+  width: 240px;
+  color: var(--moe-text-color-primary);
+  font-size: var(--moe-font-size-base);
+  vertical-align: middle;
+}
+
+.moe-select__options-source {
+  display: none;
+}
+
+.moe-select .moe-tooltip,
+.moe-select .moe-tooltip__trigger,
+.moe-select__input {
+  width: 100%;
+}
+
+.moe-select__input .moe-input__inner {
+  cursor: pointer;
+}
+
+.moe-select.is-filterable .moe-select__input .moe-input__inner {
+  cursor: text;
+}
+
+.moe-select__suffix,
+.moe-select__clear {
+  flex: 0 0 auto;
+  color: var(--moe-text-color-secondary);
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.moe-select.is-opened .moe-select__suffix {
+  transform: rotate(180deg);
+}
+
+.moe-select__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.moe-select__clear:hover {
+  color: var(--moe-color-primary);
+}
+
+.moe-tooltip__popper.moe-select__popper {
+  max-width: none;
+  padding: 0;
+  color: var(--moe-text-color-primary);
+  font-size: var(--moe-font-size-base);
+  line-height: 1.4;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow-wrap: normal;
+}
+
+.moe-tooltip__popper.moe-select__popper .moe-select__dropdown {
+  box-sizing: border-box;
+  min-width: 100%;
+  padding: 6px;
+  margin: 0;
+  background-color: #fff;
+  border: 1px solid var(--moe-border-color-lighter);
+  border-radius: var(--moe-border-radius-base);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  transform-origin: center top;
+  animation: moe-select-dropdown-enter 0.16s var(--moe-transition-timing-function);
+}
+
+.moe-tooltip__popper.moe-select__popper .moe-select__list {
+  box-sizing: border-box;
+  max-height: 240px;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.moe-tooltip__popper.moe-select__popper .moe-select__option {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 10px;
+  margin: 0;
+  color: var(--moe-text-color-primary);
+  font-size: var(--moe-font-size-base);
+  line-height: 34px;
+  list-style: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.moe-tooltip__popper.moe-select__popper .moe-select__option.is-hovering,
+.moe-tooltip__popper.moe-select__popper .moe-select__option:hover {
+  background-color: rgba(99, 102, 241, 0.08);
+}
+
+.moe-tooltip__popper.moe-select__popper .moe-select__option.is-selected {
+  color: var(--moe-color-primary);
+  font-weight: var(--moe-font-weight-primary);
+}
+
+.moe-tooltip__popper.moe-select__popper .moe-select__option.is-disabled {
+  color: var(--moe-text-color-disabled);
+  cursor: not-allowed;
+  background-color: transparent;
+}
+
+.moe-tooltip__popper.moe-select__popper .moe-select__empty {
+  box-sizing: border-box;
+  padding: 16px 8px;
+  margin: 0;
+  color: var(--moe-text-color-secondary);
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.moe-select.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.moe-select-fade-enter-active,
+.moe-select-fade-leave-active {
+  transition: opacity 0.14s var(--moe-transition-timing-function);
+}
+
+.moe-select-fade-enter-from,
+.moe-select-fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes moe-select-dropdown-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}

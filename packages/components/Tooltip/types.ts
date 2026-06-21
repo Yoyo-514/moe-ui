@@ -1,6 +1,6 @@
 import type { Options, Placement } from '@popperjs/core'
 
-export type TooltipTrigger = 'hover' | 'click'
+export type TooltipTrigger = 'hover' | 'click' | 'manual'
 export type TooltipPlacement = Placement
 export type TooltipEffect = 'dark' | 'light'
 
@@ -16,6 +16,9 @@ export interface TooltipProps {
   effect?: TooltipEffect
   transition?: string
   popperOptions?: Partial<Options>
+  popperClass?: string | string[]
+  showArrow?: boolean
+  hideOnClickOutside?: boolean
 }
 
 export interface TooltipEmits {

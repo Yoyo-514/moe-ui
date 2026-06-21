@@ -20,6 +20,9 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   hideAfter: 200,
   transition: 'fade',
   popperOptions: () => ({}),
+  popperClass: '',
+  showArrow: true,
+  hideOnClickOutside: undefined,
 })
 
 const emits = defineEmits<TooltipEmits>()
@@ -65,7 +68,9 @@ const openDelay = computed(() => (hasTrigger('hover') ? props.showAfter : 0))
 
 const closeDelay = computed(() => (hasTrigger('hover') ? props.hideAfter : 0))
 
-const shouldCloseOnClickOutside = computed(() => shouldShowPopper.value && hasTrigger('click'))
+const shouldCloseOnClickOutside = computed(
+  () => shouldShowPopper.value && (props.hideOnClickOutside ?? hasTrigger('click'))
+)
 
 const triggerStrategyMap: Map<TooltipTrigger, () => void> = new Map()
 triggerStrategyMap.set('hover', () => {
@@ -224,7 +229,7 @@ defineExpose<TooltipInstance>({
         v-if="shouldShowPopper"
         ref="popperNode"
         class="moe-tooltip__popper"
-        :class="`is-${effect}`"
+        :class="[`is-${effect}`, popperClass]"
         role="tooltip"
         :style="{ zIndex: popperZIndex }"
         v-on="dropdownEvents"
@@ -232,7 +237,7 @@ defineExpose<TooltipInstance>({
         <slot name="content">
           {{ content }}
         </slot>
-        <div id="arrow" data-popper-arrow></div>
+        <div v-if="showArrow" id="arrow" data-popper-arrow></div>
       </div>
     </transition>
   </div>
