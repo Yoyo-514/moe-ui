@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, ref, watch, type CSSProperties } from 'vue'
 import { isNumber } from 'lodash-es'
 import { useFocusController } from '@moe-ui/hooks'
+import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import {
   INPUT_CLEAR_ICON,
@@ -23,19 +24,21 @@ const props = withDefaults(defineProps<InputProps>(), {
   modelValue: '',
   type: INPUT_DEFAULT_TYPE,
   placeholder: '',
-  disabled: false,
+  disabled: undefined,
   readonly: false,
   clearable: false,
   showPassword: false,
   showWordLimit: false,
   autocomplete: 'off',
-  size: INPUT_DEFAULT_SIZE,
+  size: undefined,
   autofocus: false,
   rows: INPUT_DEFAULT_ROWS,
   resize: INPUT_DEFAULT_RESIZE,
 })
 
 const emits = defineEmits<InputEmits>()
+const { validate: validateFormItem } = useFormItemValidate()
+const formContext = useFormContext()
 const slots = defineSlots<{
   prefix?: () => unknown
   suffix?: () => unknown
@@ -51,6 +54,9 @@ const textareaOverflowY = ref<CSSProperties['overflowY']>()
 
 const isTextarea = computed(() => props.type === 'textarea')
 const nativeInputValue = computed(() => (props.modelValue == null ? '' : String(props.modelValue)))
+const inputSize = computed(() => props.size ?? formContext?.props.size ?? INPUT_DEFAULT_SIZE)
+const inputDisabled = computed(() => props.disabled ?? formContext?.props.disabled ?? false)
+
 const textLength = computed(() => nativeInputValue.value.length)
 const normalizedMaxlength = computed(() => {
   if (props.maxlength === undefined || props.maxlength === '') return undefined
@@ -66,7 +72,7 @@ const {
   handleBlur: setBlurred,
 } = useFocusController({
   target: inputRef,
-  beforeFocus: () => !props.disabled,
+  beforeFocus: () => !inputDisabled.value,
 })
 
 const nativeInputType = computed(() => {
@@ -80,13 +86,13 @@ const nativeInputType = computed(() => {
 const showClear = computed(
   () =>
     props.clearable &&
-    !props.disabled &&
+    !inputDisabled.value &&
     !props.readonly &&
     nativeInputValue.value.length > 0 &&
     (isFocused.value || isHovering.value)
 )
 const showPasswordToggle = computed(
-  () => !isTextarea.value && props.showPassword && props.type === 'password' && !props.disabled
+  () => !isTextarea.value && props.showPassword && props.type === 'password' && !inputDisabled.value
 )
 const showWordLimit = computed(() => props.showWordLimit && normalizedMaxlength.value !== undefined)
 const hasPrefix = computed(() => !isTextarea.value && Boolean(slots.prefix || props.prefixIcon))
@@ -101,9 +107,9 @@ const clearStyle = computed<CSSProperties>(() => ({
   visibility: showClear.value ? 'visible' : 'hidden',
 }))
 const inputClasses = computed(() => [
-  `moe-input--${props.size}`,
+  `moe-input--${inputSize.value}`,
   {
-    'is-disabled': props.disabled,
+    'is-disabled': inputDisabled.value,
     'is-readonly': props.readonly,
     'is-focus': isFocused.value,
     'is-textarea': isTextarea.value,
@@ -135,6 +141,7 @@ function handleInput(event: Event) {
 
 function handleChange(event: Event) {
   emits('change', getElementValue(event))
+  validateFormItem('change')
 }
 
 function handleFocus(event: FocusEvent) {
@@ -145,10 +152,11 @@ function handleFocus(event: FocusEvent) {
 function handleBlur(event: FocusEvent) {
   setBlurred()
   emits('blur', event)
+  validateFormItem('blur')
 }
 
 function clear() {
-  if (props.disabled || props.readonly) return
+  if (inputDisabled.value || props.readonly) return
 
   emits('update:modelValue', '')
   emits('input', '')
@@ -161,7 +169,7 @@ function clear() {
 }
 
 function togglePasswordVisible() {
-  if (props.disabled || props.readonly) return
+  if (inputDisabled.value || props.readonly) return
 
   passwordVisible.value = !passwordVisible.value
   focus()
@@ -254,7 +262,7 @@ defineExpose<InputInstance>({
           class="moe-input__textarea"
           :value="nativeInputValue"
           :placeholder="placeholder"
-          :disabled="disabled"
+          :disabled="inputDisabled"
           :readonly="readonly"
           :maxlength="maxlength"
           :minlength="minlength"
@@ -265,7 +273,7 @@ defineExpose<InputInstance>({
           :tabindex="tabindex"
           :rows="rows"
           :style="textareaStyle"
-          :aria-disabled="disabled || undefined"
+          :aria-disabled="inputDisabled || undefined"
           :aria-readonly="readonly || undefined"
           @input="handleInput"
           @change="handleChange"
@@ -308,7 +316,7 @@ defineExpose<InputInstance>({
           :value="nativeInputValue"
           :type="nativeInputType"
           :placeholder="placeholder"
-          :disabled="disabled"
+          :disabled="inputDisabled"
           :readonly="readonly"
           :maxlength="maxlength"
           :minlength="minlength"
@@ -317,7 +325,7 @@ defineExpose<InputInstance>({
           :form="form"
           :autofocus="autofocus"
           :tabindex="tabindex"
-          :aria-disabled="disabled || undefined"
+          :aria-disabled="inputDisabled || undefined"
           :aria-readonly="readonly || undefined"
           @input="handleInput"
           @change="handleChange"

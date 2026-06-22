@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import { SWITCH_DEFAULT_LOADING_ICON } from './constants'
 import type { SwitchEmits, SwitchIcon, SwitchInstance, SwitchProps, SwitchValue } from './types'
@@ -10,9 +11,9 @@ defineOptions({
 
 const props = withDefaults(defineProps<SwitchProps>(), {
   modelValue: false,
-  disabled: false,
+  disabled: undefined,
   loading: false,
-  size: 'default',
+  size: undefined,
   width: '',
   inlinePrompt: false,
   activeText: '',
@@ -23,12 +24,17 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 })
 
 const emits = defineEmits<SwitchEmits>()
+const { validate: validateFormItem } = useFormItemValidate()
+const formContext = useFormContext()
 
 const switchRef = ref<HTMLButtonElement>()
 const isPending = ref(false)
 
 const checked = computed(() => props.modelValue === props.activeValue)
-const switchDisabled = computed(() => props.disabled || props.loading || isPending.value)
+const switchSize = computed(() => props.size ?? formContext?.props.size ?? 'default')
+const switchDisabled = computed(
+  () => (props.disabled ?? formContext?.props.disabled ?? false) || props.loading || isPending.value
+)
 const currentText = computed(() => (checked.value ? props.activeText : props.inactiveText))
 const currentIcon = computed<SwitchIcon | undefined>(() =>
   checked.value ? props.activeIcon : props.inactiveIcon
@@ -36,10 +42,10 @@ const currentIcon = computed<SwitchIcon | undefined>(() =>
 const hasIcon = computed(() => Boolean(currentIcon.value))
 const hasText = computed(() => Boolean(currentText.value))
 const switchClasses = computed(() => [
-  `moe-switch--${props.size}`,
+  `moe-switch--${switchSize.value}`,
   {
     'is-checked': checked.value,
-    'is-disabled': props.disabled,
+    'is-disabled': switchDisabled.value,
     'is-loading': props.loading || isPending.value,
     'is-inline-prompt': props.inlinePrompt,
   },
@@ -82,6 +88,7 @@ async function handleChange() {
   const value = nextValue.value
   emits('update:modelValue', value)
   emits('change', value)
+  validateFormItem('change')
 }
 
 function focus() {

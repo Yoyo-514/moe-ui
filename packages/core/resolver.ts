@@ -28,6 +28,8 @@ const componentEntryMap: Record<string, string> = {
   MoeDropdown: 'Dropdown',
   MoeDropdownItem: 'Dropdown',
   MoeDropdownMenu: 'Dropdown',
+  MoeForm: 'Form',
+  MoeFormItem: 'Form',
   MoeIcon: 'Icon',
   MoeInput: 'Input',
   MoeLoading: 'Loading',

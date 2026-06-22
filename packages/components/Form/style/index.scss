@@ -1,0 +1,199 @@
+.moe-form {
+  --moe-form-label-color: var(--moe-text-color-regular, #606266);
+  --moe-form-error-color: var(--moe-color-danger, #f56c6c);
+  --moe-form-required-color: var(--moe-color-danger, #f56c6c);
+  --moe-form-item-gap: 18px;
+  --moe-form-label-gap: 12px;
+
+  box-sizing: border-box;
+
+  &.is-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: 16px;
+
+    .moe-form-item {
+      display: inline-flex;
+      vertical-align: middle;
+      margin-right: 32px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+/* ---- FormItem ---- */
+
+.moe-form-item {
+  box-sizing: border-box;
+  display: flex;
+  --font-size: var(--moe-font-size-base, 14px);
+  margin-bottom: var(--moe-form-item-gap);
+  font-size: var(--font-size);
+
+  /* 嵌套 form-item 不再有 margin */
+  .moe-form-item {
+    margin-bottom: 0;
+  }
+
+  /* ---- size ---- */
+
+  &--large {
+    --moe-form-item-gap: 22px;
+    --font-size: 15px;
+
+    > .moe-form-item__label {
+      height: 40px;
+      line-height: 40px;
+    }
+
+    > .moe-form-item__content {
+      line-height: 40px;
+    }
+
+    .moe-form-item__error {
+      padding-top: 4px;
+    }
+  }
+
+  &--default {
+    > .moe-form-item__label {
+      height: 32px;
+      line-height: 32px;
+    }
+
+    > .moe-form-item__content {
+      line-height: 32px;
+    }
+
+    .moe-form-item__error {
+      padding-top: 2px;
+    }
+  }
+
+  &--small {
+    --moe-form-item-gap: 18px;
+    --font-size: 13px;
+
+    > .moe-form-item__label {
+      height: 28px;
+      line-height: 28px;
+    }
+
+    > .moe-form-item__content {
+      line-height: 28px;
+    }
+
+    .moe-form-item__error {
+      padding-top: 2px;
+    }
+  }
+
+  /* ---- label position ---- */
+
+  &--label-left > .moe-form-item__label {
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  &--label-right > .moe-form-item__label {
+    text-align: right;
+    justify-content: flex-end;
+  }
+
+  &--label-top {
+    display: block;
+
+    > .moe-form-item__label {
+      display: block;
+      width: fit-content;
+      height: auto;
+      text-align: left;
+      margin-bottom: 8px;
+      line-height: 22px;
+      padding-right: 0;
+    }
+  }
+
+  /* ---- required asterisk ---- */
+
+  &.is-required:not(.is-no-asterisk) {
+    &.asterisk-left > .moe-form-item__label::before {
+      display: inline-block;
+      margin-right: 4px;
+      color: var(--moe-form-required-color);
+      content: '*';
+    }
+
+    &.asterisk-right > .moe-form-item__label::after {
+      display: inline-block;
+      margin-left: 4px;
+      color: var(--moe-form-required-color);
+      content: '*';
+    }
+  }
+
+  /* ---- error state ---- */
+
+  &.is-error {
+    .moe-input__wrapper,
+    .moe-select,
+    .moe-switch {
+      --moe-input-border-color: var(--moe-form-error-color);
+    }
+  }
+}
+
+/* ---- Label ---- */
+
+.moe-form-item__label {
+  display: inline-flex;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  height: 32px;
+  padding: 0 var(--moe-form-label-gap) 0 0;
+  color: var(--moe-form-label-color);
+  font-size: inherit;
+  line-height: 32px;
+}
+
+/* ---- Content ---- */
+
+.moe-form-item__content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  font-size: var(--font-size);
+  line-height: 32px;
+}
+
+/* ---- Error ---- */
+
+.moe-form-item__error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 2px;
+  color: var(--moe-form-error-color);
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* ---- inline-message: error 不绝对定位，跟随内容 ---- */
+
+.moe-form-item.is-inline-message .moe-form-item__error {
+  position: relative;
+  top: auto;
+  left: auto;
+  display: inline-flex;
+  margin-left: 8px;
+  padding-top: 0;
+}

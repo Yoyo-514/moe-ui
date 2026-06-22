@@ -3,6 +3,7 @@ import { computed, nextTick, provide, ref, useId } from 'vue'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeInput from '../../Input/src/Input.vue'
 import MoeTooltip from '../../Tooltip/src/Tooltip.vue'
+import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
 import { SELECT_CTX_KEY, SELECT_DEFAULT_PROPS, SELECT_EMPTY_VALUES } from './constants'
 import { useKeyMap } from './useKeyMap'
 import type { InputInstance } from '../../Input/src/types'
@@ -23,8 +24,8 @@ const props = withDefaults(defineProps<SelectProps>(), {
   modelValue: undefined,
   options: () => [],
   props: () => ({}),
-  disabled: false,
-  size: 'default',
+  disabled: undefined,
+  size: undefined,
   clearable: false,
   filterable: false,
   loading: false,
@@ -39,6 +40,8 @@ const props = withDefaults(defineProps<SelectProps>(), {
 })
 
 const emits = defineEmits<SelectEmits>()
+const { validate: validateFormItem } = useFormItemValidate()
+const formContext = useFormContext()
 
 const selectRef = ref<HTMLElement>()
 const inputRef = ref<InputInstance>()
@@ -47,6 +50,9 @@ const query = ref('')
 const hoverIndex = ref(-1)
 const registeredOptions = ref<NormalizedSelectOption[]>([])
 const listboxId = `moe-select-listbox-${useId()}`
+
+const selectSize = computed(() => props.size ?? formContext?.props.size ?? 'default')
+const selectDisabled = computed(() => props.disabled ?? formContext?.props.disabled ?? false)
 
 const optionProps = computed(() => ({ ...SELECT_DEFAULT_PROPS, ...props.props }))
 const normalizedOptions = computed(() => [
@@ -70,16 +76,16 @@ const isEmptyValue = computed(() =>
   props.emptyValues.some((value) => isEqualValue(value, props.modelValue))
 )
 const showClear = computed(
-  () => props.clearable && !props.disabled && !isEmptyValue.value && !props.loading
+  () => props.clearable && !selectDisabled.value && !isEmptyValue.value && !props.loading
 )
 const displayValue = computed(() =>
   props.filterable && visible.value ? query.value : selectedLabel.value
 )
 const emptyText = computed(() => (query.value ? props.noMatchText : props.noDataText))
 const selectClasses = computed(() => [
-  `moe-select--${props.size}`,
+  `moe-select--${selectSize.value}`,
   {
-    'is-disabled': props.disabled,
+    'is-disabled': selectDisabled.value,
     'is-opened': visible.value,
     'is-filterable': props.filterable,
   },
@@ -136,7 +142,7 @@ function findFirstEnabledIndex(options = filteredOptions.value) {
 }
 
 async function openMenu() {
-  if (props.disabled) return
+  if (selectDisabled.value) return
 
   query.value = ''
   setVisible(true)
@@ -174,7 +180,7 @@ function handleTooltipVisibleChange(value: boolean) {
 }
 
 function handleTriggerMouseDown(event: MouseEvent) {
-  if (props.disabled) return
+  if (selectDisabled.value) return
   if (!props.filterable) event.preventDefault()
   toggleMenu()
 }
@@ -182,10 +188,11 @@ function handleTriggerMouseDown(event: MouseEvent) {
 function emitChange(value: SelectModelValue) {
   emits('update:modelValue', value)
   emits('change', value)
+  validateFormItem('change')
 }
 
 function selectOption(option: NormalizedSelectOption) {
-  if (props.disabled || props.loading || option.disabled) return
+  if (selectDisabled.value || props.loading || option.disabled) return
 
   emitChange(option.value)
   closeMenu()
@@ -211,6 +218,7 @@ function handleFocus(event: FocusEvent) {
 
 function handleBlur(event: FocusEvent) {
   emits('blur', event)
+  validateFormItem('blur')
 }
 
 function hoverNext() {
@@ -317,9 +325,9 @@ defineExpose<SelectInstance>({
         :model-value="displayValue"
         :readonly="!filterable"
         :placeholder="selectedLabel ? '' : placeholder"
-        :disabled="disabled"
+        :disabled="selectDisabled"
         :name="name || undefined"
-        :size="size"
+        :size="selectSize || undefined"
         autocomplete="off"
         role="combobox"
         :aria-expanded="visible"
