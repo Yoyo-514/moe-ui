@@ -87,6 +87,7 @@
   "dependencies": {
     "@moe-ui-private/vite-plugins": "workspace:*",
     "@moe-ui/components": "workspace:*",
+    "@moe-ui/constants": "workspace:*",
     "@moe-ui/hooks": "workspace:*",
     "@moe-ui/theme": "workspace:*",
     "@moe-ui/utils": "workspace:*",

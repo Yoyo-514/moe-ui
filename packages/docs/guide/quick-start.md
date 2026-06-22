@@ -34,7 +34,7 @@ Moe Cute UI 需要 Vue 3：
 
 ## 完整引入
 
-如果你希望快速开始，可以在入口文件中完整引入组件库和样式。
+如果你希望快速开始，可以在入口文件中完整引入组件库和全量样式。
 
 ```ts
 import { createApp } from 'vue'
@@ -42,10 +42,7 @@ import MoeCuteUI from 'moe-cute-ui'
 import 'moe-cute-ui/style.css'
 import App from './App.vue'
 
-const app = createApp(App)
-
-app.use(MoeCuteUI)
-app.mount('#app')
+createApp(App).use(MoeCuteUI).mount('#app')
 ```
 
 之后就可以在模板中直接使用组件：
@@ -57,46 +54,98 @@ app.mount('#app')
 </template>
 ```
 
-## 手动引入组件
+## 手动按需引入
 
-如果只想使用部分组件，也可以从主包中手动引入组件。
+如果只想使用部分组件，可以从主包中导入组件，并手动导入对应组件样式。
 
-```vue
-<script setup lang="ts">
+```ts
+import { createApp } from 'vue'
 import { MoeAlert, MoeButton } from 'moe-cute-ui'
-import 'moe-cute-ui/style.css'
-</script>
+import 'moe-cute-ui/es/components/Alert/style/css'
+import 'moe-cute-ui/es/components/Button/style/css'
+import App from './App.vue'
 
-<template>
-  <moe-button type="primary">按钮</moe-button>
-  <moe-alert title="这是一条提示" type="info" show-icon />
-</template>
+const app = createApp(App)
+
+app.use(MoeAlert)
+app.use(MoeButton)
+app.mount('#app')
+```
+
+函数式组件同样可以按需引入：
+
+```ts
+import { MoeMessage } from 'moe-cute-ui'
+import 'moe-cute-ui/es/components/Message/style/css'
+
+MoeMessage.success('保存成功')
 ```
 
 ::: tip 提示
-当前阶段推荐优先使用完整样式入口 `moe-cute-ui/style.css`。组件级按需样式入口已经输出到 `moe-cute-ui/theme/*.css`，后续会继续补充自动按需引入 resolver。
+`style/css` 会自动引入基础主题样式和对应组件样式，不需要再额外导入 `moe-cute-ui/style.css`。
 :::
 
-## 按需样式入口
+## 自动按需引入
 
-如果你需要手动控制样式体积，可以只引入对应组件样式：
+自动按需引入需要配合 `unplugin-vue-components` 和 `unplugin-auto-import`。
 
-```ts
-import { MoeButton } from 'moe-cute-ui'
-import 'moe-cute-ui/theme/Button.css'
+::: code-group
+
+```bash [pnpm]
+pnpm add -D unplugin-vue-components unplugin-auto-import
 ```
 
-Alert 示例：
-
-```ts
-import { MoeAlert } from 'moe-cute-ui'
-import 'moe-cute-ui/theme/Alert.css'
+```bash [npm]
+npm install -D unplugin-vue-components unplugin-auto-import
 ```
 
-如果组件依赖基础主题变量，建议同时引入：
+```bash [yarn]
+yarn add -D unplugin-vue-components unplugin-auto-import
+```
+
+:::
+
+在 Vite 中配置 `MoeUIResolver`：
 
 ```ts
-import 'moe-cute-ui/theme/index.css'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { MoeUIResolver } from 'moe-cute-ui/resolver'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [MoeUIResolver()],
+    }),
+    Components({
+      resolvers: [MoeUIResolver()],
+    }),
+  ],
+})
+```
+
+`Components` 会处理模板中的组件：
+
+```vue
+<template>
+  <moe-button type="primary">按钮</moe-button>
+</template>
+```
+
+`AutoImport` 会处理函数式 API：
+
+```ts
+MoeMessage.success('保存成功')
+MoeNotification.info({ title: '提示', message: '内容' })
+```
+
+如果不希望自动引入样式，可以关闭 `importStyle`：
+
+```ts
+MoeUIResolver({ importStyle: false })
 ```
 
 ## Vite 示例

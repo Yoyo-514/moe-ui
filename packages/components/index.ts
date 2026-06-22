@@ -1,6 +1,7 @@
 export * from './Alert'
 export * from './Button'
 export * from './Collapse'
+export * from './ConfigProvider'
 export * from './Dropdown'
 export * from './Icon'
 export * from './Input'

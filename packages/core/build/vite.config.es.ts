@@ -1,22 +1,36 @@
 import vue from '@vitejs/plugin-vue'
 import { hooksPlugin as hooks } from '@moe-ui-private/vite-plugins'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { defineConfig, type UserConfig } from 'vite'
+import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
-import { getBuildDefine, getPackageDirChunkName, pkgRoot } from './utils'
+import { getBuildDefine, pkgRoot } from './utils'
 
 const componentsDir = resolve(pkgRoot, '../components')
 const esDir = resolve(pkgRoot, 'dist/es')
-const esThemeDir = resolve(esDir, 'theme')
-const themeDir = resolve(pkgRoot, 'dist/theme')
 
-const cssOptions = {
-  preprocessorOptions: {
-    scss: {
-      api: 'modern-compiler',
-    },
-  },
-} as unknown as UserConfig['css']
+function normalizeDtsContent(content: string) {
+  return content.replace(/(['"]\.\.\/(?:components|hooks)\/index)\.ts(['"])/g, '$1$2')
+}
+
+const componentChunkGroupMap: Record<string, string> = {
+  ButtonGroup: 'Button',
+  CollapseItem: 'Collapse',
+  DropdownItem: 'Dropdown',
+  DropdownMenu: 'Dropdown',
+  Option: 'Select',
+}
+
+const componentEntries = Object.fromEntries(
+  [
+    ...readFileSync(resolve(componentsDir, 'index.ts'), 'utf-8').matchAll(
+      /export \* from '\.\/(.+)'/g
+    ),
+  ]
+    .map(([, name]) => name)
+    .sort((a, b) => a.localeCompare(b))
+    .map((name) => [`components/${name}/index`, resolve(componentsDir, name, 'index.ts')])
+)
 
 export default defineConfig({
   plugins: [
@@ -27,13 +41,17 @@ export default defineConfig({
       entryRoot: resolve(pkgRoot, '..'),
       include: [
         resolve(pkgRoot, 'index.ts'),
-        resolve(pkgRoot, 'components.ts'),
+        resolve(pkgRoot, 'component.ts'),
+        resolve(pkgRoot, 'defaults.ts'),
+        resolve(pkgRoot, 'make-installer.ts'),
+        resolve(pkgRoot, 'resolver.ts'),
         resolve(pkgRoot, 'style.d.ts'),
         resolve(pkgRoot, '../../env.d.ts'),
         resolve(pkgRoot, '../components/**/*.ts'),
         resolve(pkgRoot, '../components/**/*.vue'),
         resolve(pkgRoot, '../utils/**/*.ts'),
         resolve(pkgRoot, '../hooks/**/*.ts'),
+        resolve(pkgRoot, '../constants/**/*.ts'),
       ],
       exclude: [
         resolve(pkgRoot, '../components/**/*.test.ts'),
@@ -44,54 +62,54 @@ export default defineConfig({
         resolve(pkgRoot, '../hooks/**/*.test.ts'),
         resolve(pkgRoot, '../hooks/vite.config.ts'),
       ],
+      beforeWriteFile(filePath, content) {
+        return {
+          filePath,
+          content: normalizeDtsContent(content),
+        }
+      },
     }),
     hooks({
-      rmFiles: [esDir, themeDir, './dist/types'],
-      mvFiles: [{ from: esThemeDir, to: themeDir }],
+      rmFiles: [esDir, './dist/types'],
     }),
   ],
   resolve: {
     alias: {
       '@moe-ui/components': resolve(pkgRoot, '../components/index.ts'),
+      '@moe-ui/constants': resolve(pkgRoot, '../constants/index.ts'),
       '@moe-ui/utils': resolve(pkgRoot, '../utils/index.ts'),
       '@moe-ui/hooks': resolve(pkgRoot, '../hooks/index.ts'),
       '@moe-ui/theme': resolve(pkgRoot, '../theme'),
     },
   },
   define: getBuildDefine(),
-  css: cssOptions,
   build: {
     outDir: esDir,
     emptyOutDir: true,
     minify: false,
-    cssCodeSplit: true,
     lib: {
-      entry: resolve(pkgRoot, 'index.ts'),
+      entry: {
+        index: resolve(pkgRoot, 'index.ts'),
+        resolver: resolve(pkgRoot, 'resolver.ts'),
+        ...componentEntries,
+      },
       formats: ['es'],
-      fileName: () => 'index.mjs',
+      fileName: (_, entryName) => `${entryName}.mjs`,
     },
     rollupOptions: {
       external: ['vue', '@iconify/vue', 'lodash-es', '@popperjs/core', 'async-validator'],
       output: {
-        entryFileNames: 'index.mjs',
-        chunkFileNames: 'chunks/[name].mjs',
-        assetFileNames(assetInfo) {
-          const fileName = assetInfo.names[0] ?? '[name][extname]'
+        entryFileNames: '[name].mjs',
+        chunkFileNames(chunkInfo) {
+          const name = chunkInfo.name
 
-          if (fileName.endsWith('.css')) {
-            return 'theme/[name][extname]'
+          if (/^[A-Z]/.test(name)) {
+            return `components/${componentChunkGroupMap[name] ?? name}/src/${name}.mjs`
           }
 
-          return '[name][extname]'
+          return 'shared/[name].mjs'
         },
-        manualChunks(id) {
-          if (id.includes('/packages/hooks')) return 'hooks'
-          if (id.includes('/packages/utils') || id.includes('plugin-vue:export-helper')) {
-            return 'utils'
-          }
-
-          return getPackageDirChunkName(id, componentsDir)
-        },
+        assetFileNames: '[name][extname]',
       },
     },
   },

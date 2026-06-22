@@ -45,6 +45,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@moe-ui/components': resolve(pkgRoot, '../components/index.ts'),
+      '@moe-ui/constants': resolve(pkgRoot, '../constants/index.ts'),
       '@moe-ui/utils': resolve(pkgRoot, '../utils/index.ts'),
       '@moe-ui/hooks': resolve(pkgRoot, '../hooks/index.ts'),
       '@moe-ui/theme': resolve(pkgRoot, '../theme'),

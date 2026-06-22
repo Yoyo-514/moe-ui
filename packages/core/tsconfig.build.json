@@ -9,13 +9,17 @@
   },
   "include": [
     "index.ts",
-    "components.ts",
+    "component.ts",
+    "defaults.ts",
+    "make-installer.ts",
+    "resolver.ts",
     "style.d.ts",
     "../../env.d.ts",
     "../components/**/*.ts",
     "../components/**/*.vue",
     "../utils/**/*.ts",
-    "../hooks/**/*.ts"
+    "../hooks/**/*.ts",
+    "../constants/**/*.ts"
   ],
   "exclude": ["../components/**/*.test.ts", "../components/**/*.test.tsx"]
 }

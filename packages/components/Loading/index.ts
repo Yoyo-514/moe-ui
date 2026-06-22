@@ -1,6 +1,5 @@
 import { service } from './src/method'
 import { loadingDirective } from './src/directive'
-import './style/index.scss'
 import type { LoadingService } from './src/types'
 import type { App } from 'vue'
 

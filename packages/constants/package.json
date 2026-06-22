@@ -1,0 +1,11 @@
+{
+  "name": "@moe-ui/constants",
+  "version": "0.1.0",
+  "description": "Shared constants for Moe UI packages.",
+  "type": "module",
+  "main": "index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "private": true
+}

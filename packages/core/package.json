@@ -15,11 +15,23 @@
       "import": "./dist/es/index.mjs",
       "default": "./dist/es/index.mjs"
     },
-    "./umd": "./dist/umd/index.js",
-    "./es/*": "./dist/es/*",
+    "./style.css": "./dist/index.css",
+    "./resolver": {
+      "types": "./dist/types/core/resolver.d.ts",
+      "import": "./dist/es/resolver.mjs"
+    },
+    "./es": {
+      "types": "./dist/types/core/index.d.ts",
+      "import": "./dist/es/index.mjs"
+    },
+    "./es/components/*": {
+      "types": "./dist/types/components/*/index.d.ts",
+      "import": "./dist/es/components/*/index.mjs"
+    },
+    "./es/components/*/style/css": "./dist/es/components/*/style/css.mjs",
     "./theme/*": "./dist/theme/*",
-    "./dist/*": "./dist/*",
-    "./style.css": "./dist/index.css"
+    "./umd": "./dist/umd/index.js",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
@@ -30,14 +42,17 @@
   "sideEffects": [
     "*.css",
     "*.scss",
-    "dist/**/*.css"
+    "dist/**/*.css",
+    "dist/es/components/*/style/*",
+    "dist/theme/**/*.css"
   ],
   "scripts": {
     "generate:components": "node build/generate-components.mjs",
     "build:es": "vite build -c build/vite.config.es.ts",
     "build:umd": "vite build -c build/vite.config.umd.ts",
     "build:watch": "vite build -c build/vite.config.es.ts --watch",
-    "build": "run-s generate:components build:es build:umd"
+    "build": "run-s generate:components build:es build:umd build:styles",
+    "build:styles": "node build/build-styles.mjs"
   },
   "keywords": [
     "vue",

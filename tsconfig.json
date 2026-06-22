@@ -17,6 +17,8 @@
     "jsxImportSource": "vue",
     "paths": {
       "@moe-ui/components": ["./packages/components/index.ts"],
+      "@moe-ui/constants": ["./packages/constants/index.ts"],
+      "@moe-ui/constants/*": ["./packages/constants/*"],
       "@moe-ui/components/*": ["./packages/components/*"],
       "@moe-ui/hooks": ["./packages/hooks/index.ts"],
       "@moe-ui/hooks/*": ["./packages/hooks/*"],

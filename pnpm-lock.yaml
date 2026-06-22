@@ -23,6 +23,9 @@ importers:
       '@moe-ui/components':
         specifier: workspace:*
         version: link:packages/components
+      '@moe-ui/constants':
+        specifier: workspace:*
+        version: link:packages/constants
       '@moe-ui/hooks':
         specifier: workspace:*
         version: link:packages/hooks
@@ -169,6 +172,8 @@ importers:
       jsdom:
         specifier: ^29.1.1
         version: 29.1.1
+
+  packages/constants: {}
 
   packages/core:
     dependencies:

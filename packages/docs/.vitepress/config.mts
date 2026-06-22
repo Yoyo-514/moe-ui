@@ -1,14 +1,6 @@
-import { fileURLToPath, URL } from 'node:url'
 import { componentPreview, containerPreview } from '@vitepress-demo-preview/plugin'
 import { defineConfig } from 'vitepress'
 import { defineTeekConfig } from 'vitepress-theme-teek/config'
-
-const workspaceAlias = {
-  '@examples': fileURLToPath(new URL('../examples', import.meta.url)),
-  '@moe-ui/components': fileURLToPath(new URL('../../components/index.ts', import.meta.url)),
-  '@moe-ui/theme': fileURLToPath(new URL('../../theme', import.meta.url)),
-  '@moe-ui/utils': fileURLToPath(new URL('../../utils/index.ts', import.meta.url)),
-}
 
 const teekConfig = defineTeekConfig({
   teekHome: false,
@@ -89,14 +81,11 @@ export default defineConfig({
   ],
   markdown: {
     config(md) {
-      md.use(componentPreview, { alias: workspaceAlias, clientOnly: true })
-      md.use(containerPreview, { alias: workspaceAlias, clientOnly: true })
+      md.use(componentPreview, { clientOnly: true })
+      md.use(containerPreview, { clientOnly: true })
     },
   },
   vite: {
-    resolve: {
-      alias: workspaceAlias,
-    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -125,6 +114,7 @@ export default defineConfig({
           text: '基础组件',
           items: [
             { text: 'Button 按钮', link: '/components/button' },
+            { text: 'ConfigProvider 全局配置', link: '/components/config-provider' },
             { text: 'Collapse 折叠面板', link: '/components/collapse' },
             { text: 'Icon 图标', link: '/components/icon' },
           ],
