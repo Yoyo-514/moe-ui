@@ -98,7 +98,7 @@ export default defineConfig({
     logo: '/favicon.ico',
     nav: [
       { text: '首页', link: '/' },
-      { text: '指南', link: '/guide/quick-start' },
+      { text: '指南', link: '/guide/installation' },
       { text: '组件', link: '/components/button' },
     ],
 
@@ -106,7 +106,10 @@ export default defineConfig({
       '/guide/': [
         {
           text: '指南',
-          items: [{ text: '快速开始', link: '/guide/quick-start' }],
+          items: [
+            { text: '安装', link: '/guide/installation' },
+            { text: '快速开始', link: '/guide/quick-start' },
+          ],
         },
       ],
       '/components/': [
@@ -146,6 +149,7 @@ export default defineConfig({
             { text: 'Tooltip 文字提示', link: '/components/tooltip' },
             { text: 'Dropdown 下拉菜单', link: '/components/dropdown' },
             { text: 'Popconfirm 气泡确认框', link: '/components/popconfirm' },
+            { text: 'Notification 通知', link: '/components/notification' },
           ],
         },
       ],

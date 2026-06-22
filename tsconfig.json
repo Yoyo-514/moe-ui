@@ -48,6 +48,9 @@
     "packages/**/*.tsx",
     "packages/**/*.vue",
     "packages/**/*.d.ts",
+    "docs/**/*.ts",
+    "docs/**/*.vue",
+    "docs/**/*.d.ts",
     "libs/**/*.ts"
   ]
 }

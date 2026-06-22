@@ -66,9 +66,9 @@
     "vue": "catalog:"
   },
   "dependencies": {
-    "@iconify/vue": "^5.0.1",
-    "@popperjs/core": "^2.11.8",
-    "async-validator": "^4.2.5",
+    "@iconify/vue": "catalog:",
+    "@popperjs/core": "catalog:",
+    "async-validator": "catalog:",
     "lodash-es": "catalog:"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 packages:
   - "packages/*"
   - "libs/*"
+  - "docs"
 
 catalog:
   vue: ^3.5.38
@@ -9,6 +10,8 @@ catalog:
   "@iconify/vue": ^5.0.1
   "@popperjs/core": ^2.11.8
   async-validator: ^4.2.5
+  vite: ^8.0.16
+  vite-plugin-dts: ^5.0.2
 
 allowBuilds:
   "@parcel/watcher": true
