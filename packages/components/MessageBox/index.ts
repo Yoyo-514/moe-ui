@@ -1,6 +1,6 @@
-import { MoeMessageBox } from './method'
-import './style.scss'
+import { MoeMessageBox } from './src/method'
+import './style/index.scss'
 
 export { MoeMessageBox }
-export * from './method'
-export * from './types'
+export * from './src/method'
+export * from './src/types'

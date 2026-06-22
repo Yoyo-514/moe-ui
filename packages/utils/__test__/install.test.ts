@@ -22,7 +22,9 @@ describe('install utilities', () => {
       use: vi.fn(),
     }
 
-    const installer = makeInstaller([first, second]) as (target: { use: typeof app.use }) => void
+    const installer = makeInstaller([first, second]) as unknown as (target: {
+      use: typeof app.use
+    }) => void
     installer(app)
 
     expect(app.use).toHaveBeenCalledWith(first)

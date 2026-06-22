@@ -20,7 +20,7 @@
 
 ## 自定义内容
 
-<preview path="../examples/tooltip/content-slot.vue" title="自定义内容" description="通过 content 插槽自定义提示内容。"></preview>
+<preview path="../examples/tooltip/slot-content.vue" title="自定义内容" description="通过 content 插槽自定义提示内容。"></preview>
 
 ## 受控显示
 

@@ -1,6 +1,6 @@
-import { MoeNotification } from './method'
-import './style.scss'
+import { MoeNotification } from './src/method'
+import './style/index.scss'
 
 export { MoeNotification }
-export * from './method'
-export * from './types'
+export * from './src/method'
+export * from './src/types'

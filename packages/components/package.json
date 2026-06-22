@@ -4,7 +4,7 @@
   "description": "Vue 3 components for Moe UI.",
   "main": "index.js",
   "scripts": {
-    "test": "vitest --coverage"
+    "test": "vitest --config ../../vitest.config.ts --coverage"
   },
   "keywords": [],
   "author": "",

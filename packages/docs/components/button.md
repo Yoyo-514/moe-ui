@@ -28,7 +28,7 @@
 
 ## 自定义加载图标
 
-<preview path="../examples/button/loading-slot.vue" title="自定义加载图标" description="通过 loading 插槽可以完全自定义加载状态的图标内容。"></preview>
+<preview path="../examples/button/slot-loading.vue" title="自定义加载图标" description="通过 loading 插槽可以完全自定义加载状态的图标内容。"></preview>
 
 ## 自定义标签
 

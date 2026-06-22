@@ -16,7 +16,7 @@
 
 ## 自定义标题
 
-<preview path="../examples/collapse/title-slot.vue" title="自定义标题" description="通过 title 插槽可以自定义面板标题内容。"></preview>
+<preview path="../examples/collapse/slot-title.vue" title="自定义标题" description="通过 title 插槽可以自定义面板标题内容。"></preview>
 
 ## Collapse API
 

@@ -20,15 +20,15 @@
 
 ## 函数形式的 message
 
-<preview path="../examples/notification/message-function.vue" title="函数形式的 message" description="message 支持传入返回 VNode 的函数。"></preview>
+<preview path="../examples/notification/message-render-function.vue" title="函数形式的 message" description="message 支持传入返回 VNode 的函数。"></preview>
 
 ## 隐藏关闭按钮
 
-<preview path="../examples/notification/hide-close.vue" title="隐藏关闭按钮" description="showClose 为 false 时会隐藏关闭按钮。"></preview>
+<preview path="../examples/notification/close-hidden.vue" title="隐藏关闭按钮" description="showClose 为 false 时会隐藏关闭按钮。"></preview>
 
 ## 全局方法
 
-<preview path="../examples/notification/global-method.vue" title="全局方法" description="全量安装后会在 app.config.globalProperties 上注册 $notification，可以在组件实例中通过 this.$notification 调用。"></preview>
+<preview path="../examples/notification/method-global.vue" title="全局方法" description="全量安装后会在 app.config.globalProperties 上注册 $notification，可以在组件实例中通过 this.$notification 调用。"></preview>
 
 ## 单独引用
 

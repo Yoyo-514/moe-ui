@@ -12,7 +12,7 @@
 
 在选项数据中设置 `disabled: true` 可以禁用某个选项。
 
-<preview path="../examples/select/option-disabled.vue" title="有禁用选项" description="禁用选项不可被选择。"></preview>
+<preview path="../examples/select/disabled-option.vue" title="有禁用选项" description="禁用选项不可被选择。"></preview>
 
 ## 禁用状态
 

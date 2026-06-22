@@ -38,7 +38,6 @@ export default defineConfig({
       exclude: [
         resolve(pkgRoot, '../components/**/*.test.ts'),
         resolve(pkgRoot, '../components/**/*.test.tsx'),
-        resolve(pkgRoot, '../components/vitest.config.ts'),
         resolve(pkgRoot, '../utils/**/__test__/**'),
         resolve(pkgRoot, '../utils/**/*.test.ts'),
         resolve(pkgRoot, '../hooks/**/__test__/**'),

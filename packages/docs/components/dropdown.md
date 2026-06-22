@@ -12,7 +12,7 @@
 
 ## 触发对象
 
-<preview path="../examples/dropdown/trigger-target.vue" title="触发对象" description="普通模式以默认插槽内容作为触发对象；split-button 模式下，下拉菜单会对准右侧箭头按钮。"></preview>
+<preview path="../examples/dropdown/trigger-custom.vue" title="触发对象" description="普通模式以默认插槽内容作为触发对象；split-button 模式下，下拉菜单会对准右侧箭头按钮。"></preview>
 
 ## 触发方式
 

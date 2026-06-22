@@ -36,7 +36,7 @@
 
 ## 复合型输入框
 
-<preview path="../examples/input/slots.vue" title="复合型输入框" description="普通 input 支持 prepend 和 append 插槽。"></preview>
+<preview path="../examples/input/slot.vue" title="复合型输入框" description="普通 input 支持 prepend 和 append 插槽。"></preview>
 
 ## 不同尺寸
 

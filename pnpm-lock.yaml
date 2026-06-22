@@ -222,6 +222,8 @@ importers:
         specifier: 'catalog:'
         version: 3.5.38(typescript@6.0.3)
 
+  packages/test-utils: {}
+
   packages/theme: {}
 
   packages/utils: {}

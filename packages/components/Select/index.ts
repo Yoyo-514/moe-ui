@@ -1,8 +1,8 @@
 import { withInstall } from '@moe-ui/utils'
-import Select from './Select.vue'
-import Option from './Option.vue'
-import './style.scss'
+import Select from './src/Select.vue'
+import Option from './src/Option.vue'
+import './style/index.scss'
 
 export const MoeSelect = withInstall(Select)
 export const MoeOption = withInstall(Option)
-export * from './types'
+export * from './src/types'

@@ -17,9 +17,5 @@
     "../utils/**/*.ts",
     "../hooks/**/*.ts"
   ],
-  "exclude": [
-    "../components/**/*.test.ts",
-    "../components/**/*.test.tsx",
-    "../components/vitest.config.ts"
-  ]
+  "exclude": ["../components/**/*.test.ts", "../components/**/*.test.tsx"]
 }

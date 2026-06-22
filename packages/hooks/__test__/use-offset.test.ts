@@ -41,7 +41,7 @@ describe('useOffset', () => {
   })
 
   it('creates popper offset modifier from normalized offset', async () => {
-    const offset = ref(16)
+    const offset = ref<number | undefined>(16)
     const { popperOffsetModifier } = useOffset({ offset, defaultOffset: 12 })
 
     expect(popperOffsetModifier.value).toEqual({

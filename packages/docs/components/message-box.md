@@ -30,13 +30,13 @@
 
 如果内容中需要绑定事件，可以传入函数形式的 `message`，在函数中返回带事件的 VNode。
 
-<preview path="../examples/message-box/event-vnode.vue" title="使用带有事件处理函数的 VNode" description="VNode 内容可以绑定 click 等事件。"></preview>
+<preview path="../examples/message-box/vnode-event.vue" title="使用带有事件处理函数的 VNode" description="VNode 内容可以绑定 click 等事件。"></preview>
 
 ## 个性化
 
 MessageBox 支持自定义按钮文本、按钮类型、按钮尺寸、圆角按钮以及居中布局。
 
-<preview path="../examples/message-box/custom-button.vue" title="个性化" description="支持自定义按钮文本、类型、尺寸、圆角和居中布局。"></preview>
+<preview path="../examples/message-box/button-custom.vue" title="个性化" description="支持自定义按钮文本、类型、尺寸、圆角和居中布局。"></preview>
 
 ## 区分取消操作与关闭操作
 
@@ -48,19 +48,19 @@ MessageBox 支持自定义按钮文本、按钮类型、按钮尺寸、圆角按
 
 设置 `center` 后，标题、内容和底部按钮会居中显示。该能力也可以和 `roundButton`、`buttonSize` 一起使用。
 
-<preview path="../examples/message-box/custom-button.vue" title="内容居中" description="center 可以让弹框内容和按钮居中。"></preview>
+<preview path="../examples/message-box/button-custom.vue" title="内容居中" description="center 可以让弹框内容和按钮居中。"></preview>
 
 ## 自定义图标
 
 `type` 会提供默认状态图标；如果需要完全自定义，可以传入 `icon` 和 `closeIcon`。
 
-<preview path="../examples/message-box/custom-icon.vue" title="自定义图标" description="支持自定义状态图标和关闭图标。"></preview>
+<preview path="../examples/message-box/icon-custom.vue" title="自定义图标" description="支持自定义状态图标和关闭图标。"></preview>
 
 ## 全局方法
 
 全量安装后，组件库会注册 `$messageBox`、`$msgbox`、`$alert`、`$confirm` 和 `$prompt`。
 
-<preview path="../examples/message-box/global-method.vue" title="全局方法" description="全量安装后可以通过组件实例全局方法调用。"></preview>
+<preview path="../examples/message-box/method-global.vue" title="全局方法" description="全量安装后可以通过组件实例全局方法调用。"></preview>
 
 ## 按需引入
 

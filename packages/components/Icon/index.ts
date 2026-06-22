@@ -1,7 +1,7 @@
 import { withInstall } from '@moe-ui/utils'
-import Icon from './Icon.vue'
-import './style.scss'
+import Icon from './src/Icon.vue'
+import './style/index.scss'
 
 export const MoeIcon = withInstall(Icon)
 
-export * from './types'
+export * from './src/types'

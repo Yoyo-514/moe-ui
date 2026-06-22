@@ -33,10 +33,11 @@
     "dist/**/*.css"
   ],
   "scripts": {
+    "generate:components": "node build/generate-components.mjs",
     "build:es": "vite build -c build/vite.config.es.ts",
     "build:umd": "vite build -c build/vite.config.umd.ts",
     "build:watch": "vite build -c build/vite.config.es.ts --watch",
-    "build": "run-s build:es build:umd"
+    "build": "run-s generate:components build:es build:umd"
   },
   "keywords": [
     "vue",

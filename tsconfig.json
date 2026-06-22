@@ -24,6 +24,8 @@
       "@moe-ui/theme/*": ["./packages/theme/*"],
       "@moe-ui/utils": ["./packages/utils/index.ts"],
       "@moe-ui/utils/*": ["./packages/utils/*"],
+      "@moe-ui/test-utils": ["./packages/test-utils/index.ts"],
+      "@moe-ui/test-utils/*": ["./packages/test-utils/*"],
       "@moe-ui-private/vite-plugins": ["./libs/vite-plugins/index.ts"],
       "@moe-ui-private/vite-plugins/*": ["./libs/vite-plugins/*"]
     },
@@ -36,6 +38,8 @@
   },
   "include": [
     "env.d.ts",
+    "vitest.config.ts",
+    "vitest.setup.ts",
     "packages/**/*.ts",
     "packages/**/*.tsx",
     "packages/**/*.vue",

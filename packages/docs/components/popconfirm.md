@@ -8,7 +8,7 @@
 
 ## 按钮文字和类型
 
-<preview path="../examples/popconfirm/button-text.vue" title="按钮文字和类型" description="通过 confirmButtonText、cancelButtonText 和按钮类型 props 调整操作按钮。"></preview>
+<preview path="../examples/popconfirm/button-label.vue" title="按钮文字和类型" description="通过 confirmButtonText、cancelButtonText 和按钮类型 props 调整操作按钮。"></preview>
 
 ## 图标
 
@@ -24,7 +24,7 @@
 
 ## 延迟关闭
 
-<preview path="../examples/popconfirm/hide-after.vue" title="延迟关闭" description="通过 hideAfter 设置确认或取消后的延迟关闭时间。"></preview>
+<preview path="../examples/popconfirm/close-delay.vue" title="延迟关闭" description="通过 hideAfter 设置确认或取消后的延迟关闭时间。"></preview>
 
 ## Popconfirm API
 

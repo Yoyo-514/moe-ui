@@ -1,6 +1,6 @@
-import Overlay from './Overlay.vue'
-import './style.scss'
+import Overlay from './src/Overlay.vue'
+import './style/index.scss'
 
 export default Overlay
 export { Overlay }
-export * from './types'
+export * from './src/types'

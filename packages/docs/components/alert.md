@@ -12,7 +12,7 @@
 
 ## 自定义关闭按钮
 
-<preview path="../examples/alert/custom-close.vue" title="自定义关闭按钮" description="支持默认关闭按钮、自定义关闭文字和不可关闭状态。"></preview>
+<preview path="../examples/alert/close-custom.vue" title="自定义关闭按钮" description="支持默认关闭按钮、自定义关闭文字和不可关闭状态。"></preview>
 
 ## 使用图标
 
@@ -28,7 +28,7 @@
 
 ## 带图标和描述
 
-<preview path="../examples/alert/icon-description.vue" title="带图标和描述" description="图标和描述可以组合使用，用于更醒目的状态反馈。"></preview>
+<preview path="../examples/alert/icon-with-description.vue" title="带图标和描述" description="图标和描述可以组合使用，用于更醒目的状态反馈。"></preview>
 
 ## Alert API
 
