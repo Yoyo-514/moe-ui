@@ -1,6 +1,8 @@
 import { createVNode, isVNode, render, type App } from 'vue'
 import { isPlainObject, isString } from 'lodash-es'
 import { useZIndex } from '@moe-ui/hooks'
+import { translate, zhCn } from '@moe-ui/locale'
+import { useGlobalConfig } from '../../ConfigProvider'
 import MessageBoxConstructor from './MessageBox.vue'
 import {
   MESSAGE_BOX_CLOSE_ICON,
@@ -46,8 +48,20 @@ const normalizeShortcutOptions = (
 
   return {
     ...options,
-    title: typeof titleOrOptions === 'string' ? titleOrOptions : options?.title,
+    ...(typeof titleOrOptions === 'string' ? { title: titleOrOptions } : {}),
     message,
+  }
+}
+
+const getLocalizedDefaultOptions = () => {
+  const locale = useGlobalConfig('locale', zhCn).value
+
+  return {
+    ...MESSAGE_BOX_DEFAULT_OPTIONS,
+    title: translate(locale, 'messagebox.title'),
+    cancelButtonText: translate(locale, 'messagebox.cancel'),
+    confirmButtonText: translate(locale, 'messagebox.confirm'),
+    inputErrorMessage: translate(locale, 'messagebox.error'),
   }
 }
 
@@ -91,7 +105,7 @@ const createMessageBox = (params?: MessageBoxParams): Promise<MessageBoxData> =>
       onAction: (action: MessageBoxAction, value: string) => void
       onDestroy: () => void
     } = {
-      ...MESSAGE_BOX_DEFAULT_OPTIONS,
+      ...getLocalizedDefaultOptions(),
       ...options,
       id,
       closeIcon: options.closeIcon ?? MESSAGE_BOX_CLOSE_ICON,

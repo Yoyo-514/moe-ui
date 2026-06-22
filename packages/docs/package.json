@@ -2,6 +2,7 @@
   "name": "@moe-ui/docs",
   "version": "0.1.0",
   "description": "Documentation site for Moe UI.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "node -e \"require('node:fs').rmSync('.vitepress/cache', { recursive: true, force: true })\" && vitepress dev",
@@ -11,6 +12,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@moe-ui/components": "workspace:*",
+    "@moe-ui/locale": "workspace:*"
+  },
   "devDependencies": {
     "@vitepress-demo-preview/component": "^2.6.2",
     "@vitepress-demo-preview/plugin": "^1.4.1",

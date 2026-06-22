@@ -1,8 +1,23 @@
+/* eslint-disable vue/one-component-per-file */
 import { mount } from '@vue/test-utils'
 import { defineComponent, h } from 'vue'
 import { describe, expect, it, vi } from 'vitest'
 
-import { MoeConfigProvider, useGlobalConfig } from '../index'
+import { en } from '@moe-ui/locale'
+import { MoeConfigProvider, useGlobalConfig, useLocale } from '../index'
+
+const LocaleConsumer = defineComponent({
+  setup() {
+    const { lang, t } = useLocale()
+
+    return () => (
+      <div class="locale-consumer">
+        <span class="lang">{lang.value}</span>
+        <span class="placeholder">{t('select.placeholder')}</span>
+      </div>
+    )
+  },
+})
 
 const Consumer = defineComponent({
   setup() {
@@ -63,6 +78,18 @@ describe('ConfigProvider.vue', () => {
     expect(wrapper.get('.namespace').text()).toBe('outer')
     expect(wrapper.get('.size').text()).toBe('small')
     expect(wrapper.get('.z-index').text()).toBe('2000')
+  })
+
+  it('provides locale to descendants', () => {
+    const wrapper = mount(MoeConfigProvider, {
+      props: { locale: en },
+      slots: {
+        default: () => <LocaleConsumer />,
+      },
+    })
+
+    expect(wrapper.get('.lang').text()).toBe('en')
+    expect(wrapper.get('.placeholder').text()).toBe('Select')
   })
 
   it('exposes config through scoped slot', () => {

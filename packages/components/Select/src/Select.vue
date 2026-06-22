@@ -3,6 +3,7 @@ import { computed, nextTick, provide, ref, useId } from 'vue'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeInput from '../../Input/src/Input.vue'
 import MoeTooltip from '../../Tooltip/src/Tooltip.vue'
+import { useLocale } from '../../ConfigProvider'
 import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
 import { SELECT_CTX_KEY, SELECT_DEFAULT_PROPS, SELECT_EMPTY_VALUES } from './constants'
 import { useKeyMap } from './useKeyMap'
@@ -29,10 +30,10 @@ const props = withDefaults(defineProps<SelectProps>(), {
   clearable: false,
   filterable: false,
   loading: false,
-  loadingText: '加载中',
-  noMatchText: '无匹配数据',
-  noDataText: '暂无数据',
-  placeholder: '请选择',
+  loadingText: undefined,
+  noMatchText: undefined,
+  noDataText: undefined,
+  placeholder: undefined,
   name: '',
   valueKey: 'value',
   emptyValues: () => [...SELECT_EMPTY_VALUES],
@@ -40,6 +41,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
 })
 
 const emits = defineEmits<SelectEmits>()
+const { t } = useLocale()
 const { validate: validateFormItem } = useFormItemValidate()
 const formContext = useFormContext()
 
@@ -78,10 +80,16 @@ const isEmptyValue = computed(() =>
 const showClear = computed(
   () => props.clearable && !selectDisabled.value && !isEmptyValue.value && !props.loading
 )
+const placeholderText = computed(() => props.placeholder ?? t('select.placeholder'))
+const loadingText = computed(() => props.loadingText ?? t('select.loading'))
+const emptyText = computed(() =>
+  query.value
+    ? (props.noMatchText ?? t('select.noMatch'))
+    : (props.noDataText ?? t('select.noData'))
+)
 const displayValue = computed(() =>
   props.filterable && visible.value ? query.value : selectedLabel.value
 )
-const emptyText = computed(() => (query.value ? props.noMatchText : props.noDataText))
 const selectClasses = computed(() => [
   `moe-select--${selectSize.value}`,
   {
@@ -324,7 +332,7 @@ defineExpose<SelectInstance>({
         class="moe-select__input"
         :model-value="displayValue"
         :readonly="!filterable"
-        :placeholder="selectedLabel ? '' : placeholder"
+        :placeholder="selectedLabel ? '' : placeholderText"
         :disabled="selectDisabled"
         :name="name || undefined"
         :size="selectSize || undefined"

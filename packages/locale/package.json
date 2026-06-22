@@ -1,0 +1,16 @@
+{
+  "name": "@moe-ui/locale",
+  "version": "0.1.0",
+  "description": "Locale messages and i18n utilities for Moe UI.",
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts",
+  "files": [
+    "index.ts",
+    "lang"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": true
+}

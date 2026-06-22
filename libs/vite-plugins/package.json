@@ -23,7 +23,7 @@
     "build:lib": "vite build"
   },
   "dependencies": {
-    "lodash-es": "^4.18.1",
+    "lodash-es": "catalog:",
     "shelljs": "^0.10.0"
   },
   "devDependencies": {

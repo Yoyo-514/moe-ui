@@ -6,5 +6,9 @@
   "main": "index.ts",
   "exports": {
     ".": "./index.ts"
+  },
+  "dependencies": {
+    "@vue/test-utils": "catalog:",
+    "vue": "catalog:"
   }
 }

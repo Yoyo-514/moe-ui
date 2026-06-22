@@ -5,3 +5,4 @@ export const MoeConfigProvider = withInstall(ConfigProvider)
 
 export * from './src/types'
 export { provideGlobalConfig, useGlobalConfig } from './src/use-config'
+export { useLocale } from './src/use-locale'

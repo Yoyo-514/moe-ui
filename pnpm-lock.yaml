@@ -6,6 +6,18 @@ settings:
 
 catalogs:
   default:
+    '@iconify/vue':
+      specifier: ^5.0.1
+      version: 5.0.1
+    '@popperjs/core':
+      specifier: ^2.11.8
+      version: 2.11.8
+    '@vue/test-utils':
+      specifier: ^2.4.11
+      version: 2.4.11
+    async-validator:
+      specifier: ^4.2.5
+      version: 4.2.5
     lodash-es:
       specifier: ^4.18.1
       version: 4.18.1
@@ -29,6 +41,9 @@ importers:
       '@moe-ui/hooks':
         specifier: workspace:*
         version: link:packages/hooks
+      '@moe-ui/locale':
+        specifier: workspace:*
+        version: link:packages/locale
       '@moe-ui/theme':
         specifier: workspace:*
         version: link:packages/theme
@@ -145,7 +160,7 @@ importers:
   libs/vite-plugins:
     dependencies:
       lodash-es:
-        specifier: ^4.18.1
+        specifier: 'catalog:'
         version: 4.18.1
       shelljs:
         specifier: ^0.10.0
@@ -162,16 +177,35 @@ importers:
         version: 5.0.2(rolldown@1.0.3)(rollup@4.62.0)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))
 
   packages/components:
+    dependencies:
+      '@iconify/vue':
+        specifier: 'catalog:'
+        version: 5.0.1(vue@3.5.38(typescript@6.0.3))
+      '@moe-ui/hooks':
+        specifier: workspace:*
+        version: link:../hooks
+      '@moe-ui/locale':
+        specifier: workspace:*
+        version: link:../locale
+      '@moe-ui/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@popperjs/core':
+        specifier: 'catalog:'
+        version: 2.11.8
+      async-validator:
+        specifier: 'catalog:'
+        version: 4.2.5
+      lodash-es:
+        specifier: 'catalog:'
+        version: 4.18.1
     devDependencies:
-      '@vitest/coverage-v8':
-        specifier: ^4.1.8
-        version: 4.1.8(vitest@4.1.8)
       '@vue/test-utils':
-        specifier: ^2.4.11
+        specifier: 'catalog:'
         version: 2.4.11(@vue/compiler-dom@3.5.38)(@vue/server-renderer@3.5.38(vue@3.5.38(typescript@6.0.3)))(vue@3.5.38(typescript@6.0.3))
-      jsdom:
-        specifier: ^29.1.1
-        version: 29.1.1
+      vue:
+        specifier: 'catalog:'
+        version: 3.5.38(typescript@6.0.3)
 
   packages/constants: {}
 
@@ -204,6 +238,13 @@ importers:
         version: 2.5.3(rollup@4.62.0)
 
   packages/docs:
+    dependencies:
+      '@moe-ui/components':
+        specifier: workspace:*
+        version: link:../components
+      '@moe-ui/locale':
+        specifier: workspace:*
+        version: link:../locale
     devDependencies:
       '@vitepress-demo-preview/component':
         specifier: ^2.6.2
@@ -227,7 +268,16 @@ importers:
         specifier: 'catalog:'
         version: 3.5.38(typescript@6.0.3)
 
-  packages/test-utils: {}
+  packages/locale: {}
+
+  packages/test-utils:
+    dependencies:
+      '@vue/test-utils':
+        specifier: 'catalog:'
+        version: 2.4.11(@vue/compiler-dom@3.5.38)(@vue/server-renderer@3.5.38(vue@3.5.38(typescript@6.0.3)))(vue@3.5.38(typescript@6.0.3))
+      vue:
+        specifier: 'catalog:'
+        version: 3.5.38(typescript@6.0.3)
 
   packages/theme: {}
 
@@ -4094,6 +4144,7 @@ snapshots:
       '@csstools/css-color-parser': 4.1.4(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-tokenizer': 4.0.0
+    optional: true
 
   '@asamuzakjp/dom-selector@7.1.1':
     dependencies:
@@ -4102,10 +4153,13 @@ snapshots:
       bidi-js: 1.0.3
       css-tree: 3.2.1
       is-potential-custom-element-name: 1.0.1
+    optional: true
 
-  '@asamuzakjp/generational-cache@1.0.1': {}
+  '@asamuzakjp/generational-cache@1.0.1':
+    optional: true
 
-  '@asamuzakjp/nwsapi@2.3.9': {}
+  '@asamuzakjp/nwsapi@2.3.9':
+    optional: true
 
   '@babel/code-frame@7.29.7':
     dependencies:
@@ -4276,11 +4330,13 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@bcoe/v8-coverage@1.0.2': {}
+  '@bcoe/v8-coverage@1.0.2':
+    optional: true
 
   '@bramus/specificity@2.4.2':
     dependencies:
       css-tree: 3.2.1
+    optional: true
 
   '@changesets/apply-release-plan@7.1.1':
     dependencies:
@@ -4425,12 +4481,14 @@ snapshots:
       human-id: 4.2.0
       prettier: 2.8.8
 
-  '@csstools/color-helpers@6.0.2': {}
+  '@csstools/color-helpers@6.0.2':
+    optional: true
 
   '@csstools/css-calc@3.2.1(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)':
     dependencies:
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-tokenizer': 4.0.0
+    optional: true
 
   '@csstools/css-color-parser@4.1.4(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)':
     dependencies:
@@ -4438,16 +4496,20 @@ snapshots:
       '@csstools/css-calc': 3.2.1(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-tokenizer': 4.0.0
+    optional: true
 
   '@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0)':
     dependencies:
       '@csstools/css-tokenizer': 4.0.0
+    optional: true
 
   '@csstools/css-syntax-patches-for-csstree@1.1.5(css-tree@3.2.1)':
     optionalDependencies:
       css-tree: 3.2.1
+    optional: true
 
-  '@csstools/css-tokenizer@4.0.0': {}
+  '@csstools/css-tokenizer@4.0.0':
+    optional: true
 
   '@docsearch/css@3.8.2': {}
 
@@ -4594,7 +4656,8 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@exodus/bytes@1.15.1': {}
+  '@exodus/bytes@1.15.1':
+    optional: true
 
   '@floating-ui/core@1.7.5':
     dependencies:
@@ -5184,6 +5247,7 @@ snapshots:
       std-env: 4.1.0
       tinyrainbow: 3.1.0
       vitest: 4.1.8(@types/node@25.9.3)(@vitest/coverage-v8@4.1.8)(jsdom@29.1.1)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))
+    optional: true
 
   '@vitest/expect@4.1.8':
     dependencies:
@@ -5501,6 +5565,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       estree-walker: 3.0.3
       js-tokens: 10.0.0
+    optional: true
 
   async-function@1.0.0: {}
 
@@ -5525,6 +5590,7 @@ snapshots:
   bidi-js@1.0.3:
     dependencies:
       require-from-string: 2.0.2
+    optional: true
 
   birpc@2.9.0: {}
 
@@ -5684,6 +5750,7 @@ snapshots:
     dependencies:
       mdn-data: 2.27.1
       source-map-js: 1.2.1
+    optional: true
 
   cssesc@3.0.0: {}
 
@@ -5695,6 +5762,7 @@ snapshots:
       whatwg-url: 16.0.1
     transitivePeerDependencies:
       - '@noble/hashes'
+    optional: true
 
   data-view-buffer@1.0.2:
     dependencies:
@@ -5720,7 +5788,8 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
-  decimal.js@10.6.0: {}
+  decimal.js@10.6.0:
+    optional: true
 
   deep-is@0.1.4: {}
 
@@ -5784,7 +5853,8 @@ snapshots:
 
   entities@7.0.1: {}
 
-  entities@8.0.0: {}
+  entities@8.0.0:
+    optional: true
 
   environment@1.1.0: {}
 
@@ -6209,7 +6279,8 @@ snapshots:
 
   has-flag@3.0.0: {}
 
-  has-flag@4.0.0: {}
+  has-flag@4.0.0:
+    optional: true
 
   has-property-descriptors@1.0.2:
     dependencies:
@@ -6256,8 +6327,10 @@ snapshots:
       '@exodus/bytes': 1.15.1
     transitivePeerDependencies:
       - '@noble/hashes'
+    optional: true
 
-  html-escaper@2.0.2: {}
+  html-escaper@2.0.2:
+    optional: true
 
   html-to-image@1.11.13: {}
 
@@ -6372,7 +6445,8 @@ snapshots:
 
   is-number@7.0.0: {}
 
-  is-potential-custom-element-name@1.0.1: {}
+  is-potential-custom-element-name@1.0.1:
+    optional: true
 
   is-regex@1.2.1:
     dependencies:
@@ -6427,18 +6501,21 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  istanbul-lib-coverage@3.2.2: {}
+  istanbul-lib-coverage@3.2.2:
+    optional: true
 
   istanbul-lib-report@3.0.1:
     dependencies:
       istanbul-lib-coverage: 3.2.2
       make-dir: 4.0.0
       supports-color: 7.2.0
+    optional: true
 
   istanbul-reports@3.2.0:
     dependencies:
       html-escaper: 2.0.2
       istanbul-lib-report: 3.0.1
+    optional: true
 
   jackspeak@3.4.3:
     dependencies:
@@ -6458,7 +6535,8 @@ snapshots:
 
   js-cookie@3.0.8: {}
 
-  js-tokens@10.0.0: {}
+  js-tokens@10.0.0:
+    optional: true
 
   js-tokens@4.0.0: {}
 
@@ -6496,6 +6574,7 @@ snapshots:
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - '@noble/hashes'
+    optional: true
 
   jsesc@3.1.0: {}
 
@@ -6633,7 +6712,8 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
-  lru-cache@11.5.1: {}
+  lru-cache@11.5.1:
+    optional: true
 
   lru-cache@5.1.1:
     dependencies:
@@ -6648,10 +6728,12 @@ snapshots:
       '@babel/parser': 7.29.7
       '@babel/types': 7.29.7
       source-map-js: 1.2.1
+    optional: true
 
   make-dir@4.0.0:
     dependencies:
       semver: 7.8.4
+    optional: true
 
   mark.js@8.11.1: {}
 
@@ -6680,7 +6762,8 @@ snapshots:
       unist-util-visit: 5.1.0
       vfile: 6.0.3
 
-  mdn-data@2.27.1: {}
+  mdn-data@2.27.1:
+    optional: true
 
   mdurl@2.0.0: {}
 
@@ -6873,6 +6956,7 @@ snapshots:
   parse5@8.0.1:
     dependencies:
       entities: 8.0.0
+    optional: true
 
   path-browserify@1.0.1: {}
 
@@ -7054,7 +7138,8 @@ snapshots:
       gopd: 1.2.0
       set-function-name: 2.0.2
 
-  require-from-string@2.0.2: {}
+  require-from-string@2.0.2:
+    optional: true
 
   resolve-from@5.0.0: {}
 
@@ -7162,6 +7247,7 @@ snapshots:
   saxes@6.0.0:
     dependencies:
       xmlchars: 2.2.0
+    optional: true
 
   search-insights@2.17.3: {}
 
@@ -7419,10 +7505,12 @@ snapshots:
   supports-color@7.2.0:
     dependencies:
       has-flag: 4.0.0
+    optional: true
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  symbol-tree@3.2.4: {}
+  symbol-tree@3.2.4:
+    optional: true
 
   synckit@0.11.13:
     dependencies:
@@ -7452,11 +7540,13 @@ snapshots:
 
   tinyrainbow@3.1.0: {}
 
-  tldts-core@7.4.2: {}
+  tldts-core@7.4.2:
+    optional: true
 
   tldts@7.4.2:
     dependencies:
       tldts-core: 7.4.2
+    optional: true
 
   to-regex-range@5.0.1:
     dependencies:
@@ -7465,10 +7555,12 @@ snapshots:
   tough-cookie@6.0.1:
     dependencies:
       tldts: 7.4.2
+    optional: true
 
   tr46@6.0.0:
     dependencies:
       punycode: 2.3.1
+    optional: true
 
   trim-lines@3.0.1: {}
 
@@ -7542,7 +7634,8 @@ snapshots:
 
   undici-types@7.24.6: {}
 
-  undici@7.27.2: {}
+  undici@7.27.2:
+    optional: true
 
   unist-util-is@6.0.1:
     dependencies:
@@ -7844,12 +7937,15 @@ snapshots:
   w3c-xmlserializer@5.0.0:
     dependencies:
       xml-name-validator: 5.0.0
+    optional: true
 
-  webidl-conversions@8.0.1: {}
+  webidl-conversions@8.0.1:
+    optional: true
 
   webpack-virtual-modules@0.6.2: {}
 
-  whatwg-mimetype@5.0.0: {}
+  whatwg-mimetype@5.0.0:
+    optional: true
 
   whatwg-url@16.0.1:
     dependencies:
@@ -7858,6 +7954,7 @@ snapshots:
       webidl-conversions: 8.0.1
     transitivePeerDependencies:
       - '@noble/hashes'
+    optional: true
 
   which-boxed-primitive@1.1.1:
     dependencies:
@@ -7941,9 +8038,11 @@ snapshots:
 
   xml-name-validator@4.0.0: {}
 
-  xml-name-validator@5.0.0: {}
+  xml-name-validator@5.0.0:
+    optional: true
 
-  xmlchars@2.2.0: {}
+  xmlchars@2.2.0:
+    optional: true
 
   yallist@3.1.1: {}
 

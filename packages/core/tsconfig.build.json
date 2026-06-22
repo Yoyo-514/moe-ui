@@ -19,6 +19,7 @@
     "../components/**/*.vue",
     "../utils/**/*.ts",
     "../hooks/**/*.ts",
+    "../locale/**/*.ts",
     "../constants/**/*.ts"
   ],
   "exclude": ["../components/**/*.test.ts", "../components/**/*.test.tsx"]

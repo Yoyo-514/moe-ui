@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useTimeout } from '@moe-ui/hooks'
 import { addUnit } from '@moe-ui/utils'
 
+import { useLocale } from '../../ConfigProvider'
 import MoeButton from '../../Button/src/Button.vue'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeTooltip from '../../Tooltip/src/Tooltip.vue'
@@ -16,8 +17,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<PopconfirmProps>(), {
   title: '',
-  confirmButtonText: '确认',
-  cancelButtonText: '取消',
+  confirmButtonText: undefined,
+  cancelButtonText: undefined,
   confirmButtonType: 'primary',
   cancelButtonType: 'text',
   icon: 'mingcute:question-line',
@@ -28,6 +29,7 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
 })
 
 const emits = defineEmits<PopconfirmEmits>()
+const { t } = useLocale()
 defineSlots<{
   reference?: () => unknown
   actions?: (props: {
@@ -40,6 +42,10 @@ const tooltipRef = ref<TooltipInstance>()
 const hideTimer = useTimeout()
 
 const widthStyle = computed(() => addUnit(props.width) || undefined)
+const confirmButtonText = computed(
+  () => props.confirmButtonText ?? t('popconfirm.confirmButtonText')
+)
+const cancelButtonText = computed(() => props.cancelButtonText ?? t('popconfirm.cancelButtonText'))
 
 function closePopconfirm() {
   hideTimer.clear()

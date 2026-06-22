@@ -2,17 +2,27 @@
   "name": "@moe-ui/components",
   "version": "0.1.0",
   "description": "Vue 3 components for Moe UI.",
-  "main": "index.js",
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts",
   "scripts": {
     "test": "vitest --config ../../vitest.config.ts --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@iconify/vue": "catalog:",
+    "@moe-ui/hooks": "workspace:*",
+    "@moe-ui/locale": "workspace:*",
+    "@moe-ui/utils": "workspace:*",
+    "@popperjs/core": "catalog:",
+    "async-validator": "catalog:",
+    "lodash-es": "catalog:"
+  },
   "devDependencies": {
-    "@vitest/coverage-v8": "^4.1.8",
-    "@vue/test-utils": "^2.4.11",
-    "jsdom": "^29.1.1"
+    "@vue/test-utils": "catalog:",
+    "vue": "catalog:"
   },
   "private": true
 }

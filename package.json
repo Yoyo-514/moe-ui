@@ -89,6 +89,7 @@
     "@moe-ui/components": "workspace:*",
     "@moe-ui/constants": "workspace:*",
     "@moe-ui/hooks": "workspace:*",
+    "@moe-ui/locale": "workspace:*",
     "@moe-ui/theme": "workspace:*",
     "@moe-ui/utils": "workspace:*",
     "lodash-es": "catalog:",

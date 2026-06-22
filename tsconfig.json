@@ -22,6 +22,8 @@
       "@moe-ui/components/*": ["./packages/components/*"],
       "@moe-ui/hooks": ["./packages/hooks/index.ts"],
       "@moe-ui/hooks/*": ["./packages/hooks/*"],
+      "@moe-ui/locale": ["./packages/locale/index.ts"],
+      "@moe-ui/locale/*": ["./packages/locale/*"],
       "@moe-ui/theme": ["./packages/theme/index.scss"],
       "@moe-ui/theme/*": ["./packages/theme/*"],
       "@moe-ui/utils": ["./packages/utils/index.ts"],

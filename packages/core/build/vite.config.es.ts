@@ -10,7 +10,7 @@ const componentsDir = resolve(pkgRoot, '../components')
 const esDir = resolve(pkgRoot, 'dist/es')
 
 function normalizeDtsContent(content: string) {
-  return content.replace(/(['"]\.\.\/(?:components|hooks)\/index)\.ts(['"])/g, '$1$2')
+  return content.replace(/(['"]\.\.\/(?:components|hooks|locale)\/index)\.ts(['"])/g, '$1$2')
 }
 
 const componentChunkGroupMap: Record<string, string> = {
@@ -51,6 +51,7 @@ export default defineConfig({
         resolve(pkgRoot, '../components/**/*.vue'),
         resolve(pkgRoot, '../utils/**/*.ts'),
         resolve(pkgRoot, '../hooks/**/*.ts'),
+        resolve(pkgRoot, '../locale/**/*.ts'),
         resolve(pkgRoot, '../constants/**/*.ts'),
       ],
       exclude: [
@@ -79,6 +80,7 @@ export default defineConfig({
       '@moe-ui/constants': resolve(pkgRoot, '../constants/index.ts'),
       '@moe-ui/utils': resolve(pkgRoot, '../utils/index.ts'),
       '@moe-ui/hooks': resolve(pkgRoot, '../hooks/index.ts'),
+      '@moe-ui/locale': resolve(pkgRoot, '../locale/index.ts'),
       '@moe-ui/theme': resolve(pkgRoot, '../theme'),
     },
   },

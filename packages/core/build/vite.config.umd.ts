@@ -48,6 +48,7 @@ export default defineConfig({
       '@moe-ui/constants': resolve(pkgRoot, '../constants/index.ts'),
       '@moe-ui/utils': resolve(pkgRoot, '../utils/index.ts'),
       '@moe-ui/hooks': resolve(pkgRoot, '../hooks/index.ts'),
+      '@moe-ui/locale': resolve(pkgRoot, '../locale/index.ts'),
       '@moe-ui/theme': resolve(pkgRoot, '../theme'),
     },
   },

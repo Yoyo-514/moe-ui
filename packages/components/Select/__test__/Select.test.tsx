@@ -1,7 +1,9 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
+import { en } from '@moe-ui/locale'
 
+import ConfigProvider from '../../ConfigProvider/src/ConfigProvider.vue'
 import Option from '../src/Option.vue'
 import Select from '../src/Select.vue'
 
@@ -39,6 +41,25 @@ describe('MoeSelect', () => {
     await openSelect(wrapper)
     expect(wrapper.find('[role="listbox"]').exists()).toBe(true)
     expect(wrapper.findAll('[role="option"]')).toHaveLength(3)
+  })
+
+  it('uses locale text from config provider', async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <ConfigProvider locale={en}>
+              <Select modelValue="" options={[]} />
+            </ConfigProvider>
+          )
+        },
+      })
+    )
+
+    expect(wrapper.get('input').attributes('placeholder')).toBe('Select')
+
+    await openSelect(wrapper)
+    expect(wrapper.get('.moe-select__empty').text()).toBe('No data')
   })
 
   it('selects option and emits update, change and visible-change', async () => {
