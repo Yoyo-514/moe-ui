@@ -1,6 +1,6 @@
 {
   "name": "@moe-ui-private/vite-plugins",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Private Vite plugins for Moe Cute UI build scripts.",
   "type": "module",
   "private": true,
