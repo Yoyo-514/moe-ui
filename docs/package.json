@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@moe-ui/components": "workspace:*",
     "@moe-ui/locale": "workspace:*"

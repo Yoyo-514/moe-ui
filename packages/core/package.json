@@ -61,7 +61,7 @@
     "moe-cute-ui"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "peerDependencies": {
     "vue": "catalog:"
   },
