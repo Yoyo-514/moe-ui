@@ -1,5 +1,9 @@
 ---
+'@moe-ui-private/vite-plugins': minor
+'@moe-ui/constants': minor
 'moe-cute-ui': minor
+'@moe-ui/locale': minor
+'@moe-ui/test-utils': minor
 ---
 
 Prepare the first usable component-library release.
