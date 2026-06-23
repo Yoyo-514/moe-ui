@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
+
 import {
   FORM_DEFAULT_LABEL_POSITION,
   FORM_DEFAULT_REQUIRE_ASTERISK_POSITION,
@@ -8,6 +9,7 @@ import {
   FORM_DEFAULT_SHOW_MESSAGE,
 } from './constants'
 import { useForm } from './use-form'
+
 import type { FormContext, FormEmits, FormInstance, FormProps, FormSlots } from './types'
 
 const COMPONENT_NAME = 'MoeForm'

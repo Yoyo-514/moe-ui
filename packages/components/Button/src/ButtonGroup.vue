@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed, provide } from 'vue'
+
 import { BUTTON_GROUP_CTX_KEY } from './constants'
+
 import type { ButtonGroupProps } from './types'
 
 defineOptions({

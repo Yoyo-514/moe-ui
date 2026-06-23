@@ -1,14 +1,18 @@
 import { createVNode, isVNode, render, type App } from 'vue'
+
 import { isPlainObject, isString } from 'lodash-es'
+
 import { useZIndex } from '@moe-ui/hooks'
+
 import { translate, zhCn } from '@moe-ui/locale'
-import { useGlobalConfig } from '../../ConfigProvider'
-import MessageBoxConstructor from './MessageBox.vue'
+
 import {
   MESSAGE_BOX_CLOSE_ICON,
   MESSAGE_BOX_DEFAULT_OPTIONS,
   MESSAGE_BOX_DEFAULT_Z_INDEX,
 } from './constants'
+import MessageBoxConstructor from './MessageBox.vue'
+
 import type {
   MessageBox,
   MessageBoxAction,
@@ -54,7 +58,7 @@ const normalizeShortcutOptions = (
 }
 
 const getLocalizedDefaultOptions = () => {
-  const locale = useGlobalConfig('locale', zhCn).value
+  const locale = zhCn
 
   return {
     ...MESSAGE_BOX_DEFAULT_OPTIONS,

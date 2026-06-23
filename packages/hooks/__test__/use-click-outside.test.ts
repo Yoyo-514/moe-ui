@@ -1,5 +1,6 @@
 /** @vitest-environment jsdom */
 import { createApp, defineComponent, h, ref } from 'vue'
+
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { useClickOutside } from '../use-click-outside'

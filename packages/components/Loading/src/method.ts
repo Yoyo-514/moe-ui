@@ -1,12 +1,15 @@
 import { createVNode, render } from 'vue'
+
 import { useZIndex } from '@moe-ui/hooks'
-import LoadingConstructor from './Loading.vue'
+
 import {
   LOADING_DEFAULT_SPINNER,
   LOADING_DEFAULT_Z_INDEX,
   LOADING_FULLSCREEN_CLASS,
   LOADING_PARENT_CLASS,
 } from './constants'
+import LoadingConstructor from './Loading.vue'
+
 import type { LoadingContext, LoadingInstance, LoadingOptions, LoadingProps } from './types'
 
 let fullscreenInstance: LoadingInstance | undefined

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import { en, zhCn } from 'moe-cute-ui'
 
 const current = ref<'zh-cn' | 'en'>('zh-cn')
@@ -21,12 +22,27 @@ const localeMap = {
     </moe-button-group>
 
     <moe-config-provider :locale="localeMap[current]">
-      <moe-select style="margin-top: 16px; width: 220px" :options="[]" filterable />
-      <moe-popconfirm title="Delete this item?">
-        <template #reference>
-          <moe-button style="margin-top: 16px">Popconfirm</moe-button>
-        </template>
-      </moe-popconfirm>
+      <div class="config-provider-container">
+        <moe-select style="margin-top: 16px; width: 220px" :options="[]" filterable />
+        <moe-popconfirm title="Delete this item?">
+          <template #reference>
+            <moe-button style="margin-top: 16px">Popconfirm</moe-button>
+          </template>
+        </moe-popconfirm>
+      </div>
     </moe-config-provider>
   </div>
 </template>
+
+<style scoped>
+.config-provider-locale-demo {
+  display: flex;
+  flex-direction: column;
+}
+
+.config-provider-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+</style>

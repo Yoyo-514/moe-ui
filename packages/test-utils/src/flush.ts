@@ -1,4 +1,5 @@
 import { nextTick } from 'vue'
+
 import { vi } from 'vitest'
 
 export const flushRender = async () => {

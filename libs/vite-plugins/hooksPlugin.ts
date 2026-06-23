@@ -1,5 +1,6 @@
 import { each, isFunction } from 'lodash-es'
 import shell from 'shelljs'
+
 import type { Plugin } from 'vite'
 
 type HookCallback = () => void | Promise<void>

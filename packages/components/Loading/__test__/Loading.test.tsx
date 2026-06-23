@@ -1,13 +1,16 @@
+import { createApp, h, ref } from 'vue'
+
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createApp, h, ref } from 'vue'
+
 import { resetZIndex } from '@moe-ui/hooks'
+
 import { emitAfterLeave, flushRender } from '@moe-ui/test-utils'
 
-import Loading from '../src/Loading.vue'
-import { loadingDirective } from '../src/directive'
-import { service } from '../src/method'
 import { MoeLoading } from '../index'
+import { loadingDirective } from '../src/directive'
+import Loading from '../src/Loading.vue'
+import { service } from '../src/method'
 
 describe('Loading.vue', () => {
   it('renders spinner, string text, background, custom class and fullscreen state', async () => {

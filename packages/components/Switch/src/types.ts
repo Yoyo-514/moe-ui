@@ -1,8 +1,9 @@
 import type { Component, Ref } from 'vue'
-import type { ButtonSize } from '../../Button/src/types'
+
+import type { ComponentSize } from '@moe-ui/constants'
 
 export type SwitchValue = boolean | string | number
-export type SwitchSize = ButtonSize
+export type SwitchSize = ComponentSize
 export type SwitchIcon = string | Component
 
 export interface SwitchProps {

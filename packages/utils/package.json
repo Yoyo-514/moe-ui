@@ -2,7 +2,7 @@
   "name": "@moe-ui/utils",
   "version": "0.1.0",
   "description": "Shared utilities for Moe UI packages.",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "vitest --coverage"
   },

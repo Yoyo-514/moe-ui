@@ -1,6 +1,8 @@
 import { shallowReactive } from 'vue'
+
+import type { Arrayable } from '@moe-ui/utils'
+
 import type {
-  Arrayable,
   FormItemContext,
   FormItemProp,
   FormProps,

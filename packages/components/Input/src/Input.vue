@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch, type CSSProperties } from 'vue'
+
 import { isNumber } from 'lodash-es'
-import { useFocusController } from '@moe-ui/hooks'
-import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
-import MoeIcon from '../../Icon/src/Icon.vue'
+
+import { useFocusController, useGlobalSize } from '@moe-ui/hooks'
+
 import {
   INPUT_CLEAR_ICON,
   INPUT_DEFAULT_RESIZE,
@@ -14,6 +15,9 @@ import {
   INPUT_PASSWORD_VISIBLE_ICON,
   TEXTAREA_FALLBACK_LINE_HEIGHT,
 } from './constants'
+import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
+import MoeIcon from '../../Icon/src/Icon.vue'
+
 import type { InputElement, InputEmits, InputInstance, InputProps } from './types'
 
 defineOptions({
@@ -54,7 +58,10 @@ const textareaOverflowY = ref<CSSProperties['overflowY']>()
 
 const isTextarea = computed(() => props.type === 'textarea')
 const nativeInputValue = computed(() => (props.modelValue == null ? '' : String(props.modelValue)))
-const inputSize = computed(() => props.size ?? formContext?.props.size ?? INPUT_DEFAULT_SIZE)
+const globalSize = useGlobalSize()
+const inputSize = computed(
+  () => (props.size ?? formContext?.props.size ?? globalSize.value) || INPUT_DEFAULT_SIZE
+)
 const inputDisabled = computed(() => props.disabled ?? formContext?.props.disabled ?? false)
 
 const textLength = computed(() => nativeInputValue.value.length)

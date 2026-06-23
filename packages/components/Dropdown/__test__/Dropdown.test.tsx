@@ -1,12 +1,14 @@
+import { defineComponent, markRaw, ref } from 'vue'
+
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent, markRaw, ref } from 'vue'
+
 import { flushTimers, popperMock as popper } from '@moe-ui/test-utils'
 
+import { MoeDropdown, MoeDropdownItem, MoeDropdownMenu } from '../index'
 import Dropdown from '../src/Dropdown.vue'
 import DropdownItem from '../src/DropdownItem.vue'
 import DropdownMenu from '../src/DropdownMenu.vue'
-import { MoeDropdown, MoeDropdownItem, MoeDropdownMenu } from '../index'
 
 const mountDropdown = (options: Parameters<typeof mount<typeof Dropdown>>[1] = {}) => {
   const { props, slots, global, ...restOptions } = options

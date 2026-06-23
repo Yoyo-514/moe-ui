@@ -1,6 +1,7 @@
 import { computed, unref } from 'vue'
-import { isBoolean, isFunction } from 'lodash-es'
 import type { MaybeRefOrGetter } from 'vue'
+
+import { isBoolean, isFunction } from 'lodash-es'
 
 export type DisabledStyleValue = MaybeRefOrGetter<boolean | undefined>
 

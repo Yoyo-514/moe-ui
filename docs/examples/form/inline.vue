@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+
 import { MoeMessage } from '@moe-ui/components'
 import type { FormRules } from '@moe-ui/components'
 

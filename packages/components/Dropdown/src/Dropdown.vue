@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { computed, provide, ref, useId } from 'vue'
 import type { PropType } from 'vue'
+
 import { omit } from 'lodash-es'
-import { useDisabledStyle, useTimeout } from '@moe-ui/hooks'
+
+import { useDisabledStyle, useGlobalSize, useTimeout } from '@moe-ui/hooks'
+
+import { DROPDOWN_CTX_KEY } from './constants'
+import DropdownItem from './DropdownItem.vue'
+import DropdownMenu from './DropdownMenu.vue'
 import MoeButton from '../../Button/src/Button.vue'
 import MoeButtonGroup from '../../Button/src/ButtonGroup.vue'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeTooltip from '../../Tooltip/src/Tooltip.vue'
-import type { TooltipInstance } from '../../Tooltip/src/types'
-import { DROPDOWN_CTX_KEY } from './constants'
-import DropdownItem from './DropdownItem.vue'
-import DropdownMenu from './DropdownMenu.vue'
+
 import type { DropdownEmits, DropdownInstance, DropdownItemProps, DropdownProps } from './types'
+import type { TooltipInstance } from '../../Tooltip/src/types'
 
 defineOptions({
   name: 'MoeDropdown',
@@ -149,9 +153,11 @@ function handleMainButtonClick(event: MouseEvent) {
   emits('click', event)
 }
 
+const globalSize = useGlobalSize()
+
 provide(DROPDOWN_CTX_KEY, {
   handleItemClick,
-  size: computed(() => props.size),
+  size: computed(() => props.size ?? globalSize.value),
 })
 
 defineExpose<DropdownInstance>({

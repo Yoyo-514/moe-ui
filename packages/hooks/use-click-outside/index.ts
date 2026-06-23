@@ -1,6 +1,8 @@
-import { isArray, isBoolean, isFunction } from 'lodash-es'
 import { unref } from 'vue'
 import type { MaybeRefOrGetter, Ref } from 'vue'
+
+import { isArray, isBoolean, isFunction } from 'lodash-es'
+
 import { useEventListener } from '../use-event-listener'
 
 type MaybeElement = HTMLElement | null | undefined

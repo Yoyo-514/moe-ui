@@ -1,9 +1,10 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { flushRender, flushTimers, popperMock as popper } from '@moe-ui/test-utils'
 
-import Popconfirm from '../src/Popconfirm.vue'
 import { MoePopconfirm } from '../index'
+import Popconfirm from '../src/Popconfirm.vue'
 
 const mountPopconfirm = (options: Parameters<typeof mount<typeof Popconfirm>>[1] = {}) => {
   const { props, slots, ...restOptions } = options

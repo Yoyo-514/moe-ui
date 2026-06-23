@@ -1,4 +1,5 @@
 import { nextTick, ref } from 'vue'
+
 import { describe, expect, it } from 'vitest'
 
 import { getStackOffset, normalizeOffset, useOffset } from '../use-offset'

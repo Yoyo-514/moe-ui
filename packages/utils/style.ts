@@ -1,4 +1,5 @@
 import { isNumber, isString } from 'lodash-es'
+
 import { debugWarn } from './errors'
 
 const SCOPE = 'utils/style' as const

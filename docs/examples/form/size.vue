@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+
 import type { FormSize } from '@moe-ui/components'
 
 const sizes: FormSize[] = ['large', 'default', 'small']

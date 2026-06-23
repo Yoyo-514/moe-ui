@@ -1,8 +1,13 @@
-import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
-import { debugWarn } from '@moe-ui/utils'
-import { configProviderContextKey, type ConfigProviderContext } from './types'
-import { merge } from 'lodash-es'
 import type { App, MaybeRef, Ref } from 'vue'
+import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
+
+import { merge } from 'lodash-es'
+
+import { localeContextKey, SIZE_INJECTION_KEY, Z_INDEX_INJECTION_KEY } from '@moe-ui/hooks'
+
+import { debugWarn } from '@moe-ui/utils'
+
+import { configProviderContextKey, type ConfigProviderContext } from './constants'
 
 const globalConfig = ref<ConfigProviderContext>()
 
@@ -48,6 +53,18 @@ export function provideGlobalConfig(
   })
 
   provideFn(configProviderContextKey, context)
+  provideFn(
+    localeContextKey,
+    computed(() => context.value.locale)
+  )
+
+  provideFn(Z_INDEX_INJECTION_KEY, {
+    zIndex: computed(() => context.value.zIndex),
+  })
+
+  provideFn(SIZE_INJECTION_KEY, {
+    size: computed(() => context.value.size || ''),
+  })
 
   if (global || !globalConfig.value) {
     globalConfig.value = context.value

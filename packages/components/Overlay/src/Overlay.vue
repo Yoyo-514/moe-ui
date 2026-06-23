@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+
 import type { OverlayEmits, OverlayProps, OverlayStyle } from './types'
 
 const props = withDefaults(defineProps<OverlayProps>(), {

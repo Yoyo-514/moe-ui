@@ -1,5 +1,6 @@
 /** @vitest-environment jsdom */
 import { nextTick, ref } from 'vue'
+
 import { describe, expect, it, vi } from 'vitest'
 
 import { useFocusController, type FocusTarget } from '../use-focus-controller'

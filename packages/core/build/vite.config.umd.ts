@@ -1,10 +1,13 @@
-import vue from '@vitejs/plugin-vue'
-import { hooksPlugin as hooks } from '@moe-ui-private/vite-plugins'
 import { resolve } from 'node:path'
+
+import terser from '@rollup/plugin-terser'
+import vue from '@vitejs/plugin-vue'
 import { defineConfig, type UserConfig } from 'vite'
 import { compression } from 'vite-plugin-compression2'
+
+import { hooksPlugin as hooks } from '@moe-ui-private/vite-plugins'
+
 import { getBuildDefine, pkgRoot } from './utils'
-import terser from '@rollup/plugin-terser'
 
 const styleEntry = resolve(pkgRoot, 'dist/index.css')
 const umdStyleEntry = resolve(pkgRoot, 'dist/umd/index.css')

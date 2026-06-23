@@ -1,10 +1,12 @@
+import { h, markRaw } from 'vue'
+
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { h, markRaw } from 'vue'
+
 import { flushRender } from '@moe-ui/test-utils'
 
-import Input from '../src/Input.vue'
 import { MoeInput } from '../index'
+import Input from '../src/Input.vue'
 
 const setValue = async (wrapper: ReturnType<typeof mount<typeof Input>>, value: string) => {
   const control = wrapper.find('input').exists() ? wrapper.get('input') : wrapper.get('textarea')

@@ -1,11 +1,12 @@
 import type { ComputedRef, Ref } from 'vue'
-import type { ButtonSize } from '../../Button/src/types'
+
+import type { ComponentSize } from '@moe-ui/constants'
 
 export type SelectPrimitiveValue = string | number | boolean
 export type SelectObjectValue = Record<string, unknown>
 export type SelectValue = SelectPrimitiveValue | SelectObjectValue
 export type SelectModelValue = SelectValue | undefined | null
-export type SelectSize = ButtonSize
+export type SelectSize = ComponentSize
 
 export interface SelectOption {
   value?: SelectValue

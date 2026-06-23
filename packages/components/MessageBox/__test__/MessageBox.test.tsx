@@ -1,12 +1,16 @@
+import { h, markRaw, type App } from 'vue'
+
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { h, markRaw, type App } from 'vue'
-import { emitAfterLeave, flushRender } from '@moe-ui/test-utils'
 
 import { resetZIndex } from '@moe-ui/hooks'
-import MessageBox from '../src/MessageBox.vue'
+
+import { emitAfterLeave, flushRender } from '@moe-ui/test-utils'
+
 import { MESSAGE_BOX_CLOSE_ICON, MESSAGE_BOX_DEFAULT_OPTIONS } from '../src/constants'
+import MessageBox from '../src/MessageBox.vue'
 import { MoeMessageBox, messageBoxInstances } from '../src/method'
+
 import type { MessageBoxProps } from '../src/types'
 
 const createProps = (options: Partial<MessageBoxProps> = {}): MessageBoxProps => ({

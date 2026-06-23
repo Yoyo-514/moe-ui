@@ -1,7 +1,9 @@
-import { service } from './src/method'
-import { loadingDirective } from './src/directive'
-import type { LoadingService } from './src/types'
 import type { App } from 'vue'
+
+import { loadingDirective } from './src/directive'
+import { service } from './src/method'
+
+import type { LoadingService } from './src/types'
 
 export const MoeLoading: LoadingService = {
   service,

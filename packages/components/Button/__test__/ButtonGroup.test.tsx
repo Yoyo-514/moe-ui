@@ -1,9 +1,11 @@
-import { mount } from '@vue/test-utils'
 import { defineComponent, ref } from 'vue'
+
+import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 import Button from '../src/Button.vue'
 import ButtonGroup from '../src/ButtonGroup.vue'
+
 import type { ButtonInstance, ButtonSize, ButtonType } from '../src/types'
 
 describe('ButtonGroup.vue', () => {

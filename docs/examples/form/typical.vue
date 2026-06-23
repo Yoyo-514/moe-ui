@@ -30,6 +30,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+
 import { MoeMessage } from '@moe-ui/components'
 
 const model = reactive({

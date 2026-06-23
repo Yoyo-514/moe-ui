@@ -1,6 +1,7 @@
-import { isFunction } from 'lodash-es'
 import { onUnmounted, unref, watch } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
+
+import { isFunction } from 'lodash-es'
 
 export type EventTargetRef<T extends EventTarget = EventTarget> = MaybeRefOrGetter<
   T | null | undefined

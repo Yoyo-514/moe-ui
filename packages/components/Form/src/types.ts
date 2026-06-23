@@ -1,8 +1,12 @@
-import type { RuleItem, ValidateError, Values } from 'async-validator'
 import type { ComputedRef } from 'vue'
 
-export type Arrayable<T> = T | T[]
-export type FormSize = '' | 'large' | 'default' | 'small'
+import type { Arrayable } from '@moe-ui/utils'
+
+import type { ComponentSize } from '@moe-ui/constants'
+
+import type { RuleItem, ValidateError, Values } from 'async-validator'
+
+export type FormSize = ComponentSize
 export type FormLabelPosition = 'left' | 'right' | 'top'
 export type FormItemLabelPosition = FormLabelPosition | ''
 export type FormRequireAsteriskPosition = 'left' | 'right'

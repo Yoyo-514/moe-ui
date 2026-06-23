@@ -1,10 +1,12 @@
+import { defineComponent, nextTick, ref } from 'vue'
+
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent, nextTick, ref } from 'vue'
+
 import { flushTimers, popperMock as popper } from '@moe-ui/test-utils'
 
-import Tooltip from '../src/Tooltip.vue'
 import { MoeTooltip } from '../index'
+import Tooltip from '../src/Tooltip.vue'
 
 const mountTooltip = (options: Parameters<typeof mount<typeof Tooltip>>[1] = {}) =>
   mount(Tooltip, {

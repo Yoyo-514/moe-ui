@@ -1,6 +1,8 @@
 import type { Directive, DirectiveBinding } from 'vue'
+
 import { LOADING_DEFAULT_SPINNER } from './constants'
 import { service } from './method'
+
 import type { LoadingInstance, LoadingOptions } from './types'
 
 export interface LoadingElement extends HTMLElement {

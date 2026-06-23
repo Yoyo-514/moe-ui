@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+
 import type { FormLabelPosition } from '@moe-ui/components'
 
 const positions: FormLabelPosition[] = ['left', 'right', 'top']

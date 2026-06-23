@@ -1,4 +1,5 @@
 import type { App, Component, ComponentInternalInstance, CSSProperties, VNode } from 'vue'
+
 import type { ButtonSize, ButtonType } from '../../Button/src/types'
 
 export const messageBoxTypes = ['', 'primary', 'success', 'warning', 'info', 'danger'] as const

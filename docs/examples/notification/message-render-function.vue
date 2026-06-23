@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import { h } from 'vue'
+
 import { MoeNotification } from '@moe-ui/components'
 
 function openNotification() {

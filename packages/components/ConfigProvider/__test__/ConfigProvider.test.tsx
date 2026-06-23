@@ -1,10 +1,14 @@
 /* eslint-disable vue/one-component-per-file */
-import { mount } from '@vue/test-utils'
 import { defineComponent, h } from 'vue'
+
+import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 
+import { useGlobalSize, useLocale } from '@moe-ui/hooks'
+
 import { en } from '@moe-ui/locale'
-import { MoeConfigProvider, useGlobalConfig, useLocale } from '../index'
+
+import { MoeConfigProvider, useGlobalConfig } from '../index'
 
 const LocaleConsumer = defineComponent({
   setup() {
@@ -22,13 +26,11 @@ const LocaleConsumer = defineComponent({
 const Consumer = defineComponent({
   setup() {
     const config = useGlobalConfig()
-    const namespace = useGlobalConfig('namespace', 'moe')
-    const size = useGlobalConfig('size')
+    const size = useGlobalSize()
     const zIndex = useGlobalConfig('zIndex')
 
     return () => (
       <div class="consumer">
-        <span class="namespace">{namespace.value}</span>
         <span class="size">{size.value}</span>
         <span class="z-index">{zIndex.value}</span>
         <span class="config">{JSON.stringify(config.value)}</span>
@@ -38,18 +40,16 @@ const Consumer = defineComponent({
 })
 
 describe('ConfigProvider.vue', () => {
-  it('falls back to default namespace without provider', () => {
+  it('falls back to defaults without provider', () => {
     const wrapper = mount(Consumer)
 
-    expect(wrapper.get('.namespace').text()).toBe('moe')
     expect(wrapper.get('.size').text()).toBe('')
     expect(wrapper.get('.z-index').text()).toBe('')
   })
 
-  it('provides namespace, size and zIndex to descendants', () => {
+  it('provides size and zIndex to descendants', () => {
     const wrapper = mount(MoeConfigProvider, {
       props: {
-        namespace: 'moe-test',
         size: 'small',
         zIndex: 3000,
       },
@@ -58,7 +58,6 @@ describe('ConfigProvider.vue', () => {
       },
     })
 
-    expect(wrapper.get('.namespace').text()).toBe('moe-test')
     expect(wrapper.get('.size').text()).toBe('small')
     expect(wrapper.get('.z-index').text()).toBe('3000')
   })
@@ -66,7 +65,6 @@ describe('ConfigProvider.vue', () => {
   it('merges nested config providers', () => {
     const wrapper = mount(MoeConfigProvider, {
       props: {
-        namespace: 'outer',
         size: 'large',
         zIndex: 2000,
       },
@@ -75,7 +73,6 @@ describe('ConfigProvider.vue', () => {
       },
     })
 
-    expect(wrapper.get('.namespace').text()).toBe('outer')
     expect(wrapper.get('.size').text()).toBe('small')
     expect(wrapper.get('.z-index').text()).toBe('2000')
   })
@@ -94,7 +91,7 @@ describe('ConfigProvider.vue', () => {
 
   it('exposes config through scoped slot', () => {
     const wrapper = mount(MoeConfigProvider, {
-      props: { namespace: 'scoped', size: 'large' },
+      props: { size: 'large', zIndex: 5000 },
       slots: {
         default: (scope: Record<string, unknown>) =>
           h('span', { class: 'result' }, JSON.stringify(scope.config)),
@@ -103,8 +100,8 @@ describe('ConfigProvider.vue', () => {
 
     const parsed = JSON.parse(wrapper.get('.result').text())
 
-    expect(parsed.namespace).toBe('scoped')
     expect(parsed.size).toBe('large')
+    expect(parsed.zIndex).toBe(5000)
   })
 
   it('installs as a Vue plugin', () => {

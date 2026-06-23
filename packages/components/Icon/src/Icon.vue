@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+
 import { Icon } from '@iconify/vue'
 import { omit } from 'lodash-es'
-import { computed, ref } from 'vue'
+
 import { SIZE_MAP } from './constants'
+
 import type { IconEmits, IconProps } from './types'
 
 defineOptions({

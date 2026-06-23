@@ -1,5 +1,6 @@
-import { isFunction, toNumber } from 'lodash-es'
 import { onUnmounted } from 'vue'
+
+import { isFunction, toNumber } from 'lodash-es'
 
 export type TimeoutCallback = () => void
 

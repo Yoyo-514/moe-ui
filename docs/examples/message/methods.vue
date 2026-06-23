@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import { MoeMessage } from '@moe-ui/components'
 import type { MessageHandler } from '@moe-ui/components'
 

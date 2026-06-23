@@ -1,13 +1,15 @@
 /* eslint-disable vue/one-component-per-file */
-import { mount } from '@vue/test-utils'
 import { defineComponent, nextTick, reactive, ref } from 'vue'
+
+import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 
-import Form from '../src/Form.vue'
-import FormItem from '../src/FormItem.vue'
 import Input from '../../Input/src/Input.vue'
 import Switch from '../../Switch/src/Switch.vue'
 import { MoeForm, MoeFormItem } from '../index'
+import Form from '../src/Form.vue'
+import FormItem from '../src/FormItem.vue'
+
 import type { FormInstance, FormItemInstance, FormRules } from '../src/types'
 
 const mountForm = (

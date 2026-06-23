@@ -1,10 +1,11 @@
-import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 
+import { mount } from '@vue/test-utils'
+import { describe, expect, it, vi } from 'vitest'
+
+import { MoeCollapse, MoeCollapseItem } from '../index'
 import Collapse from '../src/Collapse.vue'
 import CollapseItem from '../src/CollapseItem.vue'
-import { MoeCollapse, MoeCollapseItem } from '../index'
 
 describe('Collapse.vue', () => {
   it('should support plugin installation', () => {

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, isVNode, onMounted, ref } from 'vue'
+
 import { isFunction, toNumber } from 'lodash-es'
+
 import { useOffset, useTimeout } from '@moe-ui/hooks'
-import MoeIcon from '../../Icon/src/Icon.vue'
+
 import {
   NOTIFICATION_DEFAULT_DURATION,
   NOTIFICATION_DEFAULT_OFFSET,
@@ -11,6 +13,8 @@ import {
   NOTIFICATION_HORIZONTAL_OFFSET,
   NOTIFICATION_ICON_MAP,
 } from './constants'
+import MoeIcon from '../../Icon/src/Icon.vue'
+
 import type {
   NotificationEmits,
   NotificationExposed,

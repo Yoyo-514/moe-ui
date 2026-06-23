@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import { h } from 'vue'
+
 import { MoeMessageBox } from '@moe-ui/components'
 
 const open = () => {

@@ -1,7 +1,9 @@
 import { createVNode, isVNode, nextTick, render, type App } from 'vue'
+
 import { isPlainObject, isString } from 'lodash-es'
+
 import { useZIndex } from '@moe-ui/hooks'
-import NotificationConstructor from './Notification.vue'
+
 import {
   NOTIFICATION_DEFAULT_DURATION,
   NOTIFICATION_DEFAULT_OFFSET,
@@ -10,7 +12,9 @@ import {
   NOTIFICATION_GAP,
   NOTIFICATION_HEIGHT,
 } from './constants'
+import NotificationConstructor from './Notification.vue'
 import { notificationTypes } from './types'
+
 import type {
   Notification,
   NotificationAliasType,

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { provideGlobalConfig } from './use-config'
-import type { ConfigProviderContext } from './types'
+
+import type { ConfigProviderProps } from './types'
 
 defineOptions({
   name: 'MoeConfigProvider',
 })
 
-const props = defineProps<ConfigProviderContext>()
+const props = defineProps<ConfigProviderProps>()
 
 const config = provideGlobalConfig(props)
 </script>

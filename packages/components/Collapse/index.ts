@@ -1,4 +1,5 @@
 import { withInstall } from '@moe-ui/utils'
+
 import Collapse from './src/Collapse.vue'
 import CollapseItem from './src/CollapseItem.vue'
 

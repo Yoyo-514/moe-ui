@@ -1,14 +1,9 @@
-import type { ButtonSize } from '../../Button/src/types'
-import type { Language } from '@moe-ui/locale'
-import type { InjectionKey, Ref } from 'vue'
+import type { ComponentSize } from '@moe-ui/constants'
 
-export interface ConfigProviderContext {
-  namespace?: string
-  size?: ButtonSize
+import type { Language } from '@moe-ui/locale'
+
+export interface ConfigProviderProps {
+  size?: ComponentSize
   zIndex?: number
   locale?: Language
 }
-
-export const configProviderContextKey: InjectionKey<Ref<ConfigProviderContext>> = Symbol(
-  'configProviderContextKey'
-)

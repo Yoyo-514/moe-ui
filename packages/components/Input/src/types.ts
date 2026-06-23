@@ -1,9 +1,10 @@
 import type { Component, Ref } from 'vue'
 
-export const inputSizes = ['small', 'default', 'large'] as const
+import type { ComponentSize } from '@moe-ui/constants'
+
 export const inputResizeTypes = ['none', 'both', 'horizontal', 'vertical'] as const
 
-export type InputSize = (typeof inputSizes)[number]
+export type InputSize = ComponentSize
 export type InputResize = (typeof inputResizeTypes)[number]
 export type InputElement = HTMLInputElement | HTMLTextAreaElement
 

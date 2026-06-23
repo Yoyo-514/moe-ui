@@ -1,6 +1,8 @@
+import { defineComponent, nextTick } from 'vue'
+
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { defineComponent, nextTick } from 'vue'
+
 import { en } from '@moe-ui/locale'
 
 import ConfigProvider from '../../ConfigProvider/src/ConfigProvider.vue'

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, isVNode, ref } from 'vue'
+
 import { LOADING_DEFAULT_SPINNER } from './constants'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeOverlay from '../../Overlay'
+
 import type { LoadingEmits, LoadingExposed, LoadingProps } from './types'
 
 const props = withDefaults(defineProps<LoadingProps>(), {

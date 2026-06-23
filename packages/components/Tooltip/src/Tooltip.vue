@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch, type Ref } from 'vue'
-import { useClickOutside, useOffset, useTimeout, useZIndex } from '@moe-ui/hooks'
+
 import { createPopper, type Instance } from '@popperjs/core'
+
+import { useClickOutside, useOffset, useTimeout, useZIndex } from '@moe-ui/hooks'
 
 import type { TooltipEmits, TooltipInstance, TooltipProps, TooltipTrigger } from './types'
 

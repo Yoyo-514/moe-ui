@@ -1,6 +1,7 @@
+import { defineComponent, h, markRaw, nextTick } from 'vue'
+
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import { defineComponent, h, markRaw, nextTick } from 'vue'
 
 import Switch from '../src/Switch.vue'
 

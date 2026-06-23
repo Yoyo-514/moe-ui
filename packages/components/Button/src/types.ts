@@ -1,8 +1,10 @@
 import type { Component, ComputedRef, Ref } from 'vue'
 
+import type { ComponentSize } from '@moe-ui/constants'
+
 export type ButtonType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
 export type NativeType = 'button' | 'submit' | 'reset'
-export type ButtonSize = 'large' | 'default' | 'small'
+export type ButtonSize = ComponentSize
 
 export interface ButtonProps {
   tag?: string | Component

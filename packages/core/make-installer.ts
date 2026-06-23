@@ -1,9 +1,11 @@
-import { INSTALLED_KEY } from '@moe-ui/constants'
-import { provideGlobalConfig } from '@moe-ui/components'
-import { printLogo } from './printLogo'
-
 import type { App, Plugin } from 'vue'
+
 import type { ConfigProviderContext } from '@moe-ui/components'
+import { provideGlobalConfig } from '@moe-ui/components'
+
+import { INSTALLED_KEY } from '@moe-ui/constants'
+
+import { printLogo } from './printLogo'
 
 export function makeInstaller(components: Plugin[] = []) {
   const install = (app: App, options?: ConfigProviderContext) => {

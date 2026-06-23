@@ -1,4 +1,5 @@
 import { vi } from 'vitest'
+
 import { popperMock } from '@moe-ui/test-utils'
 
 vi.doMock('@popperjs/core', () => ({

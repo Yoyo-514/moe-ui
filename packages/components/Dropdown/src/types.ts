@@ -1,5 +1,8 @@
 import type { Component, ComputedRef } from 'vue'
-import type { ButtonSize, ButtonType } from '../../Button/src/types'
+
+import type { ComponentSize } from '@moe-ui/constants'
+
+import type { ButtonType } from '../../Button/src/types'
 import type { TooltipProps } from '../../Tooltip/src/types'
 
 export type DropdownCommand = string | number | object
@@ -13,7 +16,7 @@ export interface DropdownItemProps {
 
 export interface DropdownProps extends TooltipProps {
   type?: ButtonType
-  size?: ButtonSize
+  size?: ComponentSize
   items?: DropdownItemProps[]
   hideOnClick?: boolean
   splitButton?: boolean
@@ -32,5 +35,5 @@ export interface DropdownInstance {
 
 export interface DropdownContext {
   handleItemClick(item: DropdownItemProps): void
-  size: ComputedRef<ButtonSize | undefined>
+  size: ComputedRef<ComponentSize | undefined>
 }

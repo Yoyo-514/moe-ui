@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import Icon from '../../Icon/src/Icon.vue'
 import Button from '../src/Button.vue'
+
 import type { ButtonInstance } from '../src/types'
 
 describe('Button.vue', () => {

@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { computed, isVNode, nextTick, onBeforeUnmount, onMounted, ref, useId } from 'vue'
+
 import { isFunction } from 'lodash-es'
+
+import { MESSAGE_BOX_ICON_MAP } from './constants'
 import MoeButton from '../../Button/src/Button.vue'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeInput from '../../Input/src/Input.vue'
 import MoeOverlay from '../../Overlay'
-import { MESSAGE_BOX_ICON_MAP } from './constants'
+
 import type {
   MessageBoxAction,
   MessageBoxEmits,

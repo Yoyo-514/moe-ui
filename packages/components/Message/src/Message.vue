@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, isVNode } from 'vue'
+
 import { isFunction, toNumber } from 'lodash-es'
+
 import { useOffset, useTimeout } from '@moe-ui/hooks'
-import MoeIcon from '../../Icon/src/Icon.vue'
+
 import {
   MESSAGE_DEFAULT_DURATION,
   MESSAGE_DEFAULT_OFFSET,
   MESSAGE_HEIGHT,
   MESSAGE_ICON_MAP,
 } from './constants'
+import MoeIcon from '../../Icon/src/Icon.vue'
+
 import type { MessageEmits, MessageExposed, MessageProps, MessageType } from './types'
 
 defineOptions({

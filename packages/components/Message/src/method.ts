@@ -1,7 +1,9 @@
 import { createVNode, isVNode, nextTick, render, type App } from 'vue'
+
 import { isPlainObject, isString } from 'lodash-es'
+
 import { getStackOffset, useZIndex } from '@moe-ui/hooks'
-import MessageConstructor from './Message.vue'
+
 import {
   MESSAGE_DEFAULT_DURATION,
   MESSAGE_DEFAULT_OFFSET,
@@ -10,7 +12,9 @@ import {
   MESSAGE_GAP,
   MESSAGE_HEIGHT,
 } from './constants'
+import MessageConstructor from './Message.vue'
 import { messageTypes } from './types'
+
 import type {
   Message,
   MessageAliasType,

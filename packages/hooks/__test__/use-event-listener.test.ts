@@ -1,5 +1,6 @@
 /** @vitest-environment jsdom */
 import { createApp, defineComponent, h, nextTick, ref } from 'vue'
+
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { useEventListener } from '../use-event-listener'

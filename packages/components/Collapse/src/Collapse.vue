@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
-import { debugWarnOnce } from '@moe-ui/utils'
+
 import { includes, isArray, isNil, isNumber, isString, without } from 'lodash-es'
+
+import { debugWarnOnce } from '@moe-ui/utils'
+
 import { COLLAPSE_CTX_KEY } from './constants'
+
 import type { CollapseEmits, CollapseItemName, CollapseModelValue, CollapseProps } from './types'
 
 defineOptions({ name: 'MoeCollapse' })

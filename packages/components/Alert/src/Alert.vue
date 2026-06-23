@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, useSlots } from 'vue'
-import MoeIcon from '../../Icon/src/Icon.vue'
+
 import { ALERT_ICON_MAP } from './constants'
+import MoeIcon from '../../Icon/src/Icon.vue'
+
 import type { AlertEmits, AlertInstance, AlertProps } from './types'
 
 defineOptions({

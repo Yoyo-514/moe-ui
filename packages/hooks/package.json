@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "description": "Composable utilities for Moe UI components.",
   "type": "module",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "module": "index.ts",
+  "types": "index.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs"
+      "types": "./index.ts",
+      "import": "./index.ts"
     }
   },
   "files": [

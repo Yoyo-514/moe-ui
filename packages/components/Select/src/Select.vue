@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { computed, nextTick, provide, ref, useId } from 'vue'
+
+import { useGlobalSize, useLocale } from '@moe-ui/hooks'
+
+import { SELECT_CTX_KEY, SELECT_DEFAULT_PROPS, SELECT_EMPTY_VALUES } from './constants'
+import { useKeyMap } from './useKeyMap'
+import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeInput from '../../Input/src/Input.vue'
 import MoeTooltip from '../../Tooltip/src/Tooltip.vue'
-import { useLocale } from '../../ConfigProvider'
-import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
-import { SELECT_CTX_KEY, SELECT_DEFAULT_PROPS, SELECT_EMPTY_VALUES } from './constants'
-import { useKeyMap } from './useKeyMap'
-import type { InputInstance } from '../../Input/src/types'
+
 import type {
   NormalizedSelectOption,
   SelectEmits,
@@ -16,6 +18,7 @@ import type {
   SelectOption,
   SelectProps,
 } from './types'
+import type { InputInstance } from '../../Input/src/types'
 
 defineOptions({
   name: 'MoeSelect',
@@ -53,7 +56,10 @@ const hoverIndex = ref(-1)
 const registeredOptions = ref<NormalizedSelectOption[]>([])
 const listboxId = `moe-select-listbox-${useId()}`
 
-const selectSize = computed(() => props.size ?? formContext?.props.size ?? 'default')
+const globalSize = useGlobalSize()
+const selectSize = computed(
+  () => (props.size ?? formContext?.props.size ?? globalSize.value) || 'default'
+)
 const selectDisabled = computed(() => props.disabled ?? formContext?.props.disabled ?? false)
 
 const optionProps = computed(() => ({ ...SELECT_DEFAULT_PROPS, ...props.props }))

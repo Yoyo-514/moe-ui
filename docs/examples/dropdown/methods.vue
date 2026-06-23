@@ -20,6 +20,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import type { DropdownInstance } from '@moe-ui/components'
 
 const dropdownRef = ref<DropdownInstance>()

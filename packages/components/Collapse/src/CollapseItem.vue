@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed, inject, useId } from 'vue'
+
 import { useDisabledStyle } from '@moe-ui/hooks'
+
 import { COLLAPSE_CTX_KEY } from './constants'
 import { collapseTransitionEvents } from './transition-event'
+
 import type { CollapseItemProps } from './types'
 
 defineOptions({ name: 'MoeCollapseItem' })

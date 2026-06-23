@@ -1,11 +1,13 @@
+import { defineComponent, h, type App } from 'vue'
+
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent, h, type App } from 'vue'
+
 import { emitAfterLeave, flushRender } from '@moe-ui/test-utils'
 
+import { MESSAGE_GAP, MESSAGE_HEIGHT } from '../src/constants'
 import Message from '../src/Message.vue'
 import { MoeMessage, messageInstances } from '../src/method'
-import { MESSAGE_GAP, MESSAGE_HEIGHT } from '../src/constants'
 
 describe('Message.vue', () => {
   beforeEach(() => {

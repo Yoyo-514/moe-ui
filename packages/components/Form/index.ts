@@ -1,4 +1,5 @@
 import { withInstall } from '@moe-ui/utils'
+
 import Form from './src/Form.vue'
 import FormItem from './src/FormItem.vue'
 

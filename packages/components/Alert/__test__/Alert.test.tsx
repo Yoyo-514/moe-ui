@@ -1,8 +1,10 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+
+import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 
 import Alert from '../src/Alert.vue'
+
 import type { AlertInstance } from '../src/types'
 
 describe('Alert.vue', () => {

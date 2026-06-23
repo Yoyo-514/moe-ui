@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import Schema from 'async-validator'
 import { computed, inject, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue'
+
+import Schema from 'async-validator'
+
+import { useGlobalSize } from '@moe-ui/hooks'
+
+import type { Arrayable } from '@moe-ui/utils'
+
 import {
   FORM_CONTEXT_KEY,
   FORM_DEFAULT_INLINE_MESSAGE,
@@ -9,9 +15,8 @@ import {
   FORM_DEFAULT_SIZE,
   FORM_ITEM_CONTEXT_KEY,
 } from './constants'
-import type { RuleItem, ValidateError } from 'async-validator'
+
 import type {
-  Arrayable,
   FormItemContext,
   FormItemInstance,
   FormItemProps,
@@ -21,6 +26,7 @@ import type {
   FormValidateCallback,
   FormValidateTrigger,
 } from './types'
+import type { RuleItem, ValidateError } from 'async-validator'
 
 const COMPONENT_NAME = 'MoeFormItem'
 
@@ -106,7 +112,10 @@ function cloneValue(value: unknown) {
 
 const propString = computed(() => getPropString(props.prop))
 const modelValue = computed(() => getValueByPath(formContext?.model.value ?? {}, props.prop))
-const size = computed(() => props.size ?? formContext?.props.size ?? FORM_DEFAULT_SIZE)
+const globalSize = useGlobalSize()
+const size = computed(
+  () => (props.size ?? formContext?.props.size ?? globalSize.value) || FORM_DEFAULT_SIZE
+)
 const labelPosition = computed(
   () => props.labelPosition || formContext?.props.labelPosition || FORM_DEFAULT_LABEL_POSITION
 )

@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed, inject, useId } from 'vue'
+
 import { useDisabledStyle } from '@moe-ui/hooks'
-import MoeIcon from '../../Icon/src/Icon.vue'
+
 import { DROPDOWN_CTX_KEY } from './constants'
+import MoeIcon from '../../Icon/src/Icon.vue'
+
 import type { DropdownItemProps } from './types'
 
 defineOptions({

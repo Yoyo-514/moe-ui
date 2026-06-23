@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+
+import { useGlobalSize } from '@moe-ui/hooks'
+
+import { SWITCH_DEFAULT_LOADING_ICON } from './constants'
 import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
 import MoeIcon from '../../Icon/src/Icon.vue'
-import { SWITCH_DEFAULT_LOADING_ICON } from './constants'
+
 import type { SwitchEmits, SwitchIcon, SwitchInstance, SwitchProps, SwitchValue } from './types'
 
 defineOptions({
@@ -31,7 +35,10 @@ const switchRef = ref<HTMLButtonElement>()
 const isPending = ref(false)
 
 const checked = computed(() => props.modelValue === props.activeValue)
-const switchSize = computed(() => props.size ?? formContext?.props.size ?? 'default')
+const globalSize = useGlobalSize()
+const switchSize = computed(
+  () => (props.size ?? formContext?.props.size ?? globalSize.value) || 'default'
+)
 const switchDisabled = computed(
   () => (props.disabled ?? formContext?.props.disabled ?? false) || props.loading || isPending.value
 )

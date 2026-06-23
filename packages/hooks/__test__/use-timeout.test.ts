@@ -1,5 +1,6 @@
 /** @vitest-environment jsdom */
 import { createApp, defineComponent, h } from 'vue'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { useTimeout } from '../use-timeout'

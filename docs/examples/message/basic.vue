@@ -7,6 +7,7 @@
 
 <script setup lang="ts">
 import { h } from 'vue'
+
 import { MoeMessage } from '@moe-ui/components'
 
 function openTextMessage() {

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useTimeout } from '@moe-ui/hooks'
+
+import { useTimeout, useLocale } from '@moe-ui/hooks'
+
 import { addUnit } from '@moe-ui/utils'
 
-import { useLocale } from '../../ConfigProvider'
 import MoeButton from '../../Button/src/Button.vue'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeTooltip from '../../Tooltip/src/Tooltip.vue'
 
-import type { TooltipInstance } from '../../Tooltip/src/types'
 import type { PopconfirmEmits, PopconfirmProps } from './types'
+import type { TooltipInstance } from '../../Tooltip/src/types'
 
 defineOptions({
   name: 'MoePopconfirm',

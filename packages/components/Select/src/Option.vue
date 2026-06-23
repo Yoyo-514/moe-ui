@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
+
 import { SELECT_CTX_KEY } from './constants'
+
 import type { NormalizedSelectOption, OptionProps } from './types'
 
 defineOptions({

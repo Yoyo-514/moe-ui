@@ -1,9 +1,13 @@
 <script lang="ts" setup>
-import { throttle } from 'lodash-es'
 import { computed, inject, ref } from 'vue'
-import { useDisabledStyle } from '@moe-ui/hooks'
-import MoeIcon from '../../Icon/src/Icon.vue'
+
+import { throttle } from 'lodash-es'
+
+import { useDisabledStyle, useGlobalSize } from '@moe-ui/hooks'
+
 import { BUTTON_GROUP_CTX_KEY } from './constants'
+import MoeIcon from '../../Icon/src/Icon.vue'
+
 import type { ButtonEmits, ButtonInstance, ButtonProps } from './types'
 
 defineOptions({
@@ -21,8 +25,11 @@ const emits = defineEmits<ButtonEmits>()
 const slots = defineSlots()
 
 const buttonGroupContext = inject(BUTTON_GROUP_CTX_KEY, undefined)
+const globalSize = useGlobalSize()
 const buttonType = computed(() => props.type ?? buttonGroupContext?.type.value ?? '')
-const buttonSize = computed(() => props.size ?? buttonGroupContext?.size.value ?? '')
+const buttonSize = computed(
+  () => props.size ?? buttonGroupContext?.size.value ?? globalSize.value ?? ''
+)
 const { disabledClass, isDisabled: buttonDisabled } = useDisabledStyle(
   () => props.disabled || buttonGroupContext?.disabled.value
 )
