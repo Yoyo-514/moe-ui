@@ -10,7 +10,7 @@ export interface MoeUIResolverOptions {
   importStyle?: boolean | 'css'
 }
 
-export interface MoeUIResolvedComponent {
+export interface MoeUIResolvedImport {
   name: string
   from: string
   sideEffects?: string
@@ -57,8 +57,7 @@ export function MoeUIResolver(options: MoeUIResolverOptions = {}) {
   const { importStyle = 'css' } = options
 
   return {
-    type: 'component' as const,
-    resolve(name: string): MoeUIResolvedComponent | undefined {
+    resolve(name: string): MoeUIResolvedImport | undefined {
       const entryName = resolveEntryName(name)
 
       if (!entryName) return undefined

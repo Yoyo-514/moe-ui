@@ -12,8 +12,32 @@ const componentCases = [
   ['MoeOption', 'Select'],
 ] as const
 
+const autoImportCases = [
+  ['MoeMessage', 'Message'],
+  ['MoeNotification', 'Notification'],
+  ['MoeMessageBox', 'MessageBox'],
+  ['MoeLoading', 'Loading'],
+] as const
+
 describe('MoeUIResolver', () => {
-  it.each(componentCases)('resolves %s from component entry %s', (name, entryName) => {
+  it('returns a shared resolver compatible with Components and AutoImport', () => {
+    const resolver = MoeUIResolver()
+
+    expect(resolver).not.toHaveProperty('type')
+    expect(typeof resolver.resolve).toBe('function')
+  })
+
+  it.each(componentCases)('resolves component %s from entry %s', (name, entryName) => {
+    const resolver = MoeUIResolver()
+
+    expect(resolver.resolve(name)).toEqual({
+      name,
+      from: `moe-cute-ui/es/components/${entryName}`,
+      sideEffects: `moe-cute-ui/es/components/${entryName}/style/css`,
+    })
+  })
+
+  it.each(autoImportCases)('resolves function API %s from entry %s', (name, entryName) => {
     const resolver = MoeUIResolver()
 
     expect(resolver.resolve(name)).toEqual({
@@ -33,7 +57,7 @@ describe('MoeUIResolver', () => {
     })
   })
 
-  it('ignores unknown components', () => {
+  it('ignores unknown imports', () => {
     const resolver = MoeUIResolver()
 
     expect(resolver.resolve('MoeUnknown')).toBeUndefined()
