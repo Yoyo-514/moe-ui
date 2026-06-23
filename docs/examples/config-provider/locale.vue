@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { en, zhCn } from 'moe-cute-ui'
+import { en, zhCn } from '@moe-ui/locale'
 
 const current = ref<'zh-cn' | 'en'>('zh-cn')
 const localeMap = {
