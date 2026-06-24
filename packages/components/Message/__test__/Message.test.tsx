@@ -141,6 +141,26 @@ describe('Message.vue', () => {
     expect(wrapper.emitted('destroy')).toHaveLength(1)
   })
 
+  it('ignores repeated close after it is already hidden', async () => {
+    const wrapper = mount(Message, {
+      props: {
+        id: 'message-repeated-close',
+        message: '重复关闭',
+        type: 'info',
+        placement: 'top',
+        offset: 20,
+        zIndex: 2107,
+        duration: 0,
+      },
+    })
+
+    wrapper.vm.close()
+    wrapper.vm.close()
+    await flushRender()
+
+    expect(wrapper.emitted('close')).toHaveLength(1)
+  })
+
   it('pauses timer on mouseenter and restarts on mouseleave', async () => {
     const wrapper = mount(Message, {
       props: {
@@ -254,6 +274,36 @@ describe('MoeMessage method', () => {
     await flushRender()
 
     expect(document.body.querySelector('#second')?.getAttribute('style')).toContain('top: 30px')
+  })
+
+  it('supports function message in options, repeated handler close and keeps closeAll stable', async () => {
+    const handler = MoeMessage({
+      message: () => h('span', { class: 'method-function-message' }, '函数参数'),
+      duration: 0,
+    })
+    await flushRender()
+
+    expect(document.body.querySelector('.method-function-message')?.textContent).toBe('函数参数')
+
+    handler.close()
+    handler.close()
+    await vi.advanceTimersByTimeAsync(200)
+    await flushRender()
+
+    expect(messageInstances).toHaveLength(0)
+    expect(() => MoeMessage.closeAll()).not.toThrow()
+  })
+
+  it('removes message through vnode onDestroy callback', async () => {
+    MoeMessage({ id: 'destroy-message', message: '销毁回调', duration: 0 })
+    await flushRender()
+
+    const onDestroy = messageInstances[0].vnode.props?.onDestroy as (() => void) | undefined
+    onDestroy?.()
+    await flushRender()
+
+    expect(messageInstances).toHaveLength(0)
+    expect(document.body.querySelector('#destroy-message')).toBeNull()
   })
 
   it('supports bottom placement, onClose, closeAll and vnode params', async () => {

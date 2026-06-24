@@ -251,6 +251,26 @@ describe('MoeNotification method', () => {
     expect(notificationInstances).toHaveLength(0)
   })
 
+  it('creates notification from function message option and supports repeated manual close', async () => {
+    const handler = MoeNotification({
+      message: () => h('span', { class: 'notification-function-param' }, '函数通知'),
+      duration: 0,
+    })
+    await flushRender()
+
+    expect(document.body.querySelector('.notification-function-param')?.textContent).toBe(
+      '函数通知'
+    )
+    expect(notificationInstances).toHaveLength(1)
+
+    handler.close()
+    handler.close()
+    await vi.advanceTimersByTimeAsync(200)
+    await flushRender()
+
+    expect(notificationInstances).toHaveLength(0)
+  })
+
   it('creates notification from string and supports manual close', async () => {
     const handler = MoeNotification('普通通知')
     await flushRender()
@@ -402,7 +422,20 @@ describe('MoeNotification method', () => {
     ).toContain('top: 16px')
   })
 
+  it('removes notification through vnode onDestroy callback', async () => {
+    MoeNotification({ id: 'destroy-notification', message: '销毁回调', duration: 0 })
+    await flushRender()
+
+    const onDestroy = notificationInstances[0].vnode.props?.onDestroy as (() => void) | undefined
+    onDestroy?.()
+    await flushRender()
+
+    expect(notificationInstances).toHaveLength(0)
+    expect(document.body.querySelector('#destroy-notification')).toBeNull()
+  })
+
   it('supports bottom position, onClose, closeAll and vnode params', async () => {
+    expect(() => MoeNotification.closeAll()).not.toThrow()
     const onClose = vi.fn()
     MoeNotification({
       id: 'bottom-notification',

@@ -150,6 +150,26 @@ describe('Dropdown.vue', () => {
       expect(wrapper.find('[role="menu"]').exists()).toBe(true)
     })
 
+    it('ignores disabled slot item click', async () => {
+      const wrapper = mountDropdown({
+        slots: {
+          dropdown: () => (
+            <DropdownMenu>
+              <DropdownItem command="disabled-slot" disabled>
+                禁用插槽项
+              </DropdownItem>
+            </DropdownMenu>
+          ),
+        },
+      })
+
+      await wrapper.get('.moe-tooltip__trigger').trigger('click')
+      await flushTimers()
+      await wrapper.get('[role="menuitem"]').trigger('click')
+
+      expect(wrapper.emitted('command')).toBeUndefined()
+    })
+
     it('renders items prop and ignores disabled item click', async () => {
       const wrapper = mountDropdown({
         props: {

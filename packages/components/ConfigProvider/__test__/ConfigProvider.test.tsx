@@ -2,13 +2,13 @@
 import { defineComponent, h } from 'vue'
 
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { useGlobalSize, useLocale } from '@moe-ui/hooks'
 
 import { en } from '@moe-ui/locale'
 
-import { MoeConfigProvider, useGlobalConfig } from '../index'
+import { MoeConfigProvider, provideGlobalConfig, useGlobalConfig } from '../index'
 
 const LocaleConsumer = defineComponent({
   setup() {
@@ -40,11 +40,17 @@ const Consumer = defineComponent({
 })
 
 describe('ConfigProvider.vue', () => {
-  it('falls back to defaults without provider', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('falls back to defaults without provider and supports default config value', () => {
     const wrapper = mount(Consumer)
+    const zIndexWithDefault = useGlobalConfig('zIndex', 1000)
 
     expect(wrapper.get('.size').text()).toBe('')
     expect(wrapper.get('.z-index').text()).toBe('')
+    expect(zIndexWithDefault.value).toBe(1000)
   })
 
   it('provides size and zIndex to descendants', () => {
@@ -102,6 +108,27 @@ describe('ConfigProvider.vue', () => {
 
     expect(parsed.size).toBe('large')
     expect(parsed.zIndex).toBe(5000)
+  })
+
+  it('warns when provideGlobalConfig is called outside setup without app', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+
+    expect(provideGlobalConfig({ size: 'small' })).toBeUndefined()
+    expect(warn).toHaveBeenCalledOnce()
+    expect((warn.mock.calls[0]?.[0] as Error).message).toBe(
+      '[provideGlobalConfig]: provideGlobalConfig() can only be used inside setup().'
+    )
+  })
+
+  it('provides config through app instance and can set global config', () => {
+    const app = { provide: vi.fn() }
+    const context = provideGlobalConfig({ size: 'small', zIndex: 6000 }, app as never, true)
+    const globalSize = useGlobalConfig('size')
+
+    expect(context?.value.size).toBe('small')
+    expect(context?.value.zIndex).toBe(6000)
+    expect(app.provide).toHaveBeenCalledTimes(4)
+    expect(globalSize.value).toBe('small')
   })
 
   it('installs as a Vue plugin', () => {

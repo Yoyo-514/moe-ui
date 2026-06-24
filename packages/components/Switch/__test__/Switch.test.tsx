@@ -176,6 +176,20 @@ describe('MoeSwitch', () => {
     expect(iconWrapper.find('.moe-switch__inner').exists()).toBe(false)
   })
 
+  it('renders string icons and omits width style when width is empty', () => {
+    const wrapper = mount(Switch, {
+      props: {
+        modelValue: true,
+        inlinePrompt: true,
+        activeIcon: 'mingcute:check-line',
+        width: '',
+      },
+    })
+
+    expect(wrapper.find('.moe-icon').exists()).toBe(true)
+    expect(wrapper.attributes('style')).toBeUndefined()
+  })
+
   it('applies size, width and name attributes', () => {
     const wrapper = mount(Switch, {
       props: {

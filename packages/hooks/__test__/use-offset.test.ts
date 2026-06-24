@@ -58,6 +58,12 @@ describe('useOffset', () => {
     expect(popperOffsetModifier.value.options.offset).toEqual([0, 12])
   })
 
+  it('keeps offset style empty when placement and zIndex are omitted', () => {
+    const { offsetStyle } = useOffset({ offset: 12 })
+
+    expect(offsetStyle.value).toEqual({})
+  })
+
   it('calculates stack offset with base offset, size and gap', () => {
     expect(getStackOffset(30, 0, 40, 16)).toBe(30)
     expect(getStackOffset(30, 2, 40, 16)).toBe(142)

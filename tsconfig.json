@@ -51,6 +51,8 @@
     "docs/**/*.ts",
     "docs/**/*.vue",
     "docs/**/*.d.ts",
-    "libs/**/*.ts"
+    "libs/**/*.ts",
+    "ssr-test/**/*.ts",
+    "ssr-test/**/*.tsx"
   ]
 }

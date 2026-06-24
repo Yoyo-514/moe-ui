@@ -5,6 +5,12 @@ packages:
 
 catalog:
   vue: ^3.5.38
+  "@vue/server-renderer": ^3.5.38
+  "@vitejs/plugin-vue": ^6.0.7
+  "@vitejs/plugin-vue-jsx": ^5.1.5
+  typescript: ~6.0.3
+  vitest: ^4.1.8
+  tinyglobby: ^0.2.15
   lodash-es: ^4.18.1
   "@vue/test-utils": ^2.4.11
   "@iconify/vue": ^5.0.1

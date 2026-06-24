@@ -10,7 +10,7 @@ import { emitAfterLeave, flushRender } from '@moe-ui/test-utils'
 import { MoeLoading } from '../index'
 import { loadingDirective } from '../src/directive'
 import Loading from '../src/Loading.vue'
-import { service } from '../src/method'
+import { resolveTarget, service } from '../src/method'
 
 describe('Loading.vue', () => {
   it('renders spinner, string text, background, custom class and fullscreen state', async () => {
@@ -96,6 +96,8 @@ describe('MoeLoading.service', () => {
     const target = document.createElement('div')
     document.body.append(target)
 
+    expect(resolveTarget(target)).toBe(target)
+
     const local = service({
       target,
       text: '局部加载',
@@ -117,16 +119,50 @@ describe('MoeLoading.service', () => {
     const selectorTarget = document.createElement('div')
     selectorTarget.id = 'loading-target'
     document.body.append(selectorTarget)
+    expect(resolveTarget('#loading-target')).toBe(selectorTarget)
     const selector = service({ target: '#loading-target', text: '选择器加载' })
     await flushRender()
     expect(selectorTarget.querySelector('.moe-loading')?.textContent).toContain('选择器加载')
     selector.close()
     await vi.advanceTimersByTimeAsync(200)
 
+    expect(resolveTarget('#missing-target')).toBe(document.body)
     const fallback = service({ target: '#missing-target', text: '兜底加载' })
     await flushRender()
     expect(document.body.querySelector('.moe-loading')?.textContent).toContain('兜底加载')
     fallback.close()
+  })
+
+  it('preserves non-static target position and body target mode', async () => {
+    const target = document.createElement('div')
+    target.style.position = 'absolute'
+    document.body.append(target)
+
+    const local = service({ target, text: '绝对定位加载' })
+    await flushRender()
+    expect(target.style.position).toBe('absolute')
+
+    local.close()
+    await vi.advanceTimersByTimeAsync(200)
+    expect(target.style.position).toBe('absolute')
+
+    const bodyLoading = service({ body: true, fullscreen: false, text: 'body 加载' })
+    await flushRender()
+    expect(document.body.querySelector('.moe-loading')?.textContent).toContain('body 加载')
+    bodyLoading.close()
+    await vi.advanceTimersByTimeAsync(200)
+  })
+
+  it('handles repeated close by clearing pending destroy timer', async () => {
+    const instance = service({ text: '重复关闭' })
+    await flushRender()
+
+    instance.close()
+    instance.close()
+    await vi.advanceTimersByTimeAsync(200)
+    await flushRender()
+
+    expect(document.body.querySelector('.moe-loading')).toBeNull()
   })
 
   it('reuses fullscreen instance and respects custom spinner and zIndex', async () => {
@@ -142,7 +178,7 @@ describe('MoeLoading.service', () => {
     await vi.advanceTimersByTimeAsync(200)
   })
 
-  it('returns noop instance without document', () => {
+  it('returns noop instance and resolveTarget fallback without document', () => {
     const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'document')
     Object.defineProperty(globalThis, 'document', {
       configurable: true,
@@ -150,6 +186,7 @@ describe('MoeLoading.service', () => {
     })
 
     try {
+      expect(resolveTarget()).toBeUndefined()
       expect(() => service().close()).not.toThrow()
     } finally {
       if (descriptor) Object.defineProperty(globalThis, 'document', descriptor)
@@ -171,10 +208,11 @@ describe('v-loading directive', () => {
 
   it('creates, updates and removes local loading from directive value', async () => {
     const enabled = ref(true)
+    const count = ref(0)
     const wrapper = mount(
       {
-        setup: () => ({ enabled }),
-        template: `<div class="box" v-loading="enabled" moe-loading-text="加载中">内容</div>`,
+        setup: () => ({ enabled, count }),
+        template: `<div class="box" v-loading="enabled" moe-loading-text="加载中">内容 {{ count }}</div>`,
       },
       {
         global: {
@@ -191,12 +229,71 @@ describe('v-loading directive', () => {
       '加载中'
     )
 
+    count.value++
+    await flushRender()
+    expect(wrapper.get('.box').element.querySelectorAll('.moe-loading')).toHaveLength(1)
+
     enabled.value = false
     await flushRender()
     await vi.advanceTimersByTimeAsync(200)
     expect(wrapper.get('.box').element.querySelector('.moe-loading')).toBeNull()
 
     wrapper.unmount()
+  })
+
+  it('creates loading when directive value changes from false to true', async () => {
+    const enabled = ref(false)
+    const wrapper = mount(
+      {
+        setup: () => ({ enabled }),
+        template: `<div class="box" v-loading="enabled" moe-loading-text="后续创建">内容</div>`,
+      },
+      {
+        global: {
+          directives: {
+            loading: loadingDirective,
+          },
+        },
+        attachTo: document.body,
+      }
+    )
+
+    await flushRender()
+    expect(wrapper.get('.box').element.querySelector('.moe-loading')).toBeNull()
+
+    enabled.value = true
+    await flushRender()
+    expect(wrapper.get('.box').element.querySelector('.moe-loading')?.textContent).toContain(
+      '后续创建'
+    )
+
+    wrapper.unmount()
+    await vi.advanceTimersByTimeAsync(200)
+  })
+
+  it('closes active loading when directive is unmounted', async () => {
+    const wrapper = mount(
+      {
+        template: `<div class="box" v-loading="true" moe-loading-text="卸载关闭">内容</div>`,
+      },
+      {
+        global: {
+          directives: {
+            loading: loadingDirective,
+          },
+        },
+        attachTo: document.body,
+      }
+    )
+
+    await flushRender()
+    expect(wrapper.get('.box').element.querySelector('.moe-loading')?.textContent).toContain(
+      '卸载关闭'
+    )
+
+    wrapper.unmount()
+    await vi.advanceTimersByTimeAsync(200)
+    expect(document.body.querySelector('.moe-loading')).toBeNull()
   })
 
   it('reads directive attributes and supports fullscreen lock modifiers', async () => {

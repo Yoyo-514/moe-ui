@@ -234,6 +234,69 @@ describe('MessageBox.vue', () => {
     expect(validWrapper.emitted('action')?.[0]).toEqual(['confirm', 'moe'])
   })
 
+  it('clears prompt validation error after input', async () => {
+    const wrapper = mount(MessageBox, {
+      props: createProps({
+        showInput: true,
+        inputValue: '123',
+        inputPattern: /^[a-z]+$/,
+      }),
+    })
+
+    await flushRender()
+    await wrapper.get('.moe-button').trigger('click')
+    await flushRender()
+    expect(wrapper.get('.moe-message-box__input-error').text()).toBe('输入内容不合法')
+
+    await wrapper.get('input').setValue('moe')
+    expect(wrapper.find('.moe-message-box__input-error').exists()).toBe(false)
+  })
+
+  it('ignores actions while async input validator is pending', async () => {
+    let resolveValidator: ((value: boolean) => void) | undefined
+    const validator = vi.fn(() => new Promise<boolean>((resolve) => (resolveValidator = resolve)))
+    const wrapper = mount(MessageBox, {
+      props: createProps({
+        showInput: true,
+        inputValue: 'moe',
+        inputValidator: validator,
+      }),
+    })
+
+    await flushRender()
+    await wrapper.get('.moe-button').trigger('click')
+    await wrapper.get('.moe-message-box__close').trigger('click')
+    expect(wrapper.emitted('action')).toBeUndefined()
+
+    resolveValidator?.(true)
+    await flushRender()
+    expect(wrapper.emitted('action')?.[0]).toEqual(['confirm', 'moe'])
+  })
+
+  it('focuses root when autofocus is disabled and confirms by root Enter', async () => {
+    const wrapper = mount(MessageBox, {
+      props: createProps({ autofocus: false }),
+      attachTo: document.body,
+    })
+
+    await flushRender()
+    const dialog = wrapper.get<HTMLElement>('.moe-message-box')
+    expect(document.activeElement).toBe(dialog.element)
+
+    await dialog.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('action')?.[0]).toEqual(['confirm', ''])
+  })
+
+  it('focuses prompt input when showInput is enabled', async () => {
+    const wrapper = mount(MessageBox, {
+      props: createProps({ showInput: true }),
+      attachTo: document.body,
+    })
+
+    await flushRender()
+    expect(document.activeElement).toBe(wrapper.get('input').element)
+  })
+
   it('renders textarea prompt from inputType and async validator rejection message', async () => {
     const wrapper = mount(MessageBox, {
       props: createProps({
@@ -250,6 +313,27 @@ describe('MessageBox.vue', () => {
     await flushRender()
     expect(wrapper.text()).toContain('异步校验失败')
     expect(wrapper.emitted('action')).toBeUndefined()
+  })
+
+  it('exposes state getters for prompt validation', async () => {
+    const wrapper = mount(MessageBox, {
+      props: createProps({
+        showInput: true,
+        inputValue: '123',
+        inputPattern: /^[a-z]+$/,
+      }),
+    })
+
+    await flushRender()
+    expect(wrapper.vm.visible).toBe(true)
+    expect(wrapper.vm.inputValue).toBe('123')
+    expect(wrapper.vm.validateError).toBe(false)
+    expect(wrapper.vm.inputErrorMessage).toBe('输入内容不合法')
+
+    await wrapper.get('.moe-button').trigger('click')
+    await flushRender()
+    expect(wrapper.vm.validateError).toBe(true)
+    expect(wrapper.vm.inputErrorMessage).toBe('输入内容不合法')
   })
 
   it('emits destroy after leave transition finishes', async () => {
@@ -286,6 +370,69 @@ describe('MoeMessageBox method', () => {
     if (descriptor) Object.defineProperty(globalThis, 'document', descriptor)
   })
 
+  it('creates message box from unsupported params with localized defaults', async () => {
+    const promise = MoeMessageBox(123 as never)
+    await flushRender()
+
+    expect(document.body.textContent).toContain('提示')
+    expect(document.body.textContent).toContain('确认')
+    await clickConfirm()
+    await expect(promise).resolves.toBe('confirm')
+  })
+
+  it('creates message boxes from string, VNode, render function and option object', async () => {
+    const cleanupOpenedBoxes = () => {
+      MoeMessageBox.closeAll()
+      messageBoxInstances.splice(0)
+      document.body.innerHTML = ''
+    }
+
+    const stringPromise = MoeMessageBox('字符串内容')
+    await flushRender()
+    expect(document.body.textContent).toContain('字符串内容')
+    await clickConfirm()
+    await expect(stringPromise).resolves.toBe('confirm')
+    cleanupOpenedBoxes()
+
+    const vnodePromise = MoeMessageBox(h('strong', { class: 'vnode-message' }, 'VNode 内容'))
+    await flushRender()
+    expect(document.body.querySelector('.vnode-message')?.textContent).toBe('VNode 内容')
+    await clickConfirm()
+    await expect(vnodePromise).resolves.toBe('confirm')
+    cleanupOpenedBoxes()
+
+    const functionPromise = MoeMessageBox(() =>
+      h('strong', { class: 'function-method-message' }, '函数内容')
+    )
+    await flushRender()
+    expect(document.body.querySelector('.function-method-message')?.textContent).toBe('函数内容')
+    await clickConfirm()
+    await expect(functionPromise).resolves.toBe('confirm')
+    cleanupOpenedBoxes()
+
+    const optionPromise = MoeMessageBox({ message: '对象内容', showConfirmButton: false }).catch(
+      (action) => action
+    )
+    await flushRender()
+    expect(document.body.textContent).toContain('对象内容')
+    expect(document.body.querySelectorAll('.moe-button')).toHaveLength(0)
+    MoeMessageBox.closeAll()
+    await expect(optionPromise).resolves.toBe('cancel')
+  })
+
+  it('removes message box through vnode onDestroy callback', async () => {
+    MoeMessageBox({ message: '销毁回调' }).catch(() => undefined)
+    await flushRender()
+    expect(document.body.textContent).toContain('销毁回调')
+
+    const onDestroy = messageBoxInstances[0].vnode.props?.onDestroy as (() => void) | undefined
+    onDestroy?.()
+    await flushRender()
+
+    expect(messageBoxInstances).toHaveLength(0)
+    expect(document.body.textContent).not.toContain('销毁回调')
+  })
+
   it('creates alert and resolves confirm action', async () => {
     const promise = MoeMessageBox.alert('保存成功', '提示', { type: 'success' })
     await flushRender()
@@ -296,6 +443,29 @@ describe('MoeMessageBox method', () => {
       'moe-message-box--success'
     )
 
+    await clickConfirm()
+    await expect(promise).resolves.toBe('confirm')
+  })
+
+  it('calls non-input callback with action', async () => {
+    const callback = vi.fn()
+    const promise = MoeMessageBox.alert('带回调', { callback })
+    await flushRender()
+
+    await clickConfirm()
+    await expect(promise).resolves.toBe('confirm')
+    expect(callback).toHaveBeenCalledWith('confirm')
+  })
+
+  it('creates alert with options object as second argument', async () => {
+    const promise = MoeMessageBox.alert('对象标题参数', {
+      title: '选项标题',
+      confirmButtonText: '知道了',
+    })
+    await flushRender()
+
+    expect(document.body.textContent).toContain('选项标题')
+    expect(document.body.textContent).toContain('知道了')
     await clickConfirm()
     await expect(promise).resolves.toBe('confirm')
   })
