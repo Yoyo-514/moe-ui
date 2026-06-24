@@ -36,6 +36,7 @@ export interface SelectProps {
   noDataText?: string
   placeholder?: string
   name?: string
+  id?: string
   valueKey?: string
   emptyValues?: SelectModelValue[]
   valueOnClear?: SelectModelValue

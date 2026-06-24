@@ -98,6 +98,7 @@
     "@moe-ui/locale": "workspace:*",
     "@moe-ui/theme": "workspace:*",
     "@moe-ui/utils": "workspace:*",
+    "@vueuse/core": "catalog:",
     "lodash-es": "catalog:",
     "moe-cute-ui": "workspace:*",
     "vue": "catalog:"

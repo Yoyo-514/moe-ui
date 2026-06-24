@@ -5,6 +5,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 
 import Input from '../../Input/src/Input.vue'
+import Select from '../../Select/src/Select.vue'
 import Switch from '../../Switch/src/Switch.vue'
 import { MoeForm, MoeFormItem } from '../index'
 import Form from '../src/Form.vue'
@@ -65,6 +66,77 @@ describe('MoeForm', () => {
     expect(wrapper.classes()).toContain('moe-form')
     expect(wrapper.get('.moe-form-item__label').text()).toBe('Name')
     expect(wrapper.get('.moe-form-item').classes()).toContain('is-required')
+  })
+
+  it('automatically connects form item label with input id', async () => {
+    const model = reactive({ name: '' })
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <Form model={model}>
+              <FormItem prop="name" label="Name">
+                <Input v-model={model.name} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+    )
+    await nextTick()
+    const inputId = wrapper.get('input').attributes('id')
+
+    expect(inputId).toBeTruthy()
+    expect(wrapper.get('label').attributes('for')).toBe(inputId)
+  })
+
+  it('respects explicit control id for form item label', async () => {
+    const model = reactive({ name: '' })
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <Form model={model}>
+              <FormItem prop="name" label="Name">
+                <Input id="name-input" v-model={model.name} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+    )
+
+    await nextTick()
+
+    expect(wrapper.get('input').attributes('id')).toBe('name-input')
+    expect(wrapper.get('label').attributes('for')).toBe('name-input')
+  })
+
+  it('uses group semantics when a form item owns multiple controls', async () => {
+    const model = reactive({ first: '', second: '' })
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <Form model={model}>
+              <FormItem label="Range">
+                <Input v-model={model.first} />
+                <Input v-model={model.second} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+    )
+    await nextTick()
+    const label = wrapper.get('.moe-form-item__label')
+    const labelId = label.attributes('id')
+    const item = wrapper.get('.moe-form-item')
+
+    expect(label.element.tagName).toBe('DIV')
+    expect(label.attributes('for')).toBeUndefined()
+    expect(item.attributes('role')).toBe('group')
+    expect(item.attributes('aria-labelledby')).toBe(labelId)
   })
 
   it('validates all fields and emits validate event', async () => {
@@ -240,8 +312,8 @@ describe('MoeForm', () => {
     expect(wrapper.find('.moe-form-item__error').exists()).toBe(false)
   })
 
-  it('passes disabled from form to child input and switch', () => {
-    const model = reactive({ name: '', enabled: false })
+  it('passes disabled from form to child input, select and switch', () => {
+    const model = reactive({ name: '', enabled: false, type: '' })
     const wrapper = mount(
       defineComponent({
         setup() {
@@ -249,6 +321,9 @@ describe('MoeForm', () => {
             <Form model={model} disabled>
               <FormItem prop="name" label="Name">
                 <Input v-model={model.name} />
+              </FormItem>
+              <FormItem prop="type" label="Type">
+                <Select v-model={model.type} options={[{ value: 'a', label: 'A' }]} />
               </FormItem>
               <FormItem prop="enabled" label="Enabled">
                 <Switch v-model={model.enabled} />
@@ -261,6 +336,7 @@ describe('MoeForm', () => {
 
     expect(wrapper.get('input').attributes('disabled')).toBeDefined()
     expect(wrapper.get('.moe-input').classes()).toContain('is-disabled')
+    expect(wrapper.get('.moe-select').classes()).toContain('is-disabled')
     expect(wrapper.get('button').attributes('disabled')).toBeDefined()
     expect(wrapper.get('.moe-switch').classes()).toContain('is-disabled')
   })
@@ -672,8 +748,8 @@ describe('MoeForm', () => {
     expect(wrapper.find('.moe-form-item__error').exists()).toBe(false)
   })
 
-  it('passes size from form to child input and switch', () => {
-    const model = reactive({ name: '', enabled: false })
+  it('passes size from form to child input, select and switch', () => {
+    const model = reactive({ name: '', enabled: false, type: '' })
     const wrapper = mount(
       defineComponent({
         setup() {
@@ -681,6 +757,9 @@ describe('MoeForm', () => {
             <Form model={model} size="small">
               <FormItem prop="name" label="Name">
                 <Input v-model={model.name} />
+              </FormItem>
+              <FormItem prop="type" label="Type">
+                <Select v-model={model.type} options={[{ value: 'a', label: 'A' }]} />
               </FormItem>
               <FormItem prop="enabled" label="Enabled">
                 <Switch v-model={model.enabled} />
@@ -692,7 +771,35 @@ describe('MoeForm', () => {
     )
 
     expect(wrapper.get('.moe-input').classes()).toContain('moe-input--small')
+    expect(wrapper.get('.moe-select').classes()).toContain('moe-select--small')
     expect(wrapper.get('.moe-switch').classes()).toContain('moe-switch--small')
+  })
+
+  it('lets form item size override form size for child controls', () => {
+    const model = reactive({ name: '', enabled: false, type: '' })
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <Form model={model} size="small">
+              <FormItem prop="name" label="Name" size="large">
+                <Input v-model={model.name} />
+              </FormItem>
+              <FormItem prop="type" label="Type" size="large">
+                <Select v-model={model.type} options={[{ value: 'a', label: 'A' }]} />
+              </FormItem>
+              <FormItem prop="enabled" label="Enabled" size="large">
+                <Switch v-model={model.enabled} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+    )
+
+    expect(wrapper.get('.moe-input').classes()).toContain('moe-input--large')
+    expect(wrapper.get('.moe-select').classes()).toContain('moe-select--large')
+    expect(wrapper.get('.moe-switch').classes()).toContain('moe-switch--large')
   })
 
   it('lets explicit child size override form size', () => {

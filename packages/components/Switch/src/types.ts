@@ -20,6 +20,7 @@ export interface SwitchProps {
   activeValue?: SwitchValue
   inactiveValue?: SwitchValue
   name?: string
+  id?: string
   beforeChange?: () => boolean | Promise<boolean>
 }
 

@@ -8,6 +8,7 @@ catalog:
   "@vue/server-renderer": ^3.5.38
   "@vitejs/plugin-vue": ^6.0.7
   "@vitejs/plugin-vue-jsx": ^5.1.5
+  "@vueuse/core": ^14.1.0
   typescript: ~6.0.3
   vitest: ^4.1.8
   tinyglobby: ^0.2.15

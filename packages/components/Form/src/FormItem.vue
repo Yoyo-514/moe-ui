@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, provide, ref, useId, watch } from 'vue'
 
 import Schema from 'async-validator'
 
@@ -45,6 +45,7 @@ const props = withDefaults(defineProps<FormItemProps>(), {
 const _slots = defineSlots<FormItemSlots>()
 const formContext = inject(FORM_CONTEXT_KEY, undefined)
 const formItemRef = ref<HTMLDivElement>()
+const inputIds = ref<string[]>([])
 const validateStateInner = ref<FormItemValidateState>('')
 const validateMessageInner = ref('')
 let initialValue: unknown
@@ -177,6 +178,13 @@ const labelStyle = computed(() => {
   }
 })
 const labelContent = computed(() => `${props.label ?? ''}${formContext?.props.labelSuffix ?? ''}`)
+const hasLabel = computed(() => Boolean(props.label || _slots.label))
+const labelId = `moe-form-item-label-${useId()}`
+const labelFor = computed(
+  () => props.for ?? (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+)
+const labelTag = computed(() => (labelFor.value ? 'label' : 'div'))
+const isGroup = computed(() => Boolean(!labelFor.value && hasLabel.value))
 
 function getFilteredRules(trigger?: FormValidateTrigger): RuleItem[] {
   return normalizedRules.value
@@ -241,11 +249,26 @@ function scrollToField() {
   formItemRef.value?.scrollIntoView({ block: 'center', behavior: 'smooth' })
 }
 
+function addInputId(id: string) {
+  if (!inputIds.value.includes(id)) inputIds.value.push(id)
+}
+
+function removeInputId(id: string) {
+  inputIds.value = inputIds.value.filter((inputId) => inputId !== id)
+}
+
 const fieldContext: FormItemContext = {
   prop: props.prop,
   propString: propString.value,
+  size,
   validateState,
   validateMessage,
+  labelId,
+  hasLabel,
+  isGroup,
+  inputIds,
+  addInputId,
+  removeInputId,
   validate,
   resetField,
   clearValidate,
@@ -301,17 +324,24 @@ defineExpose<FormItemInstance>({
 </script>
 
 <template>
-  <div ref="formItemRef" :class="formItemClasses">
-    <label
-      v-if="label || $slots.label"
+  <div
+    ref="formItemRef"
+    :class="formItemClasses"
+    :role="isGroup ? 'group' : undefined"
+    :aria-labelledby="isGroup ? labelId : undefined"
+  >
+    <component
+      :is="labelTag"
+      v-if="hasLabel"
+      :id="labelId"
       class="moe-form-item__label"
-      :for="props.for"
+      :for="labelFor"
       :style="labelStyle"
     >
       <slot name="label" :label="labelContent">
         {{ labelContent }}
       </slot>
-    </label>
+    </component>
 
     <div class="moe-form-item__content">
       <slot></slot>

@@ -1,4 +1,4 @@
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 
 import type { Arrayable } from '@moe-ui/utils'
 
@@ -137,8 +137,15 @@ export interface FormItemValidateOptions {
 export interface FormItemContext {
   prop?: FormItemProp
   propString: string
+  size?: ComputedRef<FormSize | undefined>
   validateState: ComputedRef<FormItemValidateState>
   validateMessage: ComputedRef<string>
+  labelId: string
+  hasLabel: ComputedRef<boolean>
+  isGroup: ComputedRef<boolean>
+  inputIds: Ref<string[]>
+  addInputId: (id: string) => void
+  removeInputId: (id: string) => void
   validate: (trigger?: FormValidateTrigger, callback?: FormValidateCallback) => FormValidationResult
   resetField: () => void
   clearValidate: () => void

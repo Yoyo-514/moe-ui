@@ -3,7 +3,7 @@ import { computed, nextTick, onMounted, ref, watch, type CSSProperties } from 'v
 
 import { isNumber } from 'lodash-es'
 
-import { useFocusController, useGlobalSize } from '@moe-ui/hooks'
+import { useFocusController } from '@moe-ui/hooks'
 
 import {
   INPUT_CLEAR_ICON,
@@ -15,7 +15,8 @@ import {
   INPUT_PASSWORD_VISIBLE_ICON,
   TEXTAREA_FALLBACK_LINE_HEIGHT,
 } from './constants'
-import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
+import { useFormDisabled, useFormSize } from '../../Form/src/hooks'
+import { useFormItemInputId, useFormItemValidate } from '../../Form/src/use-form-item'
 import MoeIcon from '../../Icon/src/Icon.vue'
 
 import type { InputElement, InputEmits, InputInstance, InputProps } from './types'
@@ -42,7 +43,6 @@ const props = withDefaults(defineProps<InputProps>(), {
 
 const emits = defineEmits<InputEmits>()
 const { validate: validateFormItem } = useFormItemValidate()
-const formContext = useFormContext()
 const slots = defineSlots<{
   prefix?: () => unknown
   suffix?: () => unknown
@@ -58,11 +58,9 @@ const textareaOverflowY = ref<CSSProperties['overflowY']>()
 
 const isTextarea = computed(() => props.type === 'textarea')
 const nativeInputValue = computed(() => (props.modelValue == null ? '' : String(props.modelValue)))
-const globalSize = useGlobalSize()
-const inputSize = computed(
-  () => (props.size ?? formContext?.props.size ?? globalSize.value) || INPUT_DEFAULT_SIZE
-)
-const inputDisabled = computed(() => props.disabled ?? formContext?.props.disabled ?? false)
+const inputSize = useFormSize(INPUT_DEFAULT_SIZE)
+const inputDisabled = useFormDisabled()
+const { inputId } = useFormItemInputId(props)
 
 const textLength = computed(() => nativeInputValue.value.length)
 const normalizedMaxlength = computed(() => {
@@ -264,7 +262,7 @@ defineExpose<InputInstance>({
     <template v-if="isTextarea">
       <div class="moe-input__textarea-wrapper">
         <textarea
-          :id="id"
+          :id="inputId"
           ref="inputRef"
           class="moe-input__textarea"
           :value="nativeInputValue"
@@ -317,7 +315,7 @@ defineExpose<InputInstance>({
         </span>
 
         <input
-          :id="id"
+          :id="inputId"
           ref="inputRef"
           class="moe-input__inner"
           :value="nativeInputValue"

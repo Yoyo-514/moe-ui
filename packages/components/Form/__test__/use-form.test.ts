@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import { describe, expect, it, vi } from 'vitest'
 
@@ -11,6 +11,12 @@ const createField = (
 ): FormItemContext => ({
   validateState: computed(() => ''),
   validateMessage: computed(() => ''),
+  labelId: 'form-item-label',
+  hasLabel: computed(() => true),
+  isGroup: computed(() => false),
+  inputIds: ref([]),
+  addInputId: vi.fn(),
+  removeInputId: vi.fn(),
   validate: vi.fn(async () => true),
   resetField: vi.fn(),
   clearValidate: vi.fn(),

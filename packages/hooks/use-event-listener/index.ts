@@ -1,7 +1,7 @@
-import { onUnmounted, unref, watch } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
+import { toValue } from 'vue'
 
-import { isFunction } from 'lodash-es'
+import { useEventListener as useVueUseEventListener } from '@vueuse/core'
 
 export type EventTargetRef<T extends EventTarget = EventTarget> = MaybeRefOrGetter<
   T | null | undefined
@@ -39,33 +39,5 @@ export function useEventListener(
   listener: EventListener,
   options?: AddEventListenerOptions
 ) {
-  let cleanup: EventListenerCleanup | undefined
-
-  const resolveTarget = () => (isFunction(target) ? target() : unref(target))
-
-  const stopWatch = watch(
-    resolveTarget,
-    (el) => {
-      cleanup?.()
-      cleanup = undefined
-
-      if (!el) return
-
-      el.addEventListener(event, listener, options)
-      cleanup = () => {
-        el.removeEventListener(event, listener, options)
-      }
-    },
-    { immediate: true }
-  )
-
-  const stop = () => {
-    cleanup?.()
-    cleanup = undefined
-    stopWatch()
-  }
-
-  onUnmounted(stop)
-
-  return stop
+  return useVueUseEventListener(() => toValue(target), event, listener, options)
 }

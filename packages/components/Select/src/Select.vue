@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, nextTick, provide, ref, useId } from 'vue'
 
-import { useGlobalSize, useLocale } from '@moe-ui/hooks'
+import { useLocale } from '@moe-ui/hooks'
 
 import { SELECT_CTX_KEY, SELECT_DEFAULT_PROPS, SELECT_EMPTY_VALUES } from './constants'
 import { useKeyMap } from './useKeyMap'
-import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
+import { useFormDisabled, useFormSize } from '../../Form/src/hooks'
+import { useFormItemValidate } from '../../Form/src/use-form-item'
 import MoeIcon from '../../Icon/src/Icon.vue'
 import MoeInput from '../../Input/src/Input.vue'
 import MoeTooltip from '../../Tooltip/src/Tooltip.vue'
@@ -38,6 +39,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   noDataText: undefined,
   placeholder: undefined,
   name: '',
+  id: undefined,
   valueKey: 'value',
   emptyValues: () => [...SELECT_EMPTY_VALUES],
   valueOnClear: '',
@@ -46,7 +48,6 @@ const props = withDefaults(defineProps<SelectProps>(), {
 const emits = defineEmits<SelectEmits>()
 const { t } = useLocale()
 const { validate: validateFormItem } = useFormItemValidate()
-const formContext = useFormContext()
 
 const selectRef = ref<HTMLElement>()
 const inputRef = ref<InputInstance>()
@@ -56,11 +57,8 @@ const hoverIndex = ref(-1)
 const registeredOptions = ref<NormalizedSelectOption[]>([])
 const listboxId = `moe-select-listbox-${useId()}`
 
-const globalSize = useGlobalSize()
-const selectSize = computed(
-  () => (props.size ?? formContext?.props.size ?? globalSize.value) || 'default'
-)
-const selectDisabled = computed(() => props.disabled ?? formContext?.props.disabled ?? false)
+const selectSize = useFormSize('default')
+const selectDisabled = useFormDisabled()
 
 const optionProps = computed(() => ({ ...SELECT_DEFAULT_PROPS, ...props.props }))
 const normalizedOptions = computed(() => [
@@ -334,6 +332,7 @@ defineExpose<SelectInstance>({
       @update:visible="handleTooltipVisibleChange"
     >
       <moe-input
+        :id="id"
         ref="inputRef"
         class="moe-select__input"
         :model-value="displayValue"

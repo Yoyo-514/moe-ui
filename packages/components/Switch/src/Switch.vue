@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-import { useGlobalSize } from '@moe-ui/hooks'
-
 import { SWITCH_DEFAULT_LOADING_ICON } from './constants'
-import { useFormContext, useFormItemValidate } from '../../Form/src/use-form-item'
+import { useFormDisabled, useFormSize } from '../../Form/src/hooks'
+import { useFormItemInputId, useFormItemValidate } from '../../Form/src/use-form-item'
 import MoeIcon from '../../Icon/src/Icon.vue'
 
 import type { SwitchEmits, SwitchIcon, SwitchInstance, SwitchProps, SwitchValue } from './types'
@@ -25,23 +24,20 @@ const props = withDefaults(defineProps<SwitchProps>(), {
   activeValue: true,
   inactiveValue: false,
   name: '',
+  id: undefined,
 })
 
 const emits = defineEmits<SwitchEmits>()
 const { validate: validateFormItem } = useFormItemValidate()
-const formContext = useFormContext()
 
 const switchRef = ref<HTMLButtonElement>()
 const isPending = ref(false)
 
 const checked = computed(() => props.modelValue === props.activeValue)
-const globalSize = useGlobalSize()
-const switchSize = computed(
-  () => (props.size ?? formContext?.props.size ?? globalSize.value) || 'default'
-)
-const switchDisabled = computed(
-  () => (props.disabled ?? formContext?.props.disabled ?? false) || props.loading || isPending.value
-)
+const switchSize = useFormSize('default')
+const formDisabled = useFormDisabled()
+const { inputId } = useFormItemInputId(props)
+const switchDisabled = computed(() => formDisabled.value || props.loading || isPending.value)
 const currentText = computed(() => (checked.value ? props.activeText : props.inactiveText))
 const currentIcon = computed<SwitchIcon | undefined>(() =>
   checked.value ? props.activeIcon : props.inactiveIcon
@@ -110,6 +106,7 @@ defineExpose<SwitchInstance>({
 
 <template>
   <button
+    :id="inputId"
     ref="switchRef"
     class="moe-switch"
     :class="switchClasses"
