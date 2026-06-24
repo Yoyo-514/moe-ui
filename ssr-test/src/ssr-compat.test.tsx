@@ -11,6 +11,8 @@ import {
   MoeAlert,
   MoeButton,
   MoeButtonGroup,
+  MoeCheckbox,
+  MoeCheckboxGroup,
   MoeCollapse,
   MoeCollapseItem,
   MoeConfigProvider,
@@ -26,6 +28,8 @@ import {
   MoeNotification,
   MoeOption,
   MoePopconfirm,
+  MoeRadio,
+  MoeRadioGroup,
   MoeSelect,
   MoeSwitch,
   MoeTooltip,
@@ -59,6 +63,8 @@ describe('Moe UI SSR compatibility', () => {
 
     app.use(MoeButton)
     app.use(MoeButtonGroup)
+    app.use(MoeCheckbox)
+    app.use(MoeCheckboxGroup)
     app.use(MoeAlert)
     app.use(MoeCollapse)
     app.use(MoeCollapseItem)
@@ -71,6 +77,8 @@ describe('Moe UI SSR compatibility', () => {
     app.use(MoeSwitch)
     app.use(MoeTooltip)
     app.use(MoePopconfirm)
+    app.use(MoeRadio)
+    app.use(MoeRadioGroup)
     app.use(MoeDropdown)
     app.use(MoeDropdownMenu)
     app.use(MoeDropdownItem)

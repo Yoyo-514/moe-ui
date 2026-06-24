@@ -1,0 +1,99 @@
+# Checkbox 多选框
+
+在一组备选项中进行多选，适用于开关项、偏好选择、批量筛选等场景。
+
+## 基础用法
+
+单独使用时，`v-model` 默认绑定布尔值。
+
+<preview path="../examples/checkbox/basic.vue" title="基础用法" description="Checkbox 单独使用时可作为布尔开关。"></preview>
+
+## 禁用状态
+
+设置 `disabled` 后，Checkbox 不可交互。
+
+<preview path="../examples/checkbox/disabled.vue" title="禁用状态" description="禁用状态会阻止选中状态变化。"></preview>
+
+## 多选框组
+
+使用 `moe-checkbox-group` 管理一组多选项，`v-model` 绑定数组。
+
+<preview path="../examples/checkbox/group.vue" title="多选框组" description="选中值会以数组形式同步。"></preview>
+
+## Indeterminate 状态
+
+设置 `indeterminate` 可以展示半选状态，常用于全选场景。
+
+<preview path="../examples/checkbox/indeterminate.vue" title="Indeterminate 状态" description="半选状态只负责展示，具体选择逻辑由业务控制。"></preview>
+
+## 限制选择数量
+
+`CheckboxGroup` 支持通过 `min` 和 `max` 限制最少和最多可选数量。
+
+<preview path="../examples/checkbox/min-max.vue" title="限制选择数量" description="达到数量边界时，对应选项会被禁用。"></preview>
+
+## 尺寸
+
+通过 `size` 控制尺寸，支持 `large`、`default` 和 `small`。
+
+<preview path="../examples/checkbox/size.vue" title="尺寸" description="尺寸通常由 Form 或 CheckboxGroup 统一控制。"></preview>
+
+## Checkbox API
+
+### Checkbox Attributes
+
+| 名称                    | 类型                                   | 默认值  | 说明                                 |
+| ----------------------- | -------------------------------------- | ------- | ------------------------------------ |
+| `model-value / v-model` | `boolean \| string \| number \| array` | `false` | 绑定值，单独使用时支持布尔或数组模式 |
+| `label`                 | `string \| number`                     | —       | 显示文本；未设置 `value` 时也作为值  |
+| `value`                 | `string \| number \| boolean`          | —       | 选中时使用的值                       |
+| `true-value`            | `string \| number \| boolean`          | `true`  | 单独布尔模式下选中值                 |
+| `false-value`           | `string \| number \| boolean`          | `false` | 单独布尔模式下未选中值               |
+| `disabled`              | `boolean`                              | `false` | 是否禁用                             |
+| `size`                  | `'large' \| 'default' \| 'small'`      | —       | 尺寸                                 |
+| `name`                  | `string`                               | —       | 原生 `name` 属性                     |
+| `id`                    | `string`                               | —       | 原生 `id` 属性                       |
+| `indeterminate`         | `boolean`                              | `false` | 是否显示半选状态                     |
+
+### Checkbox Events
+
+| 名称     | 说明             | 类型                                  |
+| -------- | ---------------- | ------------------------------------- |
+| `change` | 绑定值变化时触发 | `(value: CheckboxModelValue) => void` |
+
+### Checkbox Slots
+
+| 名称      | 说明       |
+| --------- | ---------- |
+| `default` | 自定义内容 |
+
+### Checkbox Exposes
+
+| 名称    | 说明              | 类型         |
+| ------- | ----------------- | ------------ |
+| `focus` | 手动聚焦 Checkbox | `() => void` |
+
+## CheckboxGroup API
+
+### CheckboxGroup Attributes
+
+| 名称                    | 类型                              | 默认值  | 说明            |
+| ----------------------- | --------------------------------- | ------- | --------------- |
+| `model-value / v-model` | `(string \| number \| boolean)[]` | `[]`    | 绑定值          |
+| `disabled`              | `boolean`                         | `false` | 是否禁用整组    |
+| `size`                  | `'large' \| 'default' \| 'small'` | —       | 统一尺寸        |
+| `min`                   | `number`                          | —       | 最少选择数量    |
+| `max`                   | `number`                          | —       | 最多选择数量    |
+| `name`                  | `string`                          | —       | 子选项原生 name |
+
+### CheckboxGroup Events
+
+| 名称     | 说明             | 类型                                               |
+| -------- | ---------------- | -------------------------------------------------- |
+| `change` | 绑定值变化时触发 | `(value: (string \| number \| boolean)[]) => void` |
+
+### CheckboxGroup Slots
+
+| 名称      | 说明     |
+| --------- | -------- |
+| `default` | 选项内容 |

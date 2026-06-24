@@ -8,11 +8,11 @@ title: Form 表单
 
 ## 典型表单
 
-最基础的表单包括各种输入控件，比如 `input`、`select`、`switch` 等。
+最基础的表单包括各种输入控件，比如 `input`、`select`、`switch`、`checkbox`、`radio` 等。
 
 在每一个 `form` 组件中，你需要一个 `form-item` 字段作为输入项的容器，用于获取值与验证值。
 
-<preview path="../examples/form/typical.vue" title="典型表单" description="包含输入框、选择器、开关等基础控件"></preview>
+<preview path="../examples/form/typical.vue" title="典型表单" description="包含输入框、选择器、单选框、多选框、开关等基础控件"></preview>
 
 ## 行内表单
 

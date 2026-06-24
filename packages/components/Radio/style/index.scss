@@ -1,0 +1,107 @@
+.moe-radio,
+.moe-radio-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--moe-text-color-primary);
+  font-size: var(--moe-font-size-base);
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.moe-radio {
+  --moe-radio-size: 16px;
+  --moe-radio-border-color: var(--moe-border-color, #dcdfe6);
+  --moe-radio-checked-color: var(--moe-color-primary);
+  --moe-radio-disabled-opacity: 0.56;
+
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.moe-radio__input {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--moe-radio-size);
+  height: var(--moe-radio-size);
+}
+
+.moe-radio__original {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: inherit;
+  opacity: 0;
+}
+
+.moe-radio__inner {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--moe-radio-size);
+  height: var(--moe-radio-size);
+  background-color: #fff;
+  border: 1px solid var(--moe-radio-border-color);
+  border-radius: 50%;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.moe-radio__inner::after {
+  width: 6px;
+  height: 6px;
+  background-color: #fff;
+  border-radius: 50%;
+  content: '';
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.moe-radio__label {
+  line-height: var(--moe-radio-size);
+}
+
+.moe-radio.is-checked .moe-radio__inner {
+  background-color: var(--moe-radio-checked-color);
+  border-color: var(--moe-radio-checked-color);
+}
+
+.moe-radio.is-checked .moe-radio__inner::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.moe-radio:has(.moe-radio__original:focus-visible) .moe-radio__inner {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+
+.moe-radio.is-disabled,
+.moe-radio-group.is-disabled {
+  cursor: not-allowed;
+  opacity: var(--moe-radio-disabled-opacity);
+}
+
+.moe-radio--large,
+.moe-radio-group--large {
+  --moe-radio-size: 18px;
+
+  font-size: 15px;
+}
+
+.moe-radio--small,
+.moe-radio-group--small {
+  --moe-radio-size: 14px;
+
+  font-size: 12px;
+}
