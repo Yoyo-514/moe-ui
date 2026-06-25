@@ -12,6 +12,10 @@
     "@moe-ui/docs",
     "@moe-ui/hooks",
     "@moe-ui/theme",
-    "@moe-ui/utils"
+    "@moe-ui/utils",
+    "@moe-ui/locale",
+    "@moe-ui/constants",
+    "@moe-ui/test-utils",
+    "@moe-ui-private/vite-plugins"
   ]
 }
