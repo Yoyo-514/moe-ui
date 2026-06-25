@@ -38,22 +38,33 @@
 
 <preview path="../examples/checkbox/size.vue" title="尺寸" description="尺寸通常由 Form 或 CheckboxGroup 统一控制。"></preview>
 
+## 带有边框
+
+设置 `border` 可以为 Checkbox 添加边框。
+
+<preview path="../examples/checkbox/border.vue" title="带有边框" description="边框样式适合更强调选项边界的场景。"></preview>
+
 ## Checkbox API
 
 ### Checkbox Attributes
 
-| 名称                    | 类型                                   | 默认值  | 说明                                 |
-| ----------------------- | -------------------------------------- | ------- | ------------------------------------ |
-| `model-value / v-model` | `boolean \| string \| number \| array` | `false` | 绑定值，单独使用时支持布尔或数组模式 |
-| `label`                 | `string \| number`                     | —       | 显示文本；未设置 `value` 时也作为值  |
-| `value`                 | `string \| number \| boolean`          | —       | 选中时使用的值                       |
-| `true-value`            | `string \| number \| boolean`          | `true`  | 单独布尔模式下选中值                 |
-| `false-value`           | `string \| number \| boolean`          | `false` | 单独布尔模式下未选中值               |
-| `disabled`              | `boolean`                              | `false` | 是否禁用                             |
-| `size`                  | `'large' \| 'default' \| 'small'`      | —       | 尺寸                                 |
-| `name`                  | `string`                               | —       | 原生 `name` 属性                     |
-| `id`                    | `string`                               | —       | 原生 `id` 属性                       |
-| `indeterminate`         | `boolean`                              | `false` | 是否显示半选状态                     |
+| 名称                    | 类型                                   | 默认值  | 说明                                    |
+| ----------------------- | -------------------------------------- | ------- | --------------------------------------- |
+| `model-value / v-model` | `boolean \| string \| number \| array` | —       | 绑定值，单独使用时支持布尔或数组模式    |
+| `value`                 | `string \| number \| boolean`          | —       | 选中时使用的值                          |
+| `label`                 | `string \| number`                     | —       | 显示文本；未设置 `value` 时也作为选中值 |
+| `true-value`            | `string \| number \| boolean`          | `true`  | 单独使用时的选中值                      |
+| `false-value`           | `string \| number \| boolean`          | `false` | 单独使用时的未选中值                    |
+| `disabled`              | `boolean`                              | —       | 是否禁用                                |
+| `border`                | `boolean`                              | `false` | 是否显示边框                            |
+| `size`                  | `'large' \| 'default' \| 'small'`      | —       | 尺寸                                    |
+| `name`                  | `string`                               | —       | 原生 `name` 属性                        |
+| `checked`               | `boolean`                              | `false` | 是否默认选中                            |
+| `indeterminate`         | `boolean`                              | `false` | 是否显示半选状态，只负责样式控制        |
+| `validate-event`        | `boolean`                              | `true`  | 绑定值变化时是否触发表单校验            |
+| `tabindex`              | `string \| number`                     | —       | 原生 `tabindex` 属性                    |
+| `id`                    | `string`                               | —       | 原生 `id` 属性                          |
+| `aria-controls`         | `string`                               | —       | 原生 `aria-controls` 属性               |
 
 ### Checkbox Events
 
@@ -67,24 +78,18 @@
 | --------- | ---------- |
 | `default` | 自定义内容 |
 
-### Checkbox Exposes
-
-| 名称    | 说明              | 类型         |
-| ------- | ----------------- | ------------ |
-| `focus` | 手动聚焦 Checkbox | `() => void` |
-
 ## CheckboxGroup API
 
 ### CheckboxGroup Attributes
 
-| 名称                    | 类型                              | 默认值  | 说明            |
-| ----------------------- | --------------------------------- | ------- | --------------- |
-| `model-value / v-model` | `(string \| number \| boolean)[]` | `[]`    | 绑定值          |
-| `disabled`              | `boolean`                         | `false` | 是否禁用整组    |
-| `size`                  | `'large' \| 'default' \| 'small'` | —       | 统一尺寸        |
-| `min`                   | `number`                          | —       | 最少选择数量    |
-| `max`                   | `number`                          | —       | 最多选择数量    |
-| `name`                  | `string`                          | —       | 子选项原生 name |
+| 名称                    | 类型                              | 默认值 | 说明                         |
+| ----------------------- | --------------------------------- | ------ | ---------------------------- |
+| `model-value / v-model` | `(string \| number \| boolean)[]` | `[]`   | 绑定值                       |
+| `disabled`              | `boolean`                         | —      | 是否禁用整组                 |
+| `size`                  | `'large' \| 'default' \| 'small'` | —      | 统一尺寸                     |
+| `min`                   | `number`                          | —      | 最少选择数量                 |
+| `max`                   | `number`                          | —      | 最多选择数量                 |
+| `validate-event`        | `boolean`                         | `true` | 绑定值变化时是否触发表单校验 |
 
 ### CheckboxGroup Events
 

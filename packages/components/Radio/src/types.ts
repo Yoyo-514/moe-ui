@@ -7,12 +7,14 @@ export type RadioSize = ComponentSize
 
 export interface RadioProps {
   modelValue?: RadioValue
-  label?: string | number
+  label?: RadioValue
   value?: RadioValue
   disabled?: boolean
+  border?: boolean
   size?: RadioSize
   name?: string
   id?: string
+  validateEvent?: boolean
 }
 
 export interface RadioEmits {
@@ -25,6 +27,9 @@ export interface RadioGroupProps {
   disabled?: boolean
   size?: RadioSize
   name?: string
+  id?: string
+  ariaLabel?: string
+  validateEvent?: boolean
 }
 
 export interface RadioGroupEmits {

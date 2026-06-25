@@ -18,14 +18,19 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
-  modelValue: false,
+  modelValue: undefined,
   trueValue: true,
   falseValue: false,
   disabled: undefined,
+  border: false,
   size: undefined,
   name: undefined,
   id: undefined,
   indeterminate: false,
+  checked: false,
+  validateEvent: true,
+  tabindex: undefined,
+  ariaControls: undefined,
 })
 
 const emits = defineEmits<CheckboxEmits>()
@@ -46,7 +51,7 @@ const isChecked = computed(() => {
   const arrayValue = currentArray.value
   if (arrayValue) return arrayValue.includes(checkboxValue.value)
 
-  return props.modelValue === props.trueValue
+  return props.modelValue === props.trueValue || (props.modelValue === undefined && props.checked)
 })
 const checkboxSize = computed(() => props.size ?? group?.size.value ?? formSize.value)
 const isLimitDisabled = computed(() => {
@@ -64,13 +69,14 @@ const isLimitDisabled = computed(() => {
 const checkboxDisabled = computed(
   () => (props.disabled ?? group?.disabled.value ?? formDisabled.value) || isLimitDisabled.value
 )
-const checkboxName = computed(() => props.name ?? group?.name.value)
+const checkboxName = computed(() => props.name)
 const checkboxClasses = computed(() => [
   'moe-checkbox',
   `moe-checkbox--${checkboxSize.value}`,
   {
     'is-checked': isChecked.value,
     'is-disabled': checkboxDisabled.value,
+    'is-bordered': props.border,
     'is-indeterminate': props.indeterminate,
   },
 ])
@@ -94,13 +100,16 @@ function handleChange(event: Event) {
 
   if (group) {
     group.change(toggleArrayValue(group.modelValue.value, checked))
-  } else if (arrayValue) {
+    return
+  }
+
+  if (arrayValue) {
     emitChange(toggleArrayValue(arrayValue, checked))
   } else {
     emitChange(checked ? props.trueValue : props.falseValue)
   }
 
-  validateFormItem('change')
+  if (props.validateEvent) validateFormItem('change')
 }
 
 function focus() {
@@ -126,6 +135,8 @@ defineExpose<CheckboxInstance>({
         :checked="isChecked"
         :disabled="checkboxDisabled"
         :indeterminate.prop="indeterminate"
+        :tabindex="tabindex"
+        :aria-controls="ariaControls"
         @change="handleChange"
       />
       <span class="moe-checkbox__inner"></span>

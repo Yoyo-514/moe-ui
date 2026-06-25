@@ -13,10 +13,15 @@ export interface CheckboxProps {
   trueValue?: CheckboxValue
   falseValue?: CheckboxValue
   disabled?: boolean
+  border?: boolean
   size?: CheckboxSize
   name?: string
   id?: string
   indeterminate?: boolean
+  checked?: boolean
+  validateEvent?: boolean
+  tabindex?: string | number
+  ariaControls?: string
 }
 
 export interface CheckboxEmits {
@@ -30,7 +35,7 @@ export interface CheckboxGroupProps {
   size?: CheckboxSize
   min?: number
   max?: number
-  name?: string
+  validateEvent?: boolean
 }
 
 export interface CheckboxGroupEmits {
@@ -42,7 +47,6 @@ export interface CheckboxGroupContext {
   modelValue: ComputedRef<CheckboxValue[]>
   disabled: ComputedRef<boolean>
   size: ComputedRef<CheckboxSize>
-  name: ComputedRef<string | undefined>
   min: ComputedRef<number | undefined>
   max: ComputedRef<number | undefined>
   change: (value: CheckboxValue[]) => void

@@ -25,6 +25,12 @@ describe('MoeRadio', () => {
     expect(wrapper.emitted('change')?.[0]).toEqual(['b'])
   })
 
+  it('supports bordered style', () => {
+    const wrapper = mount(Radio, { props: { modelValue: 'a', value: 'a', border: true } })
+
+    expect(wrapper.classes()).toContain('is-bordered')
+  })
+
   it('exposes focus method', () => {
     const wrapper = mount(Radio, { props: { modelValue: 'a', value: 'b' } })
     const focus = vi.spyOn(wrapper.get('input').element, 'focus')
@@ -40,7 +46,14 @@ describe('MoeRadio', () => {
       defineComponent({
         setup() {
           return () => (
-            <RadioGroup v-model={model.value} name="gender" size="small" disabled>
+            <RadioGroup
+              v-model={model.value}
+              id="gender-group"
+              ariaLabel="Gender"
+              name="gender"
+              size="small"
+              disabled
+            >
               <Radio value="a">A</Radio>
               <Radio value="b">B</Radio>
             </RadioGroup>
@@ -50,6 +63,8 @@ describe('MoeRadio', () => {
     )
     const inputs = wrapper.findAll('input')
 
+    expect(wrapper.get('.moe-radio-group').attributes('id')).toBe('gender-group')
+    expect(wrapper.get('.moe-radio-group').attributes('aria-label')).toBe('Gender')
     expect(wrapper.get('.moe-radio-group').attributes('role')).toBe('radiogroup')
     expect(wrapper.get('.moe-radio-group').classes()).toContain('moe-radio-group--small')
     expect(wrapper.findAll('.moe-radio')[0].classes()).toContain('moe-radio--small')
@@ -131,6 +146,37 @@ describe('MoeRadio', () => {
     await wrapper.get('input').setValue(true)
     await nextTick()
     expect(wrapper.find('.moe-form-item__error').exists()).toBe(false)
+  })
+
+  it('skips form validation when group validate-event is false', async () => {
+    const model = reactive({ type: '' })
+    const formRef = ref<FormInstance>()
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <Form
+              ref={formRef}
+              model={model}
+              rules={{ type: { required: true, message: '请选择类型', trigger: 'change' } }}
+            >
+              <FormItem prop="type" label="Type">
+                <RadioGroup v-model={model.type} validateEvent={false}>
+                  <Radio value="a">A</Radio>
+                </RadioGroup>
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+    )
+
+    await formRef.value?.validate()
+    expect(wrapper.find('.moe-form-item__error').text()).toBe('请选择类型')
+
+    await wrapper.get('input').setValue(true)
+    await nextTick()
+    expect(wrapper.find('.moe-form-item__error').text()).toBe('请选择类型')
   })
 
   it('installs radio and radio group as Vue plugins', () => {

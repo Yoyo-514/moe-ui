@@ -49,13 +49,36 @@ describe('MoeCheckbox', () => {
     expect(focus).toHaveBeenCalled()
   })
 
-  it('supports group model, min/max limits, shared name and size', async () => {
+  it('supports native input attributes', () => {
+    const wrapper = mount(Checkbox, {
+      props: {
+        checked: true,
+        tabindex: 1,
+        ariaControls: 'panel-a',
+        name: 'agreement',
+      },
+    })
+    const input = wrapper.get('input')
+
+    expect(input.element.checked).toBe(true)
+    expect(input.attributes('tabindex')).toBe('1')
+    expect(input.attributes('aria-controls')).toBe('panel-a')
+    expect(input.attributes('name')).toBe('agreement')
+  })
+
+  it('supports bordered style', () => {
+    const wrapper = mount(Checkbox, { props: { modelValue: true, border: true } })
+
+    expect(wrapper.classes()).toContain('is-bordered')
+  })
+
+  it('supports group model, min/max limits and size', async () => {
     const model = ref(['a'])
     const wrapper = mount(
       defineComponent({
         setup() {
           return () => (
-            <CheckboxGroup v-model={model.value} min={1} max={2} name="hobby" size="small">
+            <CheckboxGroup v-model={model.value} min={1} max={2} size="small">
               <Checkbox value="a">A</Checkbox>
               <Checkbox value="b">B</Checkbox>
               <Checkbox value="c">C</Checkbox>
@@ -68,7 +91,6 @@ describe('MoeCheckbox', () => {
 
     expect(wrapper.get('.moe-checkbox-group').classes()).toContain('moe-checkbox-group--small')
     expect(wrapper.findAll('.moe-checkbox')[0].classes()).toContain('moe-checkbox--small')
-    expect(inputs[0].attributes('name')).toBe('hobby')
     expect(inputs[0].attributes('disabled')).toBeDefined()
 
     await inputs[1].setValue(true)
@@ -130,6 +152,39 @@ describe('MoeCheckbox', () => {
     await wrapper.get('input').setValue(true)
     await nextTick()
     expect(wrapper.find('.moe-form-item__error').exists()).toBe(false)
+  })
+
+  it('skips form validation when group validate-event is false', async () => {
+    const model = reactive<{ hobbies: string[] }>({ hobbies: [] })
+    const formRef = ref<FormInstance>()
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <Form
+              ref={formRef}
+              model={model}
+              rules={{
+                hobbies: { type: 'array', required: true, message: '请选择', trigger: 'change' },
+              }}
+            >
+              <FormItem prop="hobbies" label="Hobbies">
+                <CheckboxGroup v-model={model.hobbies} validateEvent={false}>
+                  <Checkbox value="a">A</Checkbox>
+                </CheckboxGroup>
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+    )
+
+    await formRef.value?.validate()
+    expect(wrapper.find('.moe-form-item__error').text()).toBe('请选择')
+
+    await wrapper.get('input').setValue(true)
+    await nextTick()
+    expect(wrapper.find('.moe-form-item__error').text()).toBe('请选择')
   })
 
   it('installs checkbox and checkbox group as Vue plugins', () => {

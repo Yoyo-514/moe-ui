@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<CheckboxGroupProps>(), {
   size: undefined,
   min: undefined,
   max: undefined,
-  name: undefined,
+  validateEvent: true,
 })
 
 const emits = defineEmits<CheckboxGroupEmits>()
@@ -33,7 +33,6 @@ const formDisabled = useFormDisabled()
 const modelValue = computed(() => props.modelValue ?? [])
 const groupDisabled = computed(() => props.disabled ?? formDisabled.value)
 const groupSize = computed(() => props.size ?? formSize.value)
-const groupName = computed(() => props.name || undefined)
 const min = computed(() => props.min)
 const max = computed(() => props.max)
 const groupClasses = computed(() => [
@@ -47,14 +46,13 @@ const groupClasses = computed(() => [
 function change(value: CheckboxValue[]) {
   emits('update:modelValue', value)
   emits('change', value)
-  validateFormItem('change')
+  if (props.validateEvent) validateFormItem('change')
 }
 
 const context: CheckboxGroupContext = {
   modelValue,
   disabled: groupDisabled,
   size: groupSize,
-  name: groupName,
   min,
   max,
   change,

@@ -94,6 +94,18 @@
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
 }
 
+.moe-checkbox.is-bordered {
+  box-sizing: border-box;
+  min-height: 32px;
+  padding: 7px 12px;
+  border: 1px solid var(--moe-checkbox-border-color);
+  border-radius: var(--moe-border-radius-base, 4px);
+}
+
+.moe-checkbox.is-bordered.is-checked {
+  border-color: var(--moe-checkbox-checked-color);
+}
+
 .moe-checkbox.is-disabled,
 .moe-checkbox-group.is-disabled {
   cursor: not-allowed;

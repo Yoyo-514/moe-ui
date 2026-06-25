@@ -26,6 +26,12 @@
 
 <preview path="../examples/radio/size.vue" title="尺寸" description="尺寸通常由 Form 或 RadioGroup 统一控制。"></preview>
 
+## 带有边框
+
+设置 `border` 可以为 Radio 添加边框。
+
+<preview path="../examples/radio/border.vue" title="带有边框" description="边框样式适合更强调选项边界的场景。"></preview>
+
 ## Radio API
 
 ### Radio Attributes
@@ -33,12 +39,13 @@
 | 名称                    | 类型                              | 默认值  | 说明                                |
 | ----------------------- | --------------------------------- | ------- | ----------------------------------- |
 | `model-value / v-model` | `string \| number \| boolean`     | —       | 绑定值，单独使用时生效              |
-| `label`                 | `string \| number`                | —       | 显示文本；未设置 `value` 时也作为值 |
 | `value`                 | `string \| number \| boolean`     | —       | 单选框的值                          |
-| `disabled`              | `boolean`                         | `false` | 是否禁用                            |
+| `label`                 | `string \| number \| boolean`     | —       | 显示文本；未设置 `value` 时也作为值 |
+| `disabled`              | `boolean`                         | —       | 是否禁用                            |
+| `border`                | `boolean`                         | `false` | 是否显示边框                        |
 | `size`                  | `'large' \| 'default' \| 'small'` | —       | 尺寸                                |
 | `name`                  | `string`                          | —       | 原生 `name` 属性                    |
-| `id`                    | `string`                          | —       | 原生 `id` 属性                      |
+| `validate-event`        | `boolean`                         | `true`  | 绑定值变化时是否触发表单校验        |
 
 ### Radio Events
 
@@ -52,22 +59,19 @@
 | --------- | ---------- |
 | `default` | 自定义内容 |
 
-### Radio Exposes
-
-| 名称    | 说明           | 类型         |
-| ------- | -------------- | ------------ |
-| `focus` | 手动聚焦 Radio | `() => void` |
-
 ## RadioGroup API
 
 ### RadioGroup Attributes
 
-| 名称                    | 类型                              | 默认值  | 说明         |
-| ----------------------- | --------------------------------- | ------- | ------------ |
-| `model-value / v-model` | `string \| number \| boolean`     | —       | 绑定值       |
-| `disabled`              | `boolean`                         | `false` | 是否禁用整组 |
-| `size`                  | `'large' \| 'default' \| 'small'` | —       | 统一尺寸     |
-| `name`                  | `string`                          | —       | 子选项 name  |
+| 名称                    | 类型                              | 默认值 | 说明                         |
+| ----------------------- | --------------------------------- | ------ | ---------------------------- |
+| `model-value / v-model` | `string \| number \| boolean`     | —      | 绑定值                       |
+| `disabled`              | `boolean`                         | —      | 是否禁用整组                 |
+| `size`                  | `'large' \| 'default' \| 'small'` | —      | 统一尺寸                     |
+| `name`                  | `string`                          | —      | 子选项原生 `name` 属性       |
+| `id`                    | `string`                          | —      | 原生 `id` 属性               |
+| `aria-label`            | `string`                          | —      | 原生 `aria-label` 属性       |
+| `validate-event`        | `boolean`                         | `true` | 绑定值变化时是否触发表单校验 |
 
 ### RadioGroup Events
 

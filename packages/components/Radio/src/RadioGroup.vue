@@ -16,6 +16,9 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
   disabled: undefined,
   size: undefined,
   name: undefined,
+  id: undefined,
+  ariaLabel: undefined,
+  validateEvent: true,
 })
 
 const emits = defineEmits<RadioGroupEmits>()
@@ -38,7 +41,7 @@ const groupClasses = computed(() => [
 function change(value: RadioValue) {
   emits('update:modelValue', value)
   emits('change', value)
-  validateFormItem('change')
+  if (props.validateEvent) validateFormItem('change')
 }
 
 const context: RadioGroupContext = {
@@ -53,7 +56,7 @@ provide(RADIO_GROUP_CTX_KEY, context)
 </script>
 
 <template>
-  <div :class="groupClasses" role="radiogroup">
+  <div :id="id" :class="groupClasses" role="radiogroup" :aria-label="ariaLabel">
     <slot></slot>
   </div>
 </template>

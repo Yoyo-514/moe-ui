@@ -14,9 +14,11 @@ defineOptions({
 const props = withDefaults(defineProps<RadioProps>(), {
   modelValue: undefined,
   disabled: undefined,
+  border: false,
   size: undefined,
   name: undefined,
   id: undefined,
+  validateEvent: true,
 })
 
 const emits = defineEmits<RadioEmits>()
@@ -41,6 +43,7 @@ const radioClasses = computed(() => [
   {
     'is-checked': isChecked.value,
     'is-disabled': radioDisabled.value,
+    'is-bordered': props.border,
   },
 ])
 
@@ -52,10 +55,13 @@ function emitChange(value: RadioValue) {
 function handleChange() {
   if (radioDisabled.value || isChecked.value) return
 
-  if (group) group.change(radioValue.value)
-  else emitChange(radioValue.value)
+  if (group) {
+    group.change(radioValue.value)
+    return
+  }
 
-  validateFormItem('change')
+  emitChange(radioValue.value)
+  if (props.validateEvent) validateFormItem('change')
 }
 
 function focus() {
